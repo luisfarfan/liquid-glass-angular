@@ -19,6 +19,10 @@
   --lg-t-glass-blur: 1.5rem;    /* 24px blur */
   
   --lg-t-neon-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+
+  /* Semantic Colors */
+  --lg-t-destructive: #ef4444;  /* Red 500 */
+  --lg-t-destructive-rgb: 239, 68, 68;
 }
 
 /* Light Theme (Mejorado) */
@@ -36,6 +40,10 @@
   --lg-t-glass-border: rgba(0, 0, 0, 0.08);
   
   --lg-t-neon-shadow: 0 4px 20px rgba(8, 145, 178, 0.15);
+
+  /* Semantic Colors */
+  --lg-t-destructive: #dc2626;  /* Red 600 */
+  --lg-t-destructive-rgb: 220, 38, 38;
 }
 
 /* Cyberpunk Theme (High Contrast Dark) */
@@ -53,6 +61,10 @@
   --lg-t-glass-border: rgba(240, 171, 252, 0.2);
   
   --lg-t-neon-shadow: 0 0 20px rgba(232, 121, 249, 0.5), 0 0 40px rgba(232, 121, 249, 0.2);
+
+  /* Semantic Colors */
+  --lg-t-destructive: #f87171;  /* Red 400 */
+  --lg-t-destructive-rgb: 248, 113, 113;
 }
 
 /* Emerald Theme (Organic Premium) */
@@ -70,4 +82,8 @@
   --lg-t-glass-border: rgba(52, 211, 153, 0.2);
   
   --lg-t-neon-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+
+  /* Semantic Colors */
+  --lg-t-destructive: #fca5a5;  /* Red 300 (Soft contrast for emerald) */
+  --lg-t-destructive-rgb: 252, 165, 165;
 }

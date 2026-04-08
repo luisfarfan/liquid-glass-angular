@@ -1,74 +1,108 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ThemeService, GlassCardComponent, ButtonComponent } from '@liquid-glass-ui/angular';
+import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent } from '@liquid-glass-ui/angular';
 
 @Component({
-  imports: [RouterModule, GlassCardComponent, ButtonComponent],
+  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="flex flex-col items-center justify-center min-h-screen p-8 transition-colors duration-500 overflow-y-auto">
       
-      <lg-glass-card class="max-w-md w-full mb-8">
-        <div class="flex flex-col gap-6">
-          <header>
-            <h1 class="text-h1 font-display font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              Liquid Glass
-            </h1>
-            <p class="text-body-md text-zinc-400 mt-2">
-              Component Catalog: 01. Button
-            </p>
+      <lg-glass-card class="max-w-2xl w-full mb-8">
+        <div class="flex flex-col gap-8">
+          <header class="flex justify-between items-start">
+            <div>
+              <h1 class="text-h1 font-display font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                Liquid Glass UI
+              </h1>
+              <p class="text-body-sm text-zinc-400 mt-1">
+                Refinement Phase: Button & Input Composition
+              </p>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-glass border border-glass-border">
+              <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+              <span class="text-[10px] font-bold uppercase tracking-tighter opacity-70">v0.1.0 Alpha</span>
+            </div>
           </header>
 
+          <!-- SECCIÓN BOTONES -->
           <section class="space-y-6">
-            <div class="space-y-3">
-               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Variantes</p>
-               <div class="flex flex-wrap gap-3">
-                 <button lg-button variant="primary">Primary Neon</button>
-                 <button lg-button variant="secondary">Secondary</button>
-                 <button lg-button variant="ghost">Ghost</button>
-                 <button lg-button variant="destructive">Destructive</button>
+            <div class="flex items-center gap-2 mb-4">
+              <i class="ri-mouse-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-sm font-bold uppercase tracking-widest opacity-60">Interactive Controls</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               <div class="p-4 rounded-2xl bg-black/10 border border-white/5 space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Base Variants</p>
+                  <div class="flex flex-wrap gap-2">
+                    <button lg-button variant="primary" size="sm">Primary</button>
+                    <button lg-button variant="secondary" size="sm">Secondary</button>
+                    <button lg-button variant="ghost" size="sm">Ghost</button>
+                  </div>
                </div>
+               <div class="p-4 rounded-2xl bg-black/10 border border-white/5 space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Feedback States</p>
+                  <div class="flex flex-wrap gap-2">
+                    <button lg-button variant="primary" [isLoading]="true" size="sm"></button>
+                    <button lg-button variant="destructive" size="sm" [iconOnly]="true">
+                      <i class="ri-delete-bin-line"></i>
+                    </button>
+                    <button lg-button variant="secondary" size="sm">
+                       Next <i lg-icon-right class="ri-arrow-right-line"></i>
+                    </button>
+                  </div>
+               </div>
+            </div>
+          </section>
+
+          <!-- SECCIÓN FORMULARIOS REFINADA -->
+          <section class="space-y-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="ri-survey-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-sm font-bold uppercase tracking-widest opacity-60">Data Entry & Composition</h3>
             </div>
 
-            <div class="space-y-3">
-               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Tamaños</p>
-               <div class="flex items-center gap-4">
-                 <button lg-button variant="primary" size="sm">Small</button>
-                 <button lg-button variant="primary" size="md">Medium</button>
-                 <button lg-button variant="primary" size="lg">Large Scale</button>
-               </div>
-            </div>
+            <lg-glass-card class="!bg-black/20 !p-6 border-none shadow-none">
+              <div class="space-y-2">
+                
+                <!-- Grupos de Campos -->
+                <lg-form-field [cols]="2" hint="Información personal básica">
+                  <lg-input label="Nombre" placeholder="Ej: John"></lg-input>
+                  <lg-input label="Apellidos" placeholder="Ej: Doe"></lg-input>
+                </lg-form-field>
 
-            <div class="space-y-3">
-               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Estados Interactivos</p>
-               <div class="flex flex-wrap gap-3">
-                 <button lg-button variant="primary" [disabled]="true">Disabled</button>
-                 <button lg-button variant="primary" [isLoading]="true">Loading</button>
-                 <button lg-button variant="destructive" [isLoading]="true">Deleting...</button>
-               </div>
-            </div>
+                <lg-form-field [cols]="1">
+                  <lg-input label="Correo Electrónico" type="email" placeholder="john@example.com">
+                    <i lg-icon-left class="ri-mail-line"></i>
+                  </lg-input>
+                </lg-form-field>
 
-            <div class="space-y-3">
-               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Iconos & Reflejos</p>
-               <div class="flex flex-wrap gap-3">
-                 <button lg-button variant="primary">
-                   <i lg-icon-left class="ri-rocket-2-line"></i>
-                   Lanzar
-                 </button>
-                 <button lg-button variant="secondary">
-                   Siguiente
-                   <i lg-icon-right class="ri-arrow-right-line"></i>
-                 </button>
-                 <button lg-button variant="ghost" [iconOnly]="true">
-                   <i class="ri-settings-4-line text-xl"></i>
-                 </button>
-                 <button lg-button variant="destructive" [iconOnly]="true" size="sm">
-                   <i class="ri-delete-bin-line"></i>
-                 </button>
-               </div>
-            </div>
+                <lg-form-field [cols]="2" hint="Seguridad y Acceso">
+                  <lg-input label="Contraseña" type="password" placeholder="••••••••">
+                    <i lg-icon-left class="ri-lock-password-line"></i>
+                  </lg-input>
+                  <lg-input label="Repetir" type="password" placeholder="••••••••">
+                  </lg-input>
+                </lg-form-field>
+
+                <lg-form-field [cols]="1" hint="Búsqueda sin etiquetas (Bare Input)">
+                  <lg-input placeholder="Presiona / para buscar..." class="w-full">
+                    <i lg-icon-left class="ri-search-line"></i>
+                    <i lg-icon-right class="ri-command-line"></i>
+                  </lg-input>
+                </lg-form-field>
+
+                <lg-form-field [cols]="1">
+                   <lg-input label="Estado del Sistema" placeholder="Validando..." [error]="'Servidor ocupado. Intente de nuevo.'">
+                     <i lg-icon-left class="ri-error-warning-line"></i>
+                   </lg-input>
+                </lg-form-field>
+
+              </div>
+            </lg-glass-card>
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">

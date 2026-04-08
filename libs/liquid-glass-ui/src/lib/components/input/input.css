@@ -1,0 +1,89 @@
+/* Glass Input Specific Styles */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.lg-input-wrapper {
+  position: relative;
+  width: 100%;
+  transition: all 0.3s var(--lg-ease-out);
+}
+
+.lg-input-field {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--lg-t-text-main);
+  backdrop-filter: blur(12px);
+  outline: none;
+  transition: all 0.25s var(--lg-ease-out);
+  letter-spacing: 0;
+}
+
+/* Glass-Magnify Effect on Focus */
+.lg-input-field:focus {
+  background: rgba(255, 255, 255, 0.03);
+  letter-spacing: 0.02em;
+  border-color: var(--lg-t-primary);
+  box-shadow: 0 0 15px rgba(var(--lg-t-primary-rgb), 0.15);
+}
+
+/* Error State */
+.lg-input-wrapper.has-error .lg-input-field {
+  border-color: var(--lg-t-destructive);
+  box-shadow: 0 0 15px rgba(var(--lg-t-destructive-rgb), 0.15);
+}
+
+/* WebKit Autofill Resilience (Shield) */
+.lg-input-field:-webkit-autofill,
+.lg-input-field:-webkit-autofill:hover,
+.lg-input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--lg-t-text-main) !important;
+  box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.8) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.8) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Label Styling */
+.lg-input-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+  color: var(--lg-t-text-main);
+  opacity: 0.5;
+  transition: all 0.25s var(--lg-ease-out);
+}
+
+.lg-input-wrapper:focus-within .lg-input-label {
+  opacity: 1;
+  color: var(--lg-t-primary);
+}
+
+.lg-input-group.has-error .lg-input-label {
+  opacity: 1;
+  color: var(--lg-t-destructive);
+}
+
+.lg-input-group.has-error .lg-icon-left,
+.lg-input-group.has-error .lg-icon-right {
+  color: var(--lg-t-destructive);
+  opacity: 1;
+}
+
+.lg-input-error-msg {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--lg-t-destructive);
+  margin-top: 0.4rem;
+  animation: lg-fade-in 0.2s ease-out;
+}
+
+@keyframes lg-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
