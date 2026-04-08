@@ -4,6 +4,7 @@
 @import "../../../libs/liquid-glass-ui/src/lib/styles/tokens.css";
 @import "../../../libs/liquid-glass-ui/src/lib/styles/theme.css";
 @import "../../../libs/liquid-glass-ui/src/lib/styles/typography.css";
+@import "../../../libs/liquid-glass-ui/src/lib/styles/motion.css";
 
 /* 2. Tailwind v4 @theme Configuration */
 @theme {
@@ -24,6 +25,17 @@
   --radius-lg-card: var(--lg-g-radius-card);
   --radius-lg-btn: var(--lg-g-radius-btn);
   --radius-lg-input: var(--lg-g-radius-input);
+  
+  /* Motion tokens mapping */
+  --ease-lg-enter: var(--lg-ease-enter);
+  --ease-lg-exit: var(--lg-ease-exit);
+  --ease-lg-standard: var(--lg-ease-standard);
+  --ease-lg-drawer: var(--lg-ease-drawer);
+  
+  --duration-lg-instant: var(--lg-duration-instant);
+  --duration-lg-fast: var(--lg-duration-fast);
+  --duration-lg-base: var(--lg-duration-base);
+  --duration-lg-slow: var(--lg-duration-slow);
 }
 
 /* 3. Global Styles */

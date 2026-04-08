@@ -10,7 +10,7 @@ import { ThemeService, GlassCardComponent } from '@liquid-glass-ui/angular';
   template: `
     <div class="flex flex-col items-center justify-center min-h-screen p-4 transition-colors duration-500">
       
-      <lg-glass-card class="max-w-md w-full">
+      <lg-glass-card class="max-w-md w-full lg-active-scale cursor-pointer">
         <div class="flex flex-col gap-6">
           <header>
             <h1 class="text-h1 font-display font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">

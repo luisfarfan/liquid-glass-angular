@@ -11,7 +11,19 @@
   /* Spacing base (Sistema de 4pt/8pt) */
   --lg-g-unit: 0.25rem;         /* 4px base */
   
+  /* Motion Physics (SDD-04) */
+  --lg-ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --lg-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --lg-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --lg-ease-drawer: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Duraciones */
+  --lg-duration-instant: 0.1s;
+  --lg-duration-fast: 0.2s;
+  --lg-duration-base: 0.3s;
+  --lg-duration-slow: 0.5s;
+
   /* Otros valores globales */
-  --lg-g-transition-fast: 0.15s ease;
-  --lg-g-transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --lg-g-transition-fast: var(--lg-duration-fast) var(--lg-ease-enter);
+  --lg-g-transition-base: var(--lg-duration-base) var(--lg-ease-standard);
 }
