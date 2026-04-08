@@ -1,0 +1,17 @@
+/**
+ * LG Global Tokens (--lg-g-*)
+ * Basado en SDD-01: Arquitectura de Tokens
+ */
+:root {
+  /* Escala de radios (rem) */
+  --lg-g-radius-card: 1.5rem;   /* 24px base */
+  --lg-g-radius-btn: 0.75rem;   /* 12px base */
+  --lg-g-radius-input: 0.625rem; /* 10px base */
+
+  /* Spacing base (Sistema de 4pt/8pt) */
+  --lg-g-unit: 0.25rem;         /* 4px base */
+  
+  /* Otros valores globales */
+  --lg-g-transition-fast: 0.15s ease;
+  --lg-g-transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

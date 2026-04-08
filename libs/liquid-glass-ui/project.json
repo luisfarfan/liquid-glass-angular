@@ -1,7 +1,7 @@
 {
   "name": "liquid-glass-ui",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "liquid-glass-ui/src",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/liquid-glass-ui/src",
   "prefix": "lib",
   "projectType": "library",
   "release": {
@@ -17,12 +17,12 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "liquid-glass-ui/ng-package.json",
-        "tsConfig": "liquid-glass-ui/tsconfig.lib.json"
+        "project": "libs/liquid-glass-ui/ng-package.json",
+        "tsConfig": "libs/liquid-glass-ui/tsconfig.lib.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "liquid-glass-ui/tsconfig.lib.prod.json"
+          "tsConfig": "libs/liquid-glass-ui/tsconfig.lib.prod.json"
         },
         "development": {}
       },

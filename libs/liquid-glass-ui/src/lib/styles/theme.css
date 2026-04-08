@@ -1,0 +1,39 @@
+/**
+ * LG Theme Tokens (--lg-t-*)
+ * Basado en SDD-01: Arquitectura de Tokens
+ */
+
+/* Dark Theme (Default) */
+:root {
+  --lg-t-primary: #06b6d4;      /* Cyan 500 */
+  --lg-t-primary-hover: #22d3ee;
+  
+  --lg-t-bg-app: #09090b;       /* Zinc 950 */
+  --lg-t-bg-card: #18181b;      /* Zinc 900 */
+  
+  --lg-t-text-main: #fafafa;
+  --lg-t-text-muted: #a1a1aa;
+  
+  --lg-t-glass-bg: rgba(255, 255, 255, 0.05);
+  --lg-t-glass-border: rgba(255, 255, 255, 0.1);
+  --lg-t-glass-blur: 1.5rem;    /* 24px blur */
+  
+  --lg-t-neon-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+/* Light Theme */
+.light-theme {
+  --lg-t-primary: #0891b2;      /* Cyan 600 */
+  --lg-t-primary-hover: #0e7490;
+  
+  --lg-t-bg-app: #fafafa;       /* Zinc 50 */
+  --lg-t-bg-card: #ffffff;
+  
+  --lg-t-text-main: #09090b;
+  --lg-t-text-muted: #52525b;
+  
+  --lg-t-glass-bg: rgba(0, 0, 0, 0.05);
+  --lg-t-glass-border: rgba(0, 0, 0, 0.1);
+  
+  --lg-t-neon-shadow: 0 0 10px rgba(8, 145, 178, 0.2);
+}

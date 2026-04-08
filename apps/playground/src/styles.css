@@ -1,6 +1,38 @@
 @import "tailwindcss";
 
+/* 1. Import Liquid Glass Core Styles */
+@import "../../../libs/liquid-glass-ui/src/lib/styles/tokens.css";
+@import "../../../libs/liquid-glass-ui/src/lib/styles/theme.css";
+@import "../../../libs/liquid-glass-ui/src/lib/styles/typography.css";
 
-/* Escaneo explícito de archivos para Tailwind v4 en Nx */
+/* 2. Tailwind v4 @theme Configuration */
+@theme {
+  /* Colors mapping to CSS Variables */
+  --color-primary: var(--lg-t-primary);
+  --color-primary-hover: var(--lg-t-primary-hover);
+  --color-bg-app: var(--lg-t-bg-app);
+  --color-bg-card: var(--lg-t-bg-card);
+  --color-glass: var(--lg-t-glass-bg);
+  --color-glass-border: var(--lg-t-glass-border);
+  
+  /* Typography Scale mapping */
+  --font-display: "Outfit", ui-sans-serif, system-ui;
+  --font-sans: "Inter", ui-sans-serif, system-ui;
+  
+  /* Custom Utilities from Variables */
+  --blur-glass: var(--lg-t-glass-blur);
+  --radius-lg-card: var(--lg-g-radius-card);
+  --radius-lg-btn: var(--lg-g-radius-btn);
+  --radius-lg-input: var(--lg-g-radius-input);
+}
+
+/* 3. Global Styles */
+body {
+  @apply bg-bg-app text-[var(--lg-t-text-main)] font-sans antialiased;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Base explicit scaneo for Tailwind v4 in Nx */
 @source "./app/**/*.{html,ts}";
 @source "../../../libs/liquid-glass-ui/src/**/*.{html,ts}";
