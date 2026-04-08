@@ -17,7 +17,7 @@ El botón es la unidad básica de interacción. Controlamos el tag nativo median
 | :--- | :--- | :--- | :--- |
 | `variant` | `input<ButtonVariant>` | `'secondary'` | Variantes: `primary`, `secondary`, `ghost`, `destructive`. |
 | `size` | `input<ButtonSize>` | `'md'` | Tamaños: `sm`, `md`, `lg`. |
-| `isIconOnly` | `input<boolean>` | `false` | Si es true, aplica un ratio 1:1 y padding simétrico. |
+| `iconOnly` | `input<boolean>` | `false` | Si es true, aplica un ratio 1:1 y padding simétrico. |
 | `enableHaptics` | `input<boolean>` | `true` | Habilita pequeña vibración en dispositivos móviles soportados. |
 
 ---

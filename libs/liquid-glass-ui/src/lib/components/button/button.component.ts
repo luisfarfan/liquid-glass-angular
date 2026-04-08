@@ -22,7 +22,8 @@ import {
 @Component({
   selector: 'button[lg-button], a[lg-button]',
   standalone: true,
-  imports: [CommonModule, RippleDirective],
+  imports: [CommonModule],
+  hostDirectives: [RippleDirective],
   template: `
     <!-- Glass Shine Effect -->
     <div class="lg-glass-shine"></div>
@@ -51,7 +52,6 @@ import {
     '[attr.data-lg-id]': '"lg-button"',
     '[attr.disabled]': 'disabled() || isLoading() ? true : null',
     '[attr.aria-busy]': 'isLoading()',
-    'lgRipple': '' 
   },
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
