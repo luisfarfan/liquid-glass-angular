@@ -1,6 +1,6 @@
 import { Injectable, signal, effect } from '@angular/core';
 
-export type LGTheme = 'light' | 'dark';
+export type LGTheme = 'light' | 'dark' | 'cyberpunk' | 'emerald';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export type LGTheme = 'light' | 'dark';
 export class ThemeService {
   /**
    * Signal reactiva para el tema actual.
-   * Inicializa desde localStorage o defecto 'dark' (Vision Liquid Glass).
+   * Inicializa desde localStorage o defecto 'dark'.
    */
   private _theme = signal<LGTheme>(
     (localStorage.getItem('lg-theme') as LGTheme) || 'dark'
@@ -29,10 +29,13 @@ export class ThemeService {
   }
 
   /**
-   * Alterna entre light y dark mode.
+   * Cicla a través de todos los temas disponibles.
    */
   toggleTheme() {
-    this._theme.update((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    const themes: LGTheme[] = ['light', 'dark', 'cyberpunk', 'emerald'];
+    const currentIndex = themes.indexOf(this._theme());
+    const nextIndex = (currentIndex + 1) % themes.length;
+    this._theme.set(themes[nextIndex]);
   }
 
   /**
@@ -44,14 +47,18 @@ export class ThemeService {
 
   /**
    * Lógica interna para manipular las clases en el tag <html>.
-   * Usamos 'light-theme' ya que 'dark-theme' es el default (:root).
+   * Limpia temas anteriores y aplica el nuevo si no es el default.
    */
   private applyTheme(theme: LGTheme) {
     const html = document.documentElement;
-    if (theme === 'light') {
-      html.classList.add('light-theme');
-    } else {
-      html.classList.remove('light-theme');
+    const themeClasses = ['light-theme', 'cyberpunk-theme', 'emerald-theme'];
+    
+    // Remover todos los temas posibles
+    html.classList.remove(...themeClasses);
+    
+    // Aplicar el nuevo si no es 'dark' (el default :root)
+    if (theme !== 'dark') {
+      html.classList.add(`${theme}-theme`);
     }
   }
 }

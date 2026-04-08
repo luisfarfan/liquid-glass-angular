@@ -28,3 +28,17 @@ export interface LgGlassCardOptions extends LgComponentOptions {
 }
 
 export const LG_GLASS_CARD_DEFAULT_OPTIONS = createLgConfigToken<LgGlassCardOptions>('GLASS_CARD');
+
+/**
+ * Configuración por defecto para GlassButton
+ */
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+
+export interface LgButtonOptions extends LgComponentOptions {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  enableHaptics?: boolean;
+}
+
+export const LG_BUTTON_DEFAULT_OPTIONS = createLgConfigToken<LgButtonOptions>('BUTTON');

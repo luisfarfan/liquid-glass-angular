@@ -1,0 +1,12 @@
+/* Estilos específicos para el componente Button si fueran necesarios más allá de Tailwind */
+:host {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:host:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}

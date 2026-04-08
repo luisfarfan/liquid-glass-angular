@@ -47,6 +47,48 @@
   transition: box-shadow var(--lg-duration-fast) var(--lg-ease-enter);
 }
 
+/* Glass Ripple Animations */
+@keyframes lg-ripple-expand {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.lg-ripple-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lg-glass-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  animation: lg-ripple-expand 0.6s var(--lg-ease-out) forwards;
+}
+
+/* Neon Button Base */
+.lg-btn-neon {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.lg-btn-primary {
+  background: var(--lg-t-primary);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+.lg-btn-primary:hover {
+  background: var(--lg-t-primary-hover);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+}
+
 /* Glassy Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
