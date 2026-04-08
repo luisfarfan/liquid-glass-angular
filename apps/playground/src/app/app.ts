@@ -61,10 +61,10 @@ import { ThemeService, GlassCardComponent, ButtonComponent } from '@liquid-glass
                    Siguiente
                    <i lg-icon-right class="ri-arrow-right-line"></i>
                  </button>
-                 <button lg-button variant="ghost" [isIconOnly]="true">
+                 <button lg-button variant="ghost" [iconOnly]="true">
                    <i class="ri-settings-4-line text-xl"></i>
                  </button>
-                 <button lg-button variant="destructive" [isIconOnly]="true" size="sm">
+                 <button lg-button variant="destructive" [iconOnly]="true" size="sm">
                    <i class="ri-delete-bin-line"></i>
                  </button>
                </div>

@@ -31,14 +31,10 @@ import {
       <!-- Prefix Icon Slot -->
       <ng-content select="[lg-icon-left]"></ng-content>
       
-      <!-- Main Content -->
-      @if (!isIconOnly()) {
-        <span class="truncate">
-          <ng-content></ng-content>
-        </span>
-      } @else {
+      <!-- Main Content Container -->
+      <span [class.truncate]="!iconOnly()" [class.contents]="iconOnly()">
         <ng-content></ng-content>
-      }
+      </span>
 
       <!-- Suffix Icon Slot -->
       <ng-content select="[lg-icon-right]"></ng-content>
@@ -67,7 +63,7 @@ export class ButtonComponent {
   // Inputs via Signals
   variant = input<ButtonVariant>(this._defaultOptions?.variant ?? 'secondary');
   size = input<ButtonSize>(this._defaultOptions?.size ?? 'md');
-  isIconOnly = input<boolean>(false); 
+  iconOnly = input<boolean>(false); 
   enableHaptics = input<boolean>(this._defaultOptions?.enableHaptics ?? true);
   
   // New States
@@ -78,7 +74,7 @@ export class ButtonComponent {
   readonly hostClasses = computed(() => {
     const v = this.variant();
     const s = this.size();
-    const isIcon = this.isIconOnly();
+    const isIcon = this.iconOnly();
     const isDisabled = this.disabled() || this.isLoading();
     
     const base = 'inline-flex items-center justify-center font-bold lg-transition-glass lg-focus-ring lg-active-scale lg-btn-neon whitespace-nowrap overflow-hidden relative';
