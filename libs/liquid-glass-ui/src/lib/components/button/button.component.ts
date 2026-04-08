@@ -23,7 +23,12 @@ import {
   selector: 'button[lg-button], a[lg-button]',
   standalone: true,
   imports: [CommonModule],
-  hostDirectives: [RippleDirective],
+  hostDirectives: [
+    {
+      directive: RippleDirective,
+      inputs: ['enabled: enableRipple']
+    }
+  ],
   template: `
     <!-- Glass Shine Effect -->
     <div class="lg-glass-shine"></div>

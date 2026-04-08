@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, inject, input } from '@angular/core';
 
 @Directive({
   selector: '[lgRipple]',
@@ -8,8 +8,13 @@ export class RippleDirective {
   private readonly _el = inject(ElementRef);
   private readonly _renderer = inject(Renderer2);
 
+  /** Si el ripple está habilitado */
+  enabled = input<boolean>(true);
+
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent) {
+    if (!this.enabled()) return;
+
     const target = this._el.nativeElement;
     
     // Ignorar si está deshabilitado

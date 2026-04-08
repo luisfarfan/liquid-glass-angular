@@ -18,6 +18,7 @@ El botón es la unidad básica de interacción. Controlamos el tag nativo median
 | `variant` | `input<ButtonVariant>` | `'secondary'` | Variantes: `primary`, `secondary`, `ghost`, `destructive`. |
 | `size` | `input<ButtonSize>` | `'md'` | Tamaños: `sm`, `md`, `lg`. |
 | `iconOnly` | `input<boolean>` | `false` | Si es true, aplica un ratio 1:1 y padding simétrico. |
+| `enableRipple` | `input<boolean>` | `true` | Habilita el efecto de expansión de cristal al hacer click. |
 | `enableHaptics` | `input<boolean>` | `true` | Habilita pequeña vibración en dispositivos móviles soportados. |
 
 ---
