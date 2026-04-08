@@ -11,6 +11,12 @@ export class RippleDirective {
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent) {
     const target = this._el.nativeElement;
+    
+    // Ignorar si está deshabilitado
+    if (target.hasAttribute('disabled') || target.classList.contains('pointer-events-none')) {
+      return;
+    }
+
     const rect = target.getBoundingClientRect();
     
     // Crear el contenedor de ripple si no existe

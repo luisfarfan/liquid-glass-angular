@@ -24,14 +24,24 @@ import {
   standalone: true,
   imports: [CommonModule, RippleDirective],
   template: `
-    <span class="relative z-10 flex items-center justify-center gap-2">
+    @if (isLoading()) {
+      <div class="lg-loading-spinner mr-2"></div>
+    }
+    <span class="relative z-10 flex items-center justify-center gap-2" [class.opacity-0]="isLoading()">
       <ng-content></ng-content>
     </span>
+    @if (isLoading()) {
+      <span class="absolute inset-0 flex items-center justify-center z-20">
+        <div class="lg-loading-spinner"></div>
+      </span>
+    }
   `,
   host: {
     '[class]': 'hostClasses()',
     '[attr.data-lg-id]': '"lg-button"',
-    'lgRipple': '' // Aplica la directiva de ripple automáticamente
+    '[attr.disabled]': 'disabled() || isLoading() ? true : null',
+    '[attr.aria-busy]': 'isLoading()',
+    'lgRipple': '' 
   },
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,20 +53,27 @@ export class ButtonComponent {
   // Inputs via Signals
   variant = input<ButtonVariant>(this._defaultOptions?.variant ?? 'secondary');
   size = input<ButtonSize>(this._defaultOptions?.size ?? 'md');
-  isIconOnly = input<boolean>(this._defaultOptions?.testId ? true : false); // Placeholder logic
+  isIconOnly = input<boolean>(false); 
   enableHaptics = input<boolean>(this._defaultOptions?.enableHaptics ?? true);
+  
+  // New States
+  disabled = input<boolean>(false);
+  isLoading = input<boolean>(false);
 
   /** Clases calculadas para el host */
   readonly hostClasses = computed(() => {
     const v = this.variant();
     const s = this.size();
+    const isDisabled = this.disabled() || this.isLoading();
     
-    const base = 'inline-flex items-center justify-center font-bold lg-transition-glass lg-focus-ring lg-active-scale lg-btn-neon whitespace-nowrap overflow-hidden';
+    const base = 'inline-flex items-center justify-center font-bold lg-transition-glass lg-focus-ring lg-active-scale lg-btn-neon whitespace-nowrap overflow-hidden relative';
+    
+    const stateClasses = isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none grayscale-[0.5]' : 'cursor-pointer';
     
     const variantClasses: Record<ButtonVariant, string> = {
       primary: 'lg-btn-primary',
       secondary: 'bg-glass border border-glass-border backdrop-blur-md text-[var(--lg-t-text-main)] hover:bg-white/10',
-      ghost: 'bg-transparent text-[var(--lg-t-text-main)] hover:bg-white/5',
+      ghost: 'bg-transparent text-[var(--lg-t-text-main)] hover:bg-white/5 border border-transparent hover:border-glass-border',
       destructive: 'bg-red-500/10 border border-red-500/30 text-red-500 hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
     };
 
@@ -66,11 +83,17 @@ export class ButtonComponent {
       lg: 'px-8 py-3.5 text-base rounded-2xl'
     };
 
-    return `${base} ${variantClasses[v]} ${sizeClasses[s]}`.trim();
+    return `${base} ${stateClasses} ${variantClasses[v]} ${sizeClasses[s]}`.trim();
   });
 
-  @HostListener('click')
-  onPointerDown() {
+  @HostListener('click', ['$event'])
+  onPointerDown(event: Event) {
+    if (this.disabled() || this.isLoading()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     if (this.enableHaptics() && window.navigator.vibrate) {
       window.navigator.vibrate(10);
     }

@@ -119,3 +119,18 @@
 .z-overlay { z-index: var(--lg-z-overlay); }
 .z-modal   { z-index: var(--lg-z-modal); }
 .z-toast   { z-index: var(--lg-z-toast); }
+
+/* Feedback Animations */
+@keyframes lg-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.lg-loading-spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: lg-spin 0.8s linear infinite;
+}

@@ -40,6 +40,15 @@ import { ThemeService, GlassCardComponent, ButtonComponent } from '@liquid-glass
                  <button lg-button variant="primary" size="lg">Large Scale</button>
                </div>
             </div>
+
+            <div class="space-y-3">
+               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Estados Interactivos</p>
+               <div class="flex flex-wrap gap-3">
+                 <button lg-button variant="primary" [disabled]="true">Disabled</button>
+                 <button lg-button variant="primary" [isLoading]="true">Loading</button>
+                 <button lg-button variant="destructive" [isLoading]="true">Deleting...</button>
+               </div>
+            </div>
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">
