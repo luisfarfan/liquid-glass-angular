@@ -39,6 +39,14 @@
   text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
 }
 
+/* Neon Focus Ring (A11y) */
+.lg-focus-ring:focus-visible {
+  outline: 2px solid var(--lg-t-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+  transition: box-shadow var(--lg-duration-fast) var(--lg-ease-enter);
+}
+
 /* Glassy Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;

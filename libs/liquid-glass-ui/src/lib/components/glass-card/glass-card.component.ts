@@ -1,40 +1,56 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LG_GLASS_CARD_DEFAULT_OPTIONS } from '../../core/component-options';
 
+/**
+ * GlassCardComponent 
+ * Basado en SDD-06: Component Architecture Standards.
+ */
 @Component({
   selector: 'lg-glass-card',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="glass-card-container">
-      <ng-content></ng-content>
-    </div>
-  `,
+  template: `<ng-content></ng-content>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class]': 'hostClasses()',
+    '[attr.data-lg-id]': '"lg-glass-card"',
+    'tabindex': '0'
+  },
   styles: [`
-    :host {
+    lg-glass-card {
       display: block;
     }
     
-    .glass-card-container {
-      /* Uso de tokens definidos en styles.css / theme.css */
-      background: var(--lg-t-glass-bg);
-      backdrop-filter: blur(var(--lg-t-glass-blur));
-      -webkit-backdrop-filter: blur(var(--lg-t-glass-blur));
-      border: 1px solid var(--lg-t-glass-border);
-      border-radius: var(--lg-g-radius-card);
-      padding: calc(var(--lg-g-unit) * 6); /* 24px */
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      transition: var(--lg-g-transition-base);
-      color: var(--lg-t-text-main);
-    }
-
-    .glass-card-container:hover {
+    /* Efecto de elevación refinado */
+    .lg-glass-card-hover:hover {
       border-color: var(--lg-t-primary);
       box-shadow: var(--lg-t-neon-shadow);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
     }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  `]
 })
-export class GlassCardComponent {}
+export class GlassCardComponent {
+  private readonly _defaultOptions = inject(LG_GLASS_CARD_DEFAULT_OPTIONS, { optional: true });
+
+  /** Clases calculadas para el host */
+  readonly hostClasses = computed(() => {
+    const baseClasses = [
+      'block',
+      'p-6',
+      'rounded-[var(--lg-g-radius-card)]',
+      'bg-glass',
+      'border',
+      'border-glass-border',
+      'backdrop-blur-[var(--lg-t-glass-blur)]',
+      'lg-transition-glass',
+      'lg-focus-ring',
+      'lg-glass-card-hover',
+      'cursor-pointer'
+    ].join(' ');
+    
+    const customClass = this._defaultOptions?.customClass ?? '';
+    return `${baseClasses} ${customClass}`.trim();
+  });
+}
