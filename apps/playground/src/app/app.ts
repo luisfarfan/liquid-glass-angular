@@ -48,14 +48,25 @@ import { ThemeService, GlassCardComponent } from '@liquid-glass-ui/angular';
         </div>
       </lg-glass-card>
 
-      <div class="mt-12 grid grid-cols-2 gap-4 max-w-2xl w-full">
-         <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border">
-            <h3 class="text-h3 font-display mb-2">Responsivo</h3>
-            <p class="text-body-sm">Tipografía fluida que escala con el viewport.</p>
+      <div class="mt-12 lg-bento-grid max-w-4xl w-full">
+         <div class="lg:col-span-8 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in">
+            <h3 class="text-h3 font-display mb-2">Bento Grid Architecture</h3>
+            <p class="text-body-sm leading-relaxed text-zinc-400">
+               Utilizamos un sistema de compartimentos basado en un grid de 12 columnas. 
+               Este layout es responsivo y se adapta automáticamente de móvil a escritorio.
+            </p>
          </div>
-         <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border">
-            <h3 class="text-h3 font-display mb-2">Premium</h3>
-            <p class="text-body-sm">Efectos de cristal y sombras neón integradas.</p>
+         <div class="lg:col-span-4 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in" style="animation-delay: 100ms">
+            <h3 class="text-h3 font-display mb-2">Safe Area</h3>
+            <p class="text-body-sm text-zinc-400">Contenedores inteligentes que respetan el Notch.</p>
+         </div>
+         <div class="lg:col-span-4 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in" style="animation-delay: 200ms">
+            <h3 class="text-h3 font-display mb-2">Z-Index Stack</h3>
+            <p class="text-body-sm text-zinc-400">7 capas estandarizadas para evitar colisiones visuales.</p>
+         </div>
+         <div class="lg:col-span-8 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in" style="animation-delay: 300ms">
+            <h3 class="text-h3 font-display mb-2">Premium Polish</h3>
+            <p class="text-body-sm text-zinc-400">Scrollbars de cristal y selección de texto neon integradas en el core.</p>
          </div>
       </div>
     </div>

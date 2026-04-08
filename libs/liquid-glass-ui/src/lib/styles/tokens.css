@@ -23,6 +23,19 @@
   --lg-duration-base: 0.3s;
   --lg-duration-slow: 0.5s;
 
+  /* Layout Layers (SDD-05) */
+  --lg-z-base: 0;
+  --lg-z-sticky: 10;
+  --lg-z-nav: 20;
+  --lg-z-popover: 30;
+  --lg-z-overlay: 40;
+  --lg-z-modal: 50;
+  --lg-z-toast: 60;
+
+  /* Layout Dimensions */
+  --lg-layout-sidebar-width: 16rem; /* 256px */
+  --lg-layout-topbar-height: 4rem;   /* 64px */
+
   /* Otros valores globales */
   --lg-g-transition-fast: var(--lg-duration-fast) var(--lg-ease-enter);
   --lg-g-transition-base: var(--lg-duration-base) var(--lg-ease-standard);

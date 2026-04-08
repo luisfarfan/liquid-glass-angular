@@ -5,6 +5,7 @@
 @import "../../../libs/liquid-glass-ui/src/lib/styles/theme.css";
 @import "../../../libs/liquid-glass-ui/src/lib/styles/typography.css";
 @import "../../../libs/liquid-glass-ui/src/lib/styles/motion.css";
+@import "../../../libs/liquid-glass-ui/src/lib/styles/layout.css";
 
 /* 2. Tailwind v4 @theme Configuration */
 @theme {
@@ -36,6 +37,18 @@
   --duration-lg-fast: var(--lg-duration-fast);
   --duration-lg-base: var(--lg-duration-base);
   --duration-lg-slow: var(--lg-duration-slow);
+  
+  /* Layout tokens mapping */
+  --z-lg-base: var(--lg-z-base);
+  --z-lg-sticky: var(--lg-z-sticky);
+  --z-lg-nav: var(--lg-z-nav);
+  --z-lg-popover: var(--lg-z-popover);
+  --z-lg-overlay: var(--lg-z-overlay);
+  --z-lg-modal: var(--lg-z-modal);
+  --z-lg-toast: var(--lg-z-toast);
+  
+  --spacing-sidebar: var(--lg-layout-sidebar-width);
+  --spacing-topbar: var(--lg-layout-topbar-height);
 }
 
 /* 3. Global Styles */

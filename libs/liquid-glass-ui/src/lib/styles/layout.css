@@ -1,0 +1,71 @@
+/**
+ * LG Layout & Structure Architecture
+ * Basado en SDD-05: Layout & Structure Architecture
+ */
+
+/* 1. App Shell Base */
+.lg-shell {
+  min-height: 100dvh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  /* Safe Area Awareness */
+  padding-top: env(safe-area-inset-top, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+/* 2. Bento Grid Utilities */
+.lg-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem; /* SDD-05 standard: 24px */
+}
+
+@media (min-width: 1024px) {
+  .lg-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* 3. Selection & Scrollbars (Premium Polish) */
+
+/* Neon Selection */
+::selection {
+  background-color: rgba(6, 182, 212, 0.3); /* Primary with opacity */
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+/* Glassy Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.4);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+/* 4. Layout Layering Classes (Reference) */
+.z-base    { z-index: var(--lg-z-base); }
+.z-sticky  { z-index: var(--lg-z-sticky); }
+.z-nav     { z-index: var(--lg-z-nav); }
+.z-popover { z-index: var(--lg-z-popover); }
+.z-overlay { z-index: var(--lg-z-overlay); }
+.z-modal   { z-index: var(--lg-z-modal); }
+.z-toast   { z-index: var(--lg-z-toast); }
