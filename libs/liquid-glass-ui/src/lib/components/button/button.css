@@ -1,12 +1,41 @@
-/* Estilos específicos para el componente Button si fueran necesarios más allá de Tailwind */
 :host {
+  position: relative;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
 }
 
 :host:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   filter: grayscale(1);
+}
+
+/* Glass Shine Effect */
+.lg-glass-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+  z-index: 5;
+}
+
+:host:hover .lg-glass-shine {
+  animation: lg-shine-swipe 0.75s var(--lg-ease-out) forwards;
+}
+
+@keyframes lg-shine-swipe {
+  from { left: -100%; }
+  to { left: 200%; }
 }

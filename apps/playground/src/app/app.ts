@@ -49,6 +49,26 @@ import { ThemeService, GlassCardComponent, ButtonComponent } from '@liquid-glass
                  <button lg-button variant="destructive" [isLoading]="true">Deleting...</button>
                </div>
             </div>
+
+            <div class="space-y-3">
+               <p class="text-[10px] font-bold tracking-widest uppercase opacity-40">Iconos & Reflejos</p>
+               <div class="flex flex-wrap gap-3">
+                 <button lg-button variant="primary">
+                   <i lg-icon-left class="ri-rocket-2-line"></i>
+                   Lanzar
+                 </button>
+                 <button lg-button variant="secondary">
+                   Siguiente
+                   <i lg-icon-right class="ri-arrow-right-line"></i>
+                 </button>
+                 <button lg-button variant="ghost" [isIconOnly]="true">
+                   <i class="ri-settings-4-line text-xl"></i>
+                 </button>
+                 <button lg-button variant="destructive" [isIconOnly]="true" size="sm">
+                   <i class="ri-delete-bin-line"></i>
+                 </button>
+               </div>
+            </div>
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">

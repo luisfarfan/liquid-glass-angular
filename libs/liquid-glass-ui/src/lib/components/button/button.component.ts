@@ -24,12 +24,26 @@ import {
   standalone: true,
   imports: [CommonModule, RippleDirective],
   template: `
-    @if (isLoading()) {
-      <div class="lg-loading-spinner mr-2"></div>
-    }
-    <span class="relative z-10 flex items-center justify-center gap-2" [class.opacity-0]="isLoading()">
-      <ng-content></ng-content>
-    </span>
+    <!-- Glass Shine Effect -->
+    <div class="lg-glass-shine"></div>
+
+    <div class="relative z-10 flex items-center justify-center gap-2" [class.opacity-0]="isLoading()">
+      <!-- Prefix Icon Slot -->
+      <ng-content select="[lg-icon-left]"></ng-content>
+      
+      <!-- Main Content -->
+      @if (!isIconOnly()) {
+        <span class="truncate">
+          <ng-content></ng-content>
+        </span>
+      } @else {
+        <ng-content></ng-content>
+      }
+
+      <!-- Suffix Icon Slot -->
+      <ng-content select="[lg-icon-right]"></ng-content>
+    </div>
+
     @if (isLoading()) {
       <span class="absolute inset-0 flex items-center justify-center z-20">
         <div class="lg-loading-spinner"></div>
@@ -64,6 +78,7 @@ export class ButtonComponent {
   readonly hostClasses = computed(() => {
     const v = this.variant();
     const s = this.size();
+    const isIcon = this.isIconOnly();
     const isDisabled = this.disabled() || this.isLoading();
     
     const base = 'inline-flex items-center justify-center font-bold lg-transition-glass lg-focus-ring lg-active-scale lg-btn-neon whitespace-nowrap overflow-hidden relative';
@@ -78,9 +93,9 @@ export class ButtonComponent {
     };
 
     const sizeClasses: Record<ButtonSize, string> = {
-      sm: 'px-3 py-1.5 text-xs rounded-lg',
-      md: 'px-5 py-2.5 text-sm rounded-[calc(var(--lg-g-unit)*2.5)]',
-      lg: 'px-8 py-3.5 text-base rounded-2xl'
+      sm: isIcon ? 'w-8 h-8 rounded-lg' : 'px-3 py-1.5 text-xs rounded-lg',
+      md: isIcon ? 'w-11 h-11 rounded-xl' : 'px-5 py-2.5 text-sm rounded-[calc(var(--lg-g-unit)*2.5)]',
+      lg: isIcon ? 'w-14 h-14 rounded-2xl' : 'px-8 py-3.5 text-base rounded-2xl'
     };
 
     return `${base} ${stateClasses} ${variantClasses[v]} ${sizeClasses[s]}`.trim();
