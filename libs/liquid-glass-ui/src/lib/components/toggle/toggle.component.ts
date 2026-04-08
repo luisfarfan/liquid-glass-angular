@@ -38,18 +38,30 @@ export class ToggleComponent implements ControlValueAccessor {
   /** Outputs */
   changed = output<boolean>();
 
-  /** Host Classes */
+  /** Host Classes & ARIA */
   @HostBinding('class.size-sm') get smClass() { return this.size() === 'sm'; }
   @HostBinding('class.is-disabled') get disabledClass() { return this.disabled(); }
+  @HostBinding('class.lg-focus-ring') readonly focusRingClass = true;
+  @HostBinding('attr.role') readonly role = 'switch';
+  @HostBinding('attr.aria-checked') get ariaChecked() { return this.checked(); }
+  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled(); }
+  @HostBinding('attr.tabindex') get tabIndex() { return this.disabled() ? -1 : 0; }
 
   /** CVA Callbacks */
   private onChange = (val: boolean) => {};
   private onTouched = () => {};
 
-  @HostListener('click')
-  toggle() {
+  @HostListener('click', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  @HostListener('keydown.enter', ['$event'])
+  toggle(event?: Event) {
     if (this.disabled()) return;
     
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     const newVal = !this.checked();
     this.checked.set(newVal);
     this.onChange(newVal);

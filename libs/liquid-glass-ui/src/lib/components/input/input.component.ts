@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy, 
   ViewEncapsulation, 
   input, 
+  model,
   signal, 
   computed, 
   forwardRef, 
@@ -56,6 +57,8 @@ import {
           (input)="onInput($event)"
           (focus)="onFocus()"
           (blur)="onBlur()"
+          [attr.aria-invalid]="!!error()"
+          [attr.aria-describedby]="error() ? errorId : null"
           class="lg-input-field flex-1 h-11 px-4 rounded-xl text-sm font-medium"
         />
 
@@ -67,7 +70,7 @@ import {
 
       <!-- Error Message -->
       @if (error()) {
-        <span class="lg-input-error-msg">
+        <span [id]="errorId" class="lg-input-error-msg">
           {{ error() }}
         </span>
       }
@@ -92,14 +95,15 @@ export class InputComponent implements ControlValueAccessor {
   type = input<string>('text');
   placeholder = input<string>('');
   error = input<string | null>(null);
+  disabled = model<boolean>(false);
 
   // Read-only state Signals
   isFocused = signal(false);
-  disabled = signal(false);
   value = signal<string>('');
 
   // Local state
   readonly uid = `lg-input-${Math.random().toString(36).substring(2, 9)}`;
+  readonly errorId = `lg-error-${Math.random().toString(36).substring(2, 9)}`;
 
   // CVA boilerplate
   private onChange: (value: any) => void = () => {};

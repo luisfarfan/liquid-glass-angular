@@ -129,9 +129,38 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
                      <i lg-icon-left class="ri-error-warning-line"></i>
                    </lg-input>
                 </lg-form-field>
-
               </div>
             </lg-glass-card>
+          </section>
+
+          <!-- SECCIÓN ACCESIBILIDAD Y ESTADOS -->
+          <section class="space-y-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i class="ri-shield-user-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-sm font-bold uppercase tracking-widest opacity-60">Production Hardening (A11y & States)</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+               <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Button</p>
+                  <button lg-button [disabled]="true" variant="primary" size="sm" class="w-full">Disabled State</button>
+               </div>
+               <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Input</p>
+                  <lg-input [disabled]="true" placeholder="No Editable" size="sm"></lg-input>
+               </div>
+               <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3 flex flex-col justify-between">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Toggle</p>
+                  <lg-toggle [disabled]="true" [checked]="true">Fixed Toggle</lg-toggle>
+               </div>
+               <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3 flex flex-col justify-between">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Checkbox</p>
+                  <lg-checkbox [disabled]="true" [checked]="true">Fixed Check</lg-checkbox>
+               </div>
+            </div>
+            <p class="text-[10px] text-zinc-500 italic px-2">
+              Nota: Usa la tecla TAB para verificar que los elementos deshabilitados son ignorados y los activos tienen anillos de enfoque.
+            </p>
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">

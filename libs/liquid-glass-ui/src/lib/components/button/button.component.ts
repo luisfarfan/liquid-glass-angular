@@ -57,6 +57,8 @@ import {
     '[attr.data-lg-id]': '"lg-button"',
     '[attr.disabled]': 'disabled() || isLoading() ? true : null',
     '[attr.aria-busy]': 'isLoading()',
+    '[attr.aria-disabled]': 'disabled() || isLoading()',
+    '[attr.aria-label]': 'ariaLabel()',
   },
   styleUrl: './button.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,6 +71,7 @@ export class ButtonComponent {
   variant = input<ButtonVariant>(this._defaultOptions?.variant ?? 'secondary');
   size = input<ButtonSize>(this._defaultOptions?.size ?? 'md');
   iconOnly = input<boolean>(false); 
+  ariaLabel = input<string | null>(null);
   enableHaptics = input<boolean>(this._defaultOptions?.enableHaptics ?? true);
   
   // New States

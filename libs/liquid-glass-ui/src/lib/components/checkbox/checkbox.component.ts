@@ -48,17 +48,26 @@ export class CheckboxComponent implements ControlValueAccessor {
   /** Outputs */
   changed = output<boolean>();
 
-  /** Host Bindings */
+  /** Host Bindings & ARIA */
   @HostBinding('class.is-checked') get checkedClass() { return this.checked() && !this.indeterminate(); }
   @HostBinding('class.is-indeterminate') get indeterminateClass() { return this.indeterminate(); }
   @HostBinding('class.is-disabled') get disabledClass() { return this.disabled(); }
-  @HostBinding('class.has-label') get hasLabel() { return true; } // Always assume content for now
+  @HostBinding('class.has-label') get hasLabel() { return true; } 
+  @HostBinding('class.lg-focus-ring') readonly focusRingClass = true;
+  @HostBinding('attr.role') readonly role = 'checkbox';
+  @HostBinding('attr.aria-checked') get ariaChecked() { 
+    return this.indeterminate() ? 'mixed' : this.checked(); 
+  }
+  @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled(); }
+  @HostBinding('attr.tabindex') get tabIndex() { return this.disabled() ? -1 : 0; }
 
   /** CVA Callbacks */
   private onChange = (val: boolean) => {};
   private onTouched = () => {};
 
   @HostListener('click', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  @HostListener('keydown.enter', ['$event'])
   toggle(event?: Event) {
     if (this.disabled()) return;
     
