@@ -35,7 +35,7 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-               <div class="p-4 rounded-2xl bg-black/10 border border-white/5 space-y-4">
+               <div class="p-4 rounded-2xl bg-glass border border-glass-border space-y-4">
                   <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Base Variants</p>
                   <div class="flex flex-wrap gap-2">
                     <button lg-button variant="primary" size="sm">Primary</button>
@@ -43,7 +43,7 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
                     <button lg-button variant="ghost" size="sm">Ghost</button>
                   </div>
                </div>
-               <div class="p-4 rounded-2xl bg-black/10 border border-white/5 space-y-4">
+               <div class="p-4 rounded-2xl bg-glass border border-glass-border space-y-4">
                   <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Feedback States</p>
                   <div class="flex flex-wrap gap-2">
                     <button lg-button variant="primary" [isLoading]="true" size="sm"></button>
@@ -65,7 +65,7 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
               <h3 class="text-sm font-bold uppercase tracking-widest opacity-60">Data Entry & Composition</h3>
             </div>
 
-            <lg-glass-card class="!bg-black/20 !p-6 border-none shadow-none">
+            <lg-glass-card class="!p-6 border-none shadow-none">
               <div class="space-y-2">
                 
                 <!-- Grupos de Campos -->

@@ -23,6 +23,10 @@
   /* Semantic Colors */
   --lg-t-destructive: #ef4444;  /* Red 500 */
   --lg-t-destructive-rgb: 239, 68, 68;
+
+  /* Component Specific */
+  --lg-t-input-bg: rgba(0, 0, 0, 0.3);
+  --lg-t-input-border: rgba(255, 255, 255, 0.05);
 }
 
 /* Light Theme (Mejorado) */
@@ -44,6 +48,10 @@
   /* Semantic Colors */
   --lg-t-destructive: #dc2626;  /* Red 600 */
   --lg-t-destructive-rgb: 220, 38, 38;
+
+  /* Component Specific */
+  --lg-t-input-bg: rgba(0, 0, 0, 0.04);
+  --lg-t-input-border: rgba(0, 0, 0, 0.08);
 }
 
 /* Cyberpunk Theme (High Contrast Dark) */
@@ -65,6 +73,10 @@
   /* Semantic Colors */
   --lg-t-destructive: #f87171;  /* Red 400 */
   --lg-t-destructive-rgb: 248, 113, 113;
+
+  /* Component Specific */
+  --lg-t-input-bg: rgba(0, 0, 0, 0.3);
+  --lg-t-input-border: rgba(240, 171, 251, 0.1);
 }
 
 /* Emerald Theme (Organic Premium) */
@@ -86,4 +98,8 @@
   /* Semantic Colors */
   --lg-t-destructive: #fca5a5;  /* Red 300 (Soft contrast for emerald) */
   --lg-t-destructive-rgb: 252, 165, 165;
+
+  /* Component Specific */
+  --lg-t-input-bg: rgba(0, 0, 0, 0.2);
+  --lg-t-input-border: rgba(52, 211, 153, 0.1);
 }
