@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@liquid-glass-ui/angular": ["liquid-glass-ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

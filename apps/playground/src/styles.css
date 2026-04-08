@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+
+/* Escaneo explícito de archivos para Tailwind v4 en Nx */
+@source "./app/**/*.{html,ts}";
+@source "../../../libs/liquid-glass-ui/src/**/*.{html,ts}";

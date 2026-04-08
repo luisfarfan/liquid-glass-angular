@@ -1,0 +1,109 @@
+<div class="max-w-5xl mx-auto space-y-16 py-10 fade-in">
+  
+  <header class="space-y-4 border-b border-white/10 pb-8">
+     <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-neon-primary/10 text-neon-primary text-[10px] font-bold tracking-widest uppercase">Phase 6</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">Feedback Systems</span>
+    </div>
+    <h2 class="text-3xl font-black italic tracking-tighter">Liquid Toast Notifications</h2>
+    <p class="text-white/40 max-w-xl">Intelligent asynchronous feedback with Level 3 Glass depth and temporal progress indicators.</p>
+  </header>
+
+  <!-- Control Section -->
+  <section class="space-y-6">
+    <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40 text-center">Trigger Demos</h3>
+    <div class="glass-1 p-10 rounded-[3rem] shadow-inner flex flex-wrap gap-6 items-center justify-center bg-black/10 border-white/5">
+       <button onclick="spawnToast('success')" class="px-8 h-12 rounded-xl bg-green-500/10 border border-green-500/40 text-green-400 text-xs font-bold hover:bg-green-500/20 hover:-translate-y-1 transition-all">
+          Trigger Success
+       </button>
+       <button onclick="spawnToast('error')" class="px-8 h-12 rounded-xl bg-red-500/10 border border-red-500/40 text-red-500 text-xs font-bold hover:bg-red-500/20 hover:-translate-y-1 transition-all">
+          Trigger Error
+       </button>
+       <button onclick="spawnToast('info')" class="px-8 h-12 rounded-xl bg-neon-primary/10 border border-neon-primary/40 text-neon-primary text-xs font-bold hover:bg-neon-primary/20 hover:-translate-y-1 transition-all">
+          Trigger Info
+       </button>
+    </div>
+  </section>
+
+  <!-- Visual Blueprint -->
+  <section class="space-y-6">
+    <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Component Anatomy</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+       <div class="glass-3 p-6 rounded-[1.5rem] border border-white/10 flex items-start gap-5 shadow-[0_30px_60px_rgba(0,0,0,0.6)] relative overflow-hidden">
+          <div class="absolute bottom-0 left-0 h-1 bg-green-400 w-1/2 shadow-[0_0_10px_rgba(74,222,128,0.6)]"></div>
+          <div class="p-3 bg-green-500/20 rounded-2xl">
+             <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <div class="flex-1">
+             <p class="text-sm font-black text-white italic tracking-tight">Access Granted</p>
+             <p class="text-xs text-white/40 mt-1 leading-relaxed">Neural handshake complete. Shard-01 status: Shielded.</p>
+          </div>
+       </div>
+
+       <div class="glass-3 p-6 rounded-[1.5rem] border border-white/10 flex items-start gap-5 shadow-[0_30px_60px_rgba(0,0,0,0.6)] relative overflow-hidden">
+          <div class="absolute bottom-0 left-0 h-1 bg-neon-primary w-3/4 shadow-[0_0_10px_rgba(0,240,255,0.6)]"></div>
+          <div class="p-3 bg-neon-primary/20 rounded-2xl">
+              <svg class="w-6 h-6 text-neon-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="flex-1">
+             <p class="text-sm font-black text-white italic tracking-tight">Syncing Streams</p>
+             <p class="text-xs text-white/40 mt-1 leading-relaxed">Balancing load across 14 clusters. ETA: 8s.</p>
+          </div>
+       </div>
+    </div>
+  </section>
+
+  <!-- Global Toast Region -->
+  <div id="toast-region" class="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 w-96 pointer-events-none"></div>
+
+</div>
+
+<script>
+   function spawnToast(type) {
+      const region = document.getElementById('toast-region');
+      const toast = document.createElement('div');
+      
+      const config = {
+         success: { color: 'green-500', hex: '#4ade80', text: 'Operation Shielded', icon: 'M5 13l4 4L19 7' },
+         error: { color: 'red-500', hex: '#f87171', text: 'System Interrupted', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
+         info: { color: 'neon-primary', hex: '#00f0ff', text: 'Neural Advisory', icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
+      }[type];
+
+      const duration = 5000;
+      const isNeon = type === 'info';
+      const textColorClass = isNeon ? 'text-neon-primary' : `text-${config.color.replace('-500', '-400')}`;
+
+      toast.className = `glass-3 p-6 rounded-[1.5rem] border border-white/10 flex items-start gap-5 shadow-[0_40px_80px_rgba(0,0,0,0.8)] pointer-events-auto transition-all duration-500 transform translate-x-full opacity-0 relative overflow-hidden`;
+      
+      toast.innerHTML = `
+         <div class="absolute bottom-0 left-0 h-1 bg-${config.color} shadow-[0_0_10px_${config.hex}] transition-all ease-linear" style="width: 100%; transition-duration: ${duration}ms;" id="progress-bar"></div>
+         <div class="p-3 bg-${config.color}/10 rounded-2xl">
+            <svg class="w-6 h-6 ${textColorClass}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${config.icon}"/></svg>
+         </div>
+         <div class="flex-1">
+            <p class="text-sm font-black text-white italic tracking-tight">${config.text}</p>
+            <p class="text-xs text-white/40 mt-1 leading-relaxed">Liquid Glass Event Log: Validated.</p>
+         </div>
+         <button class="text-white/20 hover:text-white transition-colors" onclick="this.closest('.glass-3').remove()">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+         </button>
+      `;
+
+      region.appendChild(toast);
+
+      // Animation triggers
+      requestAnimationFrame(() => {
+         toast.classList.remove('translate-x-full', 'opacity-0');
+         setTimeout(() => {
+            toast.querySelector('#progress-bar').style.width = '0%';
+         }, 50);
+      });
+
+      // Auto Dismiss
+      setTimeout(() => {
+         toast.classList.add('translate-x-full', 'opacity-0');
+         setTimeout(() => toast.remove(), 500);
+      }, duration);
+   }
+</script>

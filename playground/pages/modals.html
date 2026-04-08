@@ -1,0 +1,137 @@
+<div class="max-w-5xl mx-auto space-y-16 py-10 fade-in">
+  
+  <header class="space-y-2 border-b border-white/10 pb-8">
+     <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 text-[10px] font-bold tracking-widest uppercase">Organism</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">Overlays</span>
+    </div>
+    <h2 class="text-3xl font-bold">Modals & Sheets</h2>
+    <p class="text-white/40">Critical task hijacked layers using Level 3 Glass and massive backdrop blurs.</p>
+  </header>
+
+  <!-- Trigger Section -->
+  <section class="space-y-6">
+    <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Interactive Overlay Demos</h3>
+    <div class="glass-1 p-10 rounded-2xl flex flex-wrap gap-6 items-center justify-center bg-black/10">
+       <button id="demo-modal-trigger" class="px-8 h-12 rounded-xl bg-neon-primary text-zinc-950 font-bold hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+          Open System Dialog (Z-50)
+       </button>
+       
+       <button id="demo-drawer-trigger" class="px-8 h-12 rounded-xl glass-2 border-white/10 text-white font-bold hover:bg-white/10 transition-all">
+          Open Right Drawer (Z-40)
+       </button>
+    </div>
+  </section>
+
+  <!-- Modal Component Blueprint (Hidden by default, used for clone) -->
+  <div id="modal-container" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 transition-all duration-300 opacity-0 pointer-events-none">
+     <div class="absolute inset-0 bg-black/60 backdrop-blur-md"></div>
+     <div class="glass-3 w-full max-w-xl rounded-3xl border border-white/10 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative transform scale-95 transition-transform duration-300">
+        <div class="p-6 border-b border-white/10 flex items-center justify-between">
+           <h4 class="text-xl font-bold">Configure Infrastructure</h4>
+           <button class="modal-close text-white/30 hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+           </button>
+        </div>
+        <div class="p-10 space-y-6">
+           <div class="space-y-2">
+              <label class="text-xs font-semibold text-white/40 px-1">Instance Namespace</label>
+              <input type="text" value="us-east-core-shard-01" class="w-full h-11 bg-black/40 border border-white/10 rounded-xl px-4 text-sm text-white focus:outline-none focus:border-neon-primary">
+           </div>
+           <p class="text-sm text-white/60 leading-relaxed">
+              Performing this action will temporarily disrupt telemetry for downstream nodes. Ensure you have synchronized all pending commits.
+           </p>
+        </div>
+        <div class="p-6 bg-black/40 border-t border-white/10 flex items-center justify-end gap-4">
+           <button class="modal-close px-6 h-10 rounded-lg text-sm font-semibold text-white/40 hover:text-white transition-colors">Cancel</button>
+           <button class="px-6 h-10 rounded-lg bg-neon-primary text-zinc-950 text-sm font-bold shadow-[0_0_15px_rgba(0,240,255,0.2)]">Provision Now</button>
+        </div>
+     </div>
+  </div>
+
+  <!-- Drawer Component Blueprint -->
+  <div id="drawer-container" class="hidden fixed inset-0 z-40 flex justify-end transition-all duration-300 opacity-0 pointer-events-none">
+     <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+     <div class="glass-2 w-full max-w-md h-full border-l border-white/10 shadow-2xl relative transform translate-x-full transition-transform duration-300">
+        <div class="p-8 h-full flex flex-col">
+           <div class="flex items-center justify-between mb-10">
+              <h4 class="text-2xl font-bold">Activity Logs</h4>
+              <button class="drawer-close text-white/30 hover:text-white transition-colors">
+                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+           </div>
+           <div class="flex-1 overflow-y-auto space-y-6 pr-2">
+              <div class="glass-1 p-4 rounded-xl border-white/5 space-y-2">
+                 <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-bold text-green-400 uppercase tracking-widest">System Update</span>
+                    <span class="text-[10px] text-white/20">2m ago</span>
+                 </div>
+                 <p class="text-sm">Kernel patch applied to us-west-2 cluster.</p>
+              </div>
+              <div class="glass-1 p-4 rounded-xl border-white/5 space-y-2 opacity-50">
+                <div class="flex justify-between items-center">
+                   <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">User Auth</span>
+                   <span class="text-[10px] text-white/20">14m ago</span>
+                </div>
+                <p class="text-sm">Login detected from 192.168.1.104</p>
+             </div>
+           </div>
+        </div>
+     </div>
+  </div>
+
+</div>
+
+<!-- Lab-specific script for these demos -->
+<script>
+   (function() {
+      const modal = document.getElementById('modal-container');
+      const drawer = document.getElementById('drawer-container');
+      
+      const openModalBtn = document.getElementById('demo-modal-trigger');
+      const openDrawerBtn = document.getElementById('demo-drawer-trigger');
+      
+      const closeModalBtns = document.querySelectorAll('.modal-close');
+      const closeDrawerBtns = document.querySelectorAll('.drawer-close');
+
+      openModalBtn.addEventListener('click', () => {
+         modal.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+         setTimeout(() => {
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            modal.querySelector('div:last-child').classList.remove('scale-95');
+            modal.querySelector('div:last-child').classList.add('scale-100');
+         }, 10);
+      });
+
+      openDrawerBtn.addEventListener('click', () => {
+         drawer.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+         setTimeout(() => {
+            drawer.classList.add('opacity-100', 'pointer-events-auto');
+            drawer.querySelector('div:last-child').classList.remove('translate-x-full');
+            drawer.querySelector('div:last-child').classList.add('translate-x-0');
+         }, 10);
+      });
+
+      const closeModal = () => {
+         modal.querySelector('div:last-child').classList.add('scale-95');
+         modal.querySelector('div:last-child').classList.remove('scale-100');
+         modal.classList.remove('opacity-100', 'pointer-events-auto');
+         setTimeout(() => {
+            modal.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+         }, 300);
+      };
+
+      const closeDrawer = () => {
+         drawer.querySelector('div:last-child').classList.add('translate-x-full');
+         drawer.querySelector('div:last-child').classList.remove('translate-x-0');
+         drawer.classList.remove('opacity-100', 'pointer-events-auto');
+         setTimeout(() => {
+            drawer.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+         }, 300);
+      };
+
+      closeModalBtns.forEach(btn => btn.addEventListener('click', closeModal));
+      closeDrawerBtns.forEach(btn => btn.addEventListener('click', closeDrawer));
+   })();
+</script>

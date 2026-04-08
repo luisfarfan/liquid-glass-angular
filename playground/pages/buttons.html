@@ -1,0 +1,107 @@
+<div class="max-w-5xl mx-auto space-y-16 py-10 fade-in">
+  
+  <header class="space-y-2 border-b border-white/10 pb-8">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-neon-primary/10 text-neon-primary text-[10px] font-bold tracking-widest uppercase">Atom</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">Atoms</span>
+    </div>
+    <h2 class="text-3xl font-bold">Buttons</h2>
+    <p class="text-white/40">Initiates an action, submits forms, or handles dialog invocations.</p>
+  </header>
+
+  <!-- Variants Section -->
+  <section class="space-y-10">
+    <div class="space-y-4">
+      <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Visual Variants</h3>
+      
+      <!-- Primary -->
+      <div class="space-y-4">
+        <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest">Primary (Neon Accent)</p>
+        <div class="glass-1 p-6 rounded-xl bg-black/20 flex flex-wrap gap-6 items-center">
+          <button class="px-6 h-10 rounded-lg bg-neon-primary text-zinc-950 font-semibold text-sm transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,240,255,0.3)] neon-focus">
+            Confirm Action
+          </button>
+          <button class="px-6 h-10 rounded-lg border border-neon-primary text-neon-primary font-semibold text-sm transition-all hover:bg-neon-primary/10 active:scale-95 shadow-[0_0_15px_rgba(0,240,255,0.1)] neon-focus">
+            Outline Primary
+          </button>
+        </div>
+      </div>
+
+      <!-- Secondary / Glass -->
+      <div class="space-y-4">
+        <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest">Secondary / Glass Levels</p>
+        <div class="glass-1 p-6 rounded-xl bg-black/20 flex flex-wrap gap-6 items-center">
+          <button class="px-6 h-10 rounded-lg glass-2 text-white font-medium text-sm transition-all hover:bg-white/10 active:scale-95 neon-focus">
+            Glass Secondary
+          </button>
+          <button class="px-6 h-10 rounded-lg bg-white/5 border border-white/10 text-white/60 font-medium text-sm transition-all hover:text-white hover:bg-white/10 active:scale-95 neon-focus">
+             Muted Ghost
+          </button>
+        </div>
+      </div>
+
+      <!-- Destructive -->
+      <div class="space-y-4">
+        <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest">Destructive</p>
+        <div class="glass-1 p-6 rounded-xl bg-black/20 flex flex-wrap gap-6 items-center">
+          <button class="px-6 h-10 rounded-lg bg-red-500/10 border border-red-500/50 text-red-500 font-semibold text-sm transition-all hover:bg-red-500/20 active:scale-95 neon-focus">
+            Delete Record
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sizes Section -->
+  <section class="space-y-6">
+    <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Sizing Scale</h3>
+    <div class="glass-1 p-8 rounded-xl bg-black/20 flex flex-wrap items-end gap-8">
+      <div class="text-center space-y-3">
+        <button class="px-4 h-8 rounded-md glass-2 text-xs font-semibold">Small</button>
+        <p class="text-[10px] text-white/20 font-mono italic">h-8 (32px)</p>
+      </div>
+      <div class="text-center space-y-3">
+        <button class="px-6 h-10 rounded-lg glass-2 text-sm font-semibold">Medium</button>
+        <p class="text-[10px] text-white/20 font-mono italic">h-10 (40px)</p>
+      </div>
+      <div class="text-center space-y-3">
+        <button class="px-8 h-12 rounded-xl glass-2 text-base font-semibold">Large</button>
+        <p class="text-[10px] text-white/20 font-mono italic">h-12 (48px)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Lab -->
+  <section class="space-y-6">
+    <header>
+       <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">States Lab</h3>
+       <p class="text-xs text-white/20 mt-1">Simulating component behavior under different conditions.</p>
+    </header>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest">Loading State</p>
+        <div class="glass-1 p-10 rounded-xl flex items-center justify-center">
+            <button class="px-6 h-10 rounded-lg bg-neon-primary text-zinc-950 font-semibold text-sm opacity-70 cursor-wait flex items-center gap-3">
+               <svg class="animate-spin h-4 w-4 text-zinc-950" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+               </svg>
+               Processing...
+            </button>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest">Disabled State</p>
+        <div class="glass-1 p-10 rounded-xl flex items-center justify-center">
+            <button disabled class="px-6 h-10 rounded-lg bg-white/5 border border-white/5 text-white/20 font-semibold text-sm cursor-not-allowed">
+               Locked Action
+            </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

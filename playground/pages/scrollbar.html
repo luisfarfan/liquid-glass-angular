@@ -1,0 +1,72 @@
+<div class="max-w-5xl mx-auto space-y-16 py-10 fade-in">
+  
+  <header class="space-y-2 border-b border-white/10 pb-8">
+     <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 text-[10px] font-bold tracking-widest uppercase">Atom</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">Utilities</span>
+    </div>
+    <h2 class="text-3xl font-bold">Scrollbar Customization</h2>
+    <p class="text-white/40">Liquid Glass indicator for consistent, high-fidelity scrolling interactions.</p>
+  </header>
+
+  <!-- Visual Demo Section -->
+  <section class="space-y-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+       
+       <!-- Vertical Scroll Demo -->
+       <div class="space-y-4">
+          <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Vertical Scrollbar</h3>
+          <div class="glass-2 rounded-2xl border border-white/5 h-80 overflow-y-auto p-8 custom-scrollbar bg-black/20">
+             <div class="space-y-6">
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 01</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 02</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 03</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 04</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold text-neon-primary">Hover to find me!</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 06</div>
+                <div class="h-20 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs text-white/20 uppercase tracking-widest font-bold">Item 07</div>
+             </div>
+          </div>
+          <p class="text-[10px] text-white/20 px-2 italic">Minimalist 4px width ensures no visual occlusion of background orbs.</p>
+       </div>
+
+       <!-- Interaction Logic Info -->
+       <div class="space-y-6">
+          <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Interaction Logic</h3>
+          <div class="glass-1 p-8 rounded-2xl border-white/5 space-y-6 bg-black/10">
+             <div class="flex items-start gap-4">
+                <div class="w-2 h-8 rounded-full bg-white/5 mt-1 border border-white/5"></div>
+                <div>
+                   <p class="text-sm font-bold text-white">Idle State</p>
+                   <p class="text-xs text-white/40 leading-relaxed mt-1">The thumb remains at 5% opacity, blending naturally into the layout without creating focal distractions.</p>
+                </div>
+             </div>
+             
+             <div class="flex items-start gap-4">
+                <div class="w-2 h-8 rounded-full bg-neon-primary/40 mt-1 border border-neon-primary/20 shadow-[0_0_8px_rgba(0,240,255,0.4)] transition-all"></div>
+                <div>
+                   <p class="text-sm font-bold text-neon-primary">Active/Hover State</p>
+                   <p class="text-xs text-white/40 leading-relaxed mt-1">When targeted, the thumb transforms into a neon indicator, providing clear affordance of the scrollable region.</p>
+                </div>
+             </div>
+          </div>
+       </div>
+
+    </div>
+  </section>
+
+  <!-- Technical Snippet -->
+  <section class="space-y-6">
+     <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Implementation Reference</h3>
+     <div class="glass-1 p-6 rounded-xl bg-black/40 border border-white/5">
+        <p class="text-xs text-white/40 mb-4 uppercase tracking-widest font-bold">Recommended HTML Structure</p>
+        <code class="text-[12px] font-mono text-neon-primary/80">
+          &lt;aside class="overflow-y-auto <span class="text-white font-bold">custom-scrollbar</span>"&gt;<br>
+          &nbsp;&nbsp;&lt;!-- Scrollable content --&gt;<br>
+          &lt;/aside&gt;
+        </code>
+     </div>
+  </section>
+
+</div>

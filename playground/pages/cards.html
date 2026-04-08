@@ -1,0 +1,121 @@
+<div class="max-w-7xl mx-auto space-y-16 py-10 fade-in px-4">
+  
+  <header class="space-y-2 border-b border-white/10 pb-8">
+     <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-neon-primary/10 text-neon-primary text-[10px] font-bold tracking-widest uppercase">Organism</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">Layout Systems</span>
+    </div>
+    <h2 class="text-3xl font-bold italic tracking-tight">Bento Dashboard Grid</h2>
+    <p class="text-white/40">Asymmetric data distribution with hierarchical glass layering.</p>
+  </header>
+
+  <!-- Bento Grid Container -->
+  <section class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 min-h-[600px]">
+    
+    <!-- Heavy Metric (Main Hero) -->
+    <div class="md:col-span-2 md:row-span-2 glass-2 p-10 rounded-[2.5rem] border-white/5 relative overflow-hidden group flex flex-col justify-between">
+       <!-- Dynamic Glow -->
+       <div class="absolute -right-20 -top-20 w-64 h-64 bg-neon-primary/10 blur-[80px] rounded-full group-hover:bg-neon-primary/20 transition-all duration-700"></div>
+       
+       <div class="z-10">
+          <div class="flex items-center gap-4 mb-8">
+             <div class="w-12 h-12 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center shadow-inner">
+                <svg class="w-6 h-6 text-neon-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+             </div>
+             <div>
+                <h3 class="text-xl font-bold">Neural Core Status</h3>
+                <p class="text-xs text-white/40 uppercase tracking-widest font-bold">Real-time processing</p>
+             </div>
+          </div>
+
+          <div class="space-y-4">
+             <div class="flex items-baseline gap-2">
+                <span class="text-6xl font-black tracking-tighter text-white">98.4</span>
+                <span class="text-xl font-bold text-neon-primary">%</span>
+             </div>
+             <p class="text-sm text-white/30 max-w-xs leading-relaxed">System performance is optimal across all clusters. Neural sync is at peak efficiency with zero dropped packets.</p>
+          </div>
+       </div>
+
+       <!-- Sparkline Placeholder -->
+       <div class="z-10 mt-10 h-32 flex items-end gap-1.5 translate-y-4">
+          <div class="flex-1 bg-white/5 h-[30%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-white/5 h-[50%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-white/5 h-[45%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-white/5 h-[60%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-white/5 h-[80%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-neon-primary shadow-[0_0_20px_rgba(0,240,255,0.4)] h-[95%] rounded-t-lg"></div>
+          <div class="flex-1 bg-white/5 h-[70%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+          <div class="flex-1 bg-white/5 h-[55%] rounded-t-lg transition-all hover:bg-neon-primary/20"></div>
+       </div>
+    </div>
+
+    <!-- Quick Stat 1 -->
+    <div class="glass-2 p-8 rounded-[2rem] border-white/5 flex flex-col justify-center relative overflow-hidden group">
+       <p class="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Active Nodes</p>
+       <h4 class="text-4xl font-bold tracking-tight">1,204</h4>
+       <div class="mt-4 flex items-center gap-2">
+          <span class="text-[10px] font-bold text-green-400 bg-green-400/10 px-1.5 py-0.5 rounded">+12.4%</span>
+          <span class="text-[10px] text-white/20">this hour</span>
+       </div>
+    </div>
+
+    <!-- Quick Stat 2 -->
+    <div class="glass-1 p-8 rounded-[2rem] border-white/5 flex flex-col justify-center border-dashed">
+       <p class="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Queue Delay</p>
+       <h4 class="text-4xl font-bold tracking-tight">14<span class="text-lg text-white/40 ml-1">ms</span></h4>
+       <div class="mt-4 flex items-center gap-2">
+          <span class="text-[10px] font-bold text-neon-primary bg-neon-primary/10 px-1.5 py-0.5 rounded">Stable</span>
+       </div>
+    </div>
+
+    <!-- Wide News/Alert Feed -->
+    <div class="md:col-span-2 glass-1 p-8 rounded-[2rem] border-white/5 flex flex-col justify-between">
+       <div class="flex justify-between items-center mb-6">
+          <h4 class="text-sm font-bold uppercase tracking-widest text-white/60">Live Event Feed</h4>
+          <button class="p-2 rounded-lg bg-white/5 text-white/40 hover:text-neon-primary transition-colors">
+             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+          </button>
+       </div>
+       
+       <div class="space-y-4">
+          <div class="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+             <div class="w-2 h-2 rounded-full bg-neon-primary shadow-[0_0_5px_rgba(0,240,255,1)]"></div>
+             <p class="text-xs font-medium">Security gateway: Auth request from IP 192.168.1.1</p>
+             <span class="text-[10px] text-white/20 ml-auto">2m ago</span>
+          </div>
+          <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer">
+             <div class="w-2 h-2 rounded-full bg-white/20 group-hover:bg-neon-primary transition-colors"></div>
+             <p class="text-xs text-white/40 group-hover:text-white transition-colors">Cluster B-14 automated health check complete</p>
+             <span class="text-[10px] text-white/20 ml-auto">12m ago</span>
+          </div>
+       </div>
+    </div>
+
+  </section>
+
+  <!-- Horizontal Variant -->
+  <section class="space-y-6">
+    <h3 class="text-xs uppercase tracking-[0.2em] font-bold text-white/40">Grid Flow Flexibility</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <div class="glass-1 p-8 rounded-[2rem] h-48 flex items-center gap-6">
+          <div class="w-16 h-16 rounded-full border-4 border-neon-primary/20 border-t-neon-primary animate-spin"></div>
+          <div>
+             <h4 class="font-bold">Encryption</h4>
+             <p class="text-xs text-white/40">Securing data tunnels...</p>
+          </div>
+       </div>
+       <div class="md:col-span-2 glass-2 p-8 rounded-[2rem] h-48 relative overflow-hidden flex items-center">
+          <div class="absolute inset-0 bg-gradient-to-r from-neon-primary/10 to-transparent"></div>
+          <div class="z-10 flex flex-col justify-center">
+             <h4 class="text-2xl font-bold mb-2">Global Content Delivery</h4>
+             <p class="text-sm text-white/40 max-w-md">Our edge nodes are now serving content from 12 new regions including Tokyo and Singapore.</p>
+          </div>
+       </div>
+    </div>
+  </section>
+
+</div>
+
+</div>

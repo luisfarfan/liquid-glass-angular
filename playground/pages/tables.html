@@ -1,0 +1,162 @@
+<div class="max-w-7xl mx-auto space-y-20 py-10 fade-in px-4">
+  
+  <header class="space-y-4 border-b border-white/10 pb-8">
+     <div class="flex items-center gap-3 mb-2">
+      <span class="px-2 py-0.5 rounded bg-neon-primary/10 text-neon-primary text-[10px] font-bold tracking-widest uppercase">Phase 6</span>
+      <span class="text-white/20">/</span>
+      <span class="text-white/60 text-xs">High Density Organisms</span>
+    </div>
+    <h2 class="text-3xl font-black italic tracking-tighter">System Telemetry & Data</h2>
+    <p class="text-white/40 max-w-2xl leading-relaxed">Advanced grid architecture supporting sticky frosted headers, real-time status indicators, and row-level micro-actions.</p>
+  </header>
+
+  <!-- Live Data Table -->
+  <section class="space-y-8">
+    <div class="flex items-center justify-between mb-2">
+       <h3 class="text-xs uppercase tracking-[0.3em] font-bold text-white/30">Primary Infrastructure Pool</h3>
+       <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+          <span class="text-[10px] text-green-400 font-bold uppercase tracking-wider">Live Feed</span>
+       </div>
+    </div>
+
+    <!-- Table Container with fixed height for sticky header demo -->
+    <div class="glass-1 rounded-[2.5rem] border-white/5 overflow-hidden shadow-2xl">
+       <div class="max-h-[500px] overflow-y-auto custom-scrollbar relative">
+          <table class="w-full text-left border-collapse">
+             <thead>
+                <tr class="sticky top-0 z-20">
+                   <!-- Frozen Glass Header -->
+                   <th class="p-5 px-8 text-[10px] uppercase tracking-widest font-black text-white/60 bg-black/40 backdrop-blur-xl border-b border-white/10">Node</th>
+                   <th class="p-5 px-8 text-[10px] uppercase tracking-widest font-black text-white/60 bg-black/40 backdrop-blur-xl border-b border-white/10">Security Status</th>
+                   <th class="p-5 px-8 text-[10px] uppercase tracking-widest font-black text-white/60 bg-black/40 backdrop-blur-xl border-b border-white/10">Load Efficiency</th>
+                   <th class="p-5 px-8 text-[10px] uppercase tracking-widest font-black text-white/60 bg-black/40 backdrop-blur-xl border-b border-white/10">Encryption</th>
+                   <th class="p-5 px-8 text-[10px] uppercase tracking-widest font-black text-white/60 bg-black/40 backdrop-blur-xl border-b border-white/10 text-right">Actions</th>
+                </tr>
+             </thead>
+             <tbody class="divide-y divide-white/5">
+                <!-- Row 1 -->
+                <tr class="hover:bg-white/5 transition-all duration-300 group">
+                   <td class="p-6 px-8">
+                      <div class="flex items-center gap-4">
+                         <div class="w-10 h-10 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center group-hover:border-neon-primary/50 transition-colors shadow-inner">
+                            <span class="text-xs font-bold text-neon-primary">01</span>
+                         </div>
+                         <div>
+                            <p class="text-sm font-bold text-white">orbital-sync-alpha</p>
+                            <p class="text-[10px] text-white/20 uppercase tracking-tighter">Cluster: LEO-PRIMARY</p>
+                         </div>
+                      </div>
+                   </td>
+                   <td class="p-6 px-8">
+                      <div class="flex items-center gap-2">
+                         <div class="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                         <span class="text-xs font-medium text-white/80">Shielded</span>
+                      </div>
+                   </td>
+                   <td class="p-6 px-8">
+                      <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden max-w-[100px]">
+                         <div class="h-full bg-neon-primary w-[85%] shadow-[0_0_8px_rgba(0,240,255,0.4)]"></div>
+                      </div>
+                   </td>
+                   <td class="p-6 px-8">
+                      <span class="text-[10px] font-mono text-white/40 bg-white/5 px-2 py-1 rounded">AES-256-GCM</span>
+                   </td>
+                   <td class="p-6 px-8 text-right">
+                      <div class="flex items-center justify-end gap-2">
+                         <button class="p-2 rounded-lg bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                         </button>
+                         <button class="p-2 rounded-lg bg-white/5 text-white/40 hover:text-neon-primary hover:bg-neon-primary/10 transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+                         </button>
+                      </div>
+                   </td>
+                </tr>
+                <!-- Repeat Rows for scrolling effect -->
+                <tr class="hover:bg-white/5 transition-all duration-300 group">
+                   <td class="p-6 px-8"><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center text-xs font-bold">02</div><div><p class="text-sm font-bold">deep-space-relay</p><p class="text-[10px] text-white/20 uppercase">Cluster: DEEP-6</p></div></div></td>
+                   <td class="p-6 px-8"><div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div><span class="text-xs font-medium text-white/80">Bypassed</span></div></td>
+                   <td class="p-6 px-8"><div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden max-w-[100px]"><div class="h-full bg-amber-400 w-[42%]"></div></div></td>
+                   <td class="p-6 px-8"><span class="text-[10px] font-mono text-white/40 bg-white/5 px-2 py-1 rounded">XOR-SHIFT</span></td>
+                   <td class="p-6 px-8 text-right"><div class="flex items-center justify-end gap-2"><button class="p-2 rounded-lg bg-white/5 text-white/40 hover:text-white">...</button></div></td>
+                </tr>
+                <!-- Dynamic Rows generation placeholder -->
+                <tr class="hover:bg-white/5 transition-all duration-300 group" v-for="i in 10">
+                   <td class="p-6 px-8"><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center text-xs font-bold text-white/20 italic">ID</div><div><p class="text-sm font-bold text-white/20">Additional Scrolled Data...</p></div></div></td>
+                   <td class="p-6 px-8"><span class="text-xs text-white/10 italic">Scroll to test sticky header</span></td>
+                   <td class="p-6 px-8"><div class="w-24 h-1.5 bg-white/5 rounded-full"></div></td>
+                   <td class="p-6 px-8"></td>
+                   <td class="p-6 px-8"></td>
+                </tr>
+                <tr class="hover:bg-white/5 transition-all duration-300 group" v-for="i in 10">
+                   <td class="p-6 px-8"><div class="flex items-center gap-4"><div class="w-10 h-10 rounded-2xl bg-black/60 border border-white/10 flex items-center justify-center text-xs font-bold text-white/20 italic">ID</div><div><p class="text-sm font-bold text-white/20">Additional Scrolled Data...</p></div></div></td>
+                   <td class="p-6 px-8"><span class="text-xs text-white/10 italic">Scroll to test sticky header</span></td>
+                   <td class="p-6 px-8"><div class="w-24 h-1.5 bg-white/5 rounded-full"></div></td>
+                   <td class="p-6 px-8"></td>
+                   <td class="p-6 px-8"></td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+    </div>
+  </section>
+
+  <!-- Skeleton / Loading State Section -->
+  <section class="space-y-8">
+     <h3 class="text-xs uppercase tracking-[0.3em] font-bold text-white/30">System Initialization (Loading Preview)</h3>
+     <div class="glass-1 rounded-[2.5rem] border-white/5 overflow-hidden border-dashed">
+        <table class="w-full text-left">
+           <thead>
+              <tr class="border-b border-white/5 bg-white/5">
+                 <th class="p-5 px-8 text-[10px] text-white/20 uppercase font-black">Scanning...</th>
+                 <th class="p-5 px-8 text-[10px] text-white/20 uppercase font-black">Status</th>
+                 <th class="p-5 px-8 text-[10px] text-white/20 uppercase font-black">Region</th>
+              </tr>
+           </thead>
+           <tbody>
+              <tr class="border-b border-white/5 animate-shimmer">
+                 <td class="p-6 px-8"><div class="flex items-center gap-4 text-white/5"><div class="w-10 h-10 rounded-2xl bg-white/5 shimmer"></div><div class="space-y-2"><div class="w-32 h-4 bg-white/5 rounded shimmer"></div><div class="w-20 h-2 bg-white/5 rounded shimmer"></div></div></div></td>
+                 <td class="p-6 px-8"><div class="w-24 h-6 bg-white/5 rounded-full shimmer"></div></td>
+                 <td class="p-6 px-8"><div class="w-40 h-4 bg-white/5 rounded shimmer"></div></td>
+              </tr>
+              <tr class="border-b border-white/5 animate-shimmer">
+                 <td class="p-6 px-8"><div class="flex items-center gap-4 text-white/5"><div class="w-10 h-10 rounded-2xl bg-white/5 shimmer"></div><div class="space-y-2"><div class="w-32 h-4 bg-white/5 rounded shimmer"></div><div class="w-20 h-2 bg-white/5 rounded shimmer"></div></div></div></td>
+                 <td class="p-6 px-8"><div class="w-24 h-6 bg-white/5 rounded-full shimmer"></div></td>
+                 <td class="p-6 px-8"><div class="w-40 h-4 bg-white/5 rounded shimmer"></div></td>
+              </tr>
+           </tbody>
+        </table>
+     </div>
+  </section>
+
+</div>
+
+<style>
+  /* Local Simulation of Shimmer Effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+  
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+    animation: shimmer-anim 2s infinite;
+  }
+
+  @keyframes shimmer-anim {
+    100% { transform: translateX(100%); }
+  }
+</style>
+
+</div>
