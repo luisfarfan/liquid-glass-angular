@@ -1,9 +1,14 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent } from '@liquid-glass-ui/angular';
+import { RadioGroupComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-group.component';
+import { RadioButtonComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-button.component';
+import { SelectComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select.component';
+import { SelectOptionComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select-option.component';
+import { TextareaComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/textarea/textarea.component';
 
 @Component({
-  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent],
+  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
@@ -129,6 +134,60 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
                      <i lg-icon-left class="ri-error-warning-line"></i>
                    </lg-input>
                 </lg-form-field>
+
+                <lg-form-field [cols]="1" hint="Selección Premium (CDK Overlay)">
+                  <lg-select label="País de Residencia" placeholder="Selecciona tu país">
+                    <lg-option value="es" label="España"></lg-option>
+                    <lg-option value="mx" label="México"></lg-option>
+                    <lg-option value="us" label="Estados Unidos"></lg-option>
+                    <lg-option value="ar" label="Argentina"></lg-option>
+                  </lg-select>
+                </lg-form-field>
+
+                <lg-form-field [cols]="1" hint="Modo Multi-Select (Crystals)">
+                  <lg-select label="Habilidades Técnicas" [multiple]="true" placeholder="Elige tus skills">
+                    <lg-option value="angular" label="Angular 21"></lg-option>
+                    <lg-option value="nx" label="Nx Monorepo"></lg-option>
+                    <lg-option value="tailwind" label="Tailwind v4"></lg-option>
+                    <lg-option value="signals" label="Signals"></lg-option>
+                  </lg-select>
+                </lg-form-field>
+
+                <lg-form-field [cols]="1" hint="Buscable con Iconos">
+                  <lg-select label="Tipo de Cuenta" [searchable]="true" placeholder="Busca un plan...">
+                    <lg-option value="starter" label="Starter Plan">
+                      <i lg-icon-left class="ri-seedling-line"></i>
+                    </lg-option>
+                    <lg-option value="pro" label="Professional">
+                      <i lg-icon-left class="ri-rocket-line"></i>
+                    </lg-option>
+                    <lg-option value="enterprise" label="Enterprise">
+                      <i lg-icon-left class="ri-building-line"></i>
+                    </lg-option>
+                  </lg-select>
+                </lg-form-field>
+
+                <!-- Textarea Showcase -->
+                <div class="pt-6 border-t border-glass-border/30 mt-6">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-4">Multi-line Glass Etching (Autosize)</p>
+                  <lg-form-field [cols]="1">
+                    <lg-textarea 
+                      label="Comentarios del Proyecto" 
+                      placeholder="Describe los requerimientos detallados..."
+                      [maxChars]="200"
+                      [autosize]="true">
+                    </lg-textarea>
+                  </lg-form-field>
+                  
+                  <lg-form-field [cols]="1" class="mt-4">
+                    <lg-textarea 
+                      label="Mensaje de Error (Prueba)" 
+                      placeholder="Campo con error para validar UI..."
+                      error="Este es un mensaje de error táctil neón."
+                      [maxChars]="100">
+                    </lg-textarea>
+                  </lg-form-field>
+                </div>
               </div>
             </lg-glass-card>
           </section>
@@ -161,6 +220,28 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
             <p class="text-[10px] text-zinc-500 italic px-2">
               Nota: Usa la tecla TAB para verificar que los elementos deshabilitados son ignorados y los activos tienen anillos de enfoque.
             </p>
+            <!-- Selection: Radio Systems -->
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+               <span class="p-1 rounded bg-primary/20 text-primary">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+               </span>
+               <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Selection: Radio Systems (Neon Ignition)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+               <!-- Standard Group -->
+               <div class="p-6 rounded-2xl bg-glass border border-glass-border space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Standard Mode</p>
+                  <lg-radio-group [value]="'opt1'">
+                     <div class="flex flex-col gap-3">
+                        <lg-radio-button value="opt1">Option One (Primary)</lg-radio-button>
+                        <lg-radio-button value="opt2" color="#f43f5e">Option Two (Rose)</lg-radio-button>
+                        <lg-radio-button value="opt3" color="#10b981" labelPosition="before">Option Three (Emerald)</lg-radio-button>
+                        <lg-radio-button value="opt4" [disabled]="true">Option Four (Disabled)</lg-radio-button>
+                     </div>
+                  </lg-radio-group>
+               </div>
+            </div>
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">

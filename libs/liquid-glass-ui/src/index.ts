@@ -6,6 +6,12 @@ export * from './lib/components/input/input.component';
 export * from './lib/components/form-field/form-field.component';
 export * from './lib/components/toggle/toggle.component';
 export * from './lib/components/checkbox/checkbox.component';
+export * from './lib/components/select/select.component';
+export * from './lib/components/select/select-option.component';
+export * from './lib/components/textarea/textarea.component';
+export * from './lib/components/select/select.types';
+export * from './lib/components/radio/radio-group.component';
+export * from './lib/components/radio/radio-button.component';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego
