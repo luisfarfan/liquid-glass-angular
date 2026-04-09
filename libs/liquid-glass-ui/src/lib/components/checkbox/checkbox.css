@@ -1,7 +1,7 @@
 /* Checkbox Component Specific Styles */
 
-:host {
-  display: inline-flex;
+lg-checkbox {
+  display: inline-flex !important;
   align-items: center;
   cursor: pointer;
   user-select: none;
@@ -9,7 +9,16 @@
   transition: opacity 0.2s var(--lg-ease-out);
 }
 
-:host(.is-disabled) {
+lg-checkbox.label-before {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+lg-checkbox.label-after {
+  flex-direction: row;
+}
+
+lg-checkbox.is-disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

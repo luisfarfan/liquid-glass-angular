@@ -10,11 +10,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     <div class="lg-toggle-track" [class.is-checked]="checked()">
       <div class="lg-toggle-thumb"></div>
     </div>
-    @if (label()) {
-      <span class="lg-toggle-label">
-        <ng-content></ng-content>
-      </span>
-    }
+    <span class="lg-toggle-label">
+      {{ label() }}
+      <ng-content></ng-content>
+    </span>
   `,
   styleUrl: './toggle.css',
   encapsulation: ViewEncapsulation.None,
@@ -31,6 +30,7 @@ export class ToggleComponent implements ControlValueAccessor {
   /** Inputs & Signals */
   checked = model<boolean>(false);
   label = input<string>('');
+  labelPosition = input<'before' | 'after'>('after');
   size = input<'sm' | 'md'>('md');
   enableHaptics = input<boolean>(true);
   disabled = model<boolean>(false);
@@ -46,6 +46,8 @@ export class ToggleComponent implements ControlValueAccessor {
   @HostBinding('attr.aria-checked') get ariaChecked() { return this.checked(); }
   @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled(); }
   @HostBinding('attr.tabindex') get tabIndex() { return this.disabled() ? -1 : 0; }
+  @HostBinding('class.label-before') get isLabelBefore() { return this.labelPosition() === 'before'; }
+  @HostBinding('class.label-after') get isLabelAfter() { return this.labelPosition() === 'after'; }
 
   /** CVA Callbacks */
   private onChange = (val: boolean) => {};

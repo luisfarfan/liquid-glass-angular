@@ -23,6 +23,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     </div>
     
     <span class="lg-checkbox-label" (click)="toggle($event)">
+      {{ label() }}
       <ng-content></ng-content>
     </span>
   `,
@@ -42,6 +43,7 @@ export class CheckboxComponent implements ControlValueAccessor {
   checked = model<boolean>(false);
   indeterminate = model<boolean>(false);
   label = input<string>('');
+  labelPosition = input<'before' | 'after'>('after');
   disabled = model<boolean>(false);
   enableHaptics = input<boolean>(true);
 
@@ -60,6 +62,8 @@ export class CheckboxComponent implements ControlValueAccessor {
   }
   @HostBinding('attr.aria-disabled') get ariaDisabled() { return this.disabled(); }
   @HostBinding('attr.tabindex') get tabIndex() { return this.disabled() ? -1 : 0; }
+  @HostBinding('class.label-before') get isLabelBefore() { return this.labelPosition() === 'before'; }
+  @HostBinding('class.label-after') get isLabelAfter() { return this.labelPosition() === 'after'; }
 
   /** CVA Callbacks */
   private onChange = (val: boolean) => {};

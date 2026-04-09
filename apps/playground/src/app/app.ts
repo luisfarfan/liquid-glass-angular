@@ -150,12 +150,12 @@ import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, Form
                   <lg-input [disabled]="true" placeholder="No Editable" size="sm"></lg-input>
                </div>
                <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3 flex flex-col justify-between">
-                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Toggle</p>
-                  <lg-toggle [disabled]="true" [checked]="true">Fixed Toggle</lg-toggle>
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Toggle (Before)</p>
+                  <lg-toggle [checked]="true" labelPosition="before">Status: Active</lg-toggle>
                </div>
                <div class="p-4 rounded-xl bg-glass border border-glass-border space-y-3 flex flex-col justify-between">
-                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Checkbox</p>
-                  <lg-checkbox [disabled]="true" [checked]="true">Fixed Check</lg-checkbox>
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">A11y Checkbox (Before)</p>
+                  <lg-checkbox [checked]="true" labelPosition="before">I Agree</lg-checkbox>
                </div>
             </div>
             <p class="text-[10px] text-zinc-500 italic px-2">
