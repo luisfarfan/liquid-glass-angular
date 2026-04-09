@@ -1,15 +1,18 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent } from '@liquid-glass-ui/angular';
+import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent } from '@liquid-glass-ui/angular';
 import { RadioGroupComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-group.component';
 import { RadioButtonComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-button.component';
 import { SelectComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select.component';
 import { SelectOptionComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select-option.component';
 import { TextareaComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/textarea/textarea.component';
 import { BadgeComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/badge/badge.component';
+import { LiquidModalService } from '../../../../libs/liquid-glass-ui/src/lib/components/modal/modal.service';
+import { LiquidToastService } from '../../../../libs/liquid-glass-ui/src/lib/components/toast/toast.service';
+import { DemoModalComponent } from './components/demo-modal.component';
 
 @Component({
-  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent, BadgeComponent],
+  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent, BadgeComponent, GlassSkeletonComponent],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
@@ -252,6 +255,114 @@ import { BadgeComponent } from '../../../../libs/liquid-glass-ui/src/lib/compone
               </div>
             </div>
 
+            <!-- SECCIÓN DIÁLOGOS (Modal System) -->
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-window-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Cinematic Dialogs & Animations</h3>
+            </div>
+            
+            <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+               <!-- Animaciones Seleccionables -->
+               <div class="space-y-4">
+                 <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Select Animation Profile</p>
+                 <div class="flex flex-wrap gap-3">
+                    <button lg-button variant="primary" size="sm" (click)="openModal('cinema')">Cinema (Default)</button>
+                    <button lg-button variant="secondary" size="sm" (click)="openModal('glass')">Glass Crystallize</button>
+                    <button lg-button variant="ghost" size="sm" (click)="openModal('zoom')">Zoom Focus</button>
+                    <button lg-button variant="ghost" size="sm" (click)="openModal('void')">Void Appear</button>
+                    <button lg-button variant="ghost" size="sm" (click)="openModal('slide')">Minimal Slide</button>
+                 </div>
+               </div>
+
+               <div class="p-4 rounded-xl bg-glass border border-glass-border/30 space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Structural Composition</p>
+                  <p class="text-xs opacity-60">Usa lg-modal-header, lg-modal-content y lg-modal-footer para una estructura impecable.</p>
+                  <button lg-button variant="primary" size="sm" class="w-full" (click)="openModal('cinema', true)">
+                     Abrir Workstation Config (Stacked)
+                  </button>
+               </div>
+               
+               <p class="text-[10px] text-zinc-500 italic px-2">
+                 Nota: En móviles, todas las animaciones se transforman en una hoja inferior (Bottom-Sheet) ergonómica.
+               </p>
+            </div>
+
+            <!-- SECCIÓN NOTIFICACIONES (Toast System) -->
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-notification-3-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Global Notifications (Glass Toast)</h3>
+            </div>
+            
+            <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+               <div class="space-y-4">
+                 <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Semantic Variants (Neon Progress)</p>
+                 <div class="flex flex-wrap gap-3">
+                    <button lg-button variant="primary" size="sm" (click)="showToast('success')">Show Success</button>
+                    <button lg-button variant="destructive" size="sm" (click)="showToast('error')">Show Error</button>
+                    <button lg-button variant="secondary" size="sm" (click)="showToast('info')">Show Info</button>
+                    <button lg-button variant="ghost" size="sm" (click)="showToast('custom')">Custom (Long Duration)</button>
+                 </div>
+               </div>
+               
+               <div class="pt-4 border-t border-glass-border/30 space-y-4 text-center sm:text-left">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest text-left">Positioning System</p>
+                  <div class="grid grid-cols-3 gap-2 w-full max-w-[280px] mx-auto sm:mx-0">
+                     <button lg-button variant="ghost" size="sm" (click)="showToast('pos', {v: 'top', h: 'left'})" title="Top Left"><i class="ri-arrow-left-up-line"></i></button>
+                     <button lg-button variant="secondary" size="sm" (click)="showToast('pos', {v: 'top', h: 'center'})" title="Top Center"><i class="ri-arrow-up-line"></i></button>
+                     <button lg-button variant="ghost" size="sm" (click)="showToast('pos', {v: 'top', h: 'right'})" title="Top Right"><i class="ri-arrow-right-up-line"></i></button>
+                     
+                     <div class="col-span-3 h-4"></div>
+                     
+                     <button lg-button variant="ghost" size="sm" (click)="showToast('pos', {v: 'bottom', h: 'left'})" title="Bottom Left"><i class="ri-arrow-left-down-line"></i></button>
+                     <button lg-button variant="secondary" size="sm" (click)="showToast('pos', {v: 'bottom', h: 'center'})" title="Bottom Center"><i class="ri-arrow-down-line"></i></button>
+                     <button lg-button variant="ghost" size="sm" (click)="showToast('pos', {v: 'bottom', h: 'right'})" title="Bottom Right"><i class="ri-arrow-right-down-line"></i></button>
+                  </div>
+               </div>
+
+               <p class="text-[10px] text-zinc-500 italic px-2">
+                 Nota: Pasa el cursor sobre un toast para pausar su tiempo de vida. Los toasts se apilan automáticamente.
+               </p>
+            </div>
+
+            <!-- SECCIÓN CARGA (Skeleton Loader) -->
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-loader-4-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Loading States (Glass Skeleton)</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Single Atom Types</p>
+                  <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                      <lg-skeleton type="circle" width="48px" height="48px"></lg-skeleton>
+                      <div class="flex-1 space-y-2">
+                        <lg-skeleton type="rect" width="60%" height="12px"></lg-skeleton>
+                        <lg-skeleton type="rect" width="40%" height="8px"></lg-skeleton>
+                      </div>
+                    </div>
+                    <lg-skeleton type="text" width="100%"></lg-skeleton>
+                    <lg-skeleton type="text" width="90%"></lg-skeleton>
+                    <lg-skeleton type="text" width="70%"></lg-skeleton>
+                  </div>
+               </div>
+
+               <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Card Composition Example</p>
+                  <div class="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-4">
+                    <lg-skeleton type="rect" width="100%" height="120px"></lg-skeleton>
+                    <div class="space-y-2">
+                      <lg-skeleton type="rect" width="80%" height="16px"></lg-skeleton>
+                      <lg-skeleton type="rect" width="40%" height="10px"></lg-skeleton>
+                    </div>
+                    <div class="flex justify-between items-center pt-2">
+                      <lg-skeleton type="rect" width="60px" height="24px"></lg-skeleton>
+                      <lg-skeleton type="circle" width="32px" height="32px"></lg-skeleton>
+                    </div>
+                  </div>
+               </div>
+            </div>
+
             <!-- Selection: Radio Systems -->
             <div class="flex items-center gap-2 px-2 mt-8 mb-4">
                <span class="p-1 rounded bg-primary/20 text-primary">
@@ -326,4 +437,49 @@ import { BadgeComponent } from '../../../../libs/liquid-glass-ui/src/lib/compone
 })
 export class App {
   public themeService = inject(ThemeService);
+  private modalService = inject(LiquidModalService);
+  private toastService = inject(LiquidToastService);
+
+  openModal(animation: string = 'cinema', enableParallax: boolean = true) {
+    this.modalService.open(DemoModalComponent, {
+      elevation: 2,
+      enableParallax,
+      animation: animation as any,
+      data: { title: `Animación: ${animation.toUpperCase()}` }
+    });
+  }
+
+  showToast(type: string, posOptions?: any) {
+    if (type === 'pos') {
+      this.toastService.info(
+        `Posición: ${posOptions.v} - ${posOptions.h}`, 
+        'Demo de Posicionamiento', 
+        { 
+          verticalPosition: posOptions.v, 
+          horizontalPosition: posOptions.h 
+        }
+      );
+      return;
+    }
+
+    switch(type) {
+      case 'success':
+        this.toastService.success('El sistema ha sido actualizado correctamente.', 'Operación Exitosa');
+        break;
+      case 'error':
+        this.toastService.error('Hubo un problema de conexión. Intente de nuevo más tarde.', 'Error Crítico');
+        break;
+      case 'info':
+        this.toastService.info('Tienes 3 mensajes nuevos sin leer en tu bandeja de entrada.');
+        break;
+      case 'custom':
+        this.toastService.show({
+          title: 'Conexión Establecida',
+          message: 'Este mensaje durará más tiempo y muestra el diseño personalizado del toast.',
+          type: 'success',
+          duration: 8000
+        });
+        break;
+    }
+  }
 }

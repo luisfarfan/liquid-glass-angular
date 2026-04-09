@@ -1,0 +1,149 @@
+/**
+ * Liquid Glass Toast Styles
+ * Basado en SDD-18
+ */
+
+.lg-toast-container-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.lg-toast-overlay-panel {
+  pointer-events: none;
+}
+
+/* When positioned at the bottom, stack from bottom upwards */
+.lg-toast-pos-bottom .lg-toast-container-wrapper {
+  flex-direction: column-reverse;
+}
+
+.lg-toast-item {
+  pointer-events: auto;
+  min-width: 320px;
+  max-width: 420px;
+  background: rgba(15, 15, 20, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 50px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  will-change: transform, opacity;
+  animation: lg-toast-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.lg-toast-item-content {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.lg-toast-icon-area {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lg-toast-text-area {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.lg-toast-title {
+  font-family: var(--lg-font-display);
+  font-weight: 700;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.lg-toast-message {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+.lg-toast-close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lg-toast-close:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* Life Progress Bar */
+.lg-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2.5px;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  transform-origin: left;
+  transition: transform linear;
+}
+
+/* --- SEMANTIC VARIANTS --- */
+
+.lg-toast-success { color: #34d399; border-left: 4px solid rgba(52, 211, 153, 0.4); }
+.lg-toast-error   { color: #fb7185; border-left: 4px solid rgba(251, 113, 133, 0.4); }
+.lg-toast-info    { color: #60a5fa; border-left: 4px solid rgba(96, 165, 250, 0.4); }
+
+.lg-toast-success .lg-toast-icon-area { color: #34d399; }
+.lg-toast-error .lg-toast-icon-area   { color: #fb7185; }
+.lg-toast-info .lg-toast-icon-area    { color: #60a5fa; }
+
+/* --- KEYFRAMES --- */
+
+@keyframes lg-toast-entrance {
+  from { opacity: 0; transform: translateX(50px) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes lg-toast-exit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9) translateY(-10px); }
+}
+
+.lg-toast-exit {
+  animation: lg-toast-exit 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Accessibility: Support reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .lg-toast-item {
+    animation: none !important;
+  }
+}
+
+/* Mobile Stacking */
+@media (max-width: 640px) {
+  .lg-toast-item {
+    min-width: 0;
+    width: calc(100vw - 2rem);
+    margin: 0 1rem;
+  }
+}
