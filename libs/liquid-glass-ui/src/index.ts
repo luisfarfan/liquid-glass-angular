@@ -9,6 +9,7 @@ export * from './lib/components/checkbox/checkbox.component';
 export * from './lib/components/select/select.component';
 export * from './lib/components/select/select-option.component';
 export * from './lib/components/textarea/textarea.component';
+export * from './lib/components/badge/badge.component';
 export * from './lib/components/select/select.types';
 export * from './lib/components/radio/radio-group.component';
 export * from './lib/components/radio/radio-button.component';

@@ -6,9 +6,10 @@ import { RadioButtonComponent } from '../../../../libs/liquid-glass-ui/src/lib/c
 import { SelectComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select.component';
 import { SelectOptionComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select-option.component';
 import { TextareaComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/textarea/textarea.component';
+import { BadgeComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/badge/badge.component';
 
 @Component({
-  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent],
+  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent, BadgeComponent],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
@@ -220,6 +221,37 @@ import { TextareaComponent } from '../../../../libs/liquid-glass-ui/src/lib/comp
             <p class="text-[10px] text-zinc-500 italic px-2">
               Nota: Usa la tecla TAB para verificar que los elementos deshabilitados son ignorados y los activos tienen anillos de enfoque.
             </p>
+            
+            <!-- SECCIÓN ESTADOS E INDICADORES (Badge) -->
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-notification-badge-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Status & Indicators (Glass Badges)</h3>
+            </div>
+
+            <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-8">
+              <div class="space-y-4">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Glass Style (Subtle)</p>
+                <div class="flex flex-wrap gap-3">
+                  <lg-badge variant="success" [isPulsating]="true">Online</lg-badge>
+                  <lg-badge variant="warning">Away</lg-badge>
+                  <lg-badge variant="error">Offline</lg-badge>
+                  <lg-badge variant="info">New Update</lg-badge>
+                  <lg-badge variant="neutral">Beta</lg-badge>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Solid Style (High Contrast)</p>
+                <div class="flex flex-wrap gap-3">
+                  <lg-badge style="solid" variant="success">Active</lg-badge>
+                  <lg-badge style="solid" variant="warning">Pending</lg-badge>
+                  <lg-badge style="solid" variant="error">Critical</lg-badge>
+                  <lg-badge style="solid" variant="info">99+</lg-badge>
+                  <lg-badge style="solid" variant="neutral">Draft</lg-badge>
+                </div>
+              </div>
+            </div>
+
             <!-- Selection: Radio Systems -->
             <div class="flex items-center gap-2 px-2 mt-8 mb-4">
                <span class="p-1 rounded bg-primary/20 text-primary">
