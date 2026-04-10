@@ -23,17 +23,17 @@
   pointer-events: auto;
   min-width: 320px;
   max-width: 420px;
-  background: rgba(15, 15, 20, 0.6);
-  backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
+  background: rgba(var(--lg-t-bg-rgb, 15, 15, 20), 0.6);
+  backdrop-filter: blur(32px) saturate(210%); /* Higher saturation for glass depth */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
   overflow: hidden;
   box-shadow: 
-    0 20px 50px -10px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   position: relative;
   will-change: transform, opacity;
-  animation: lg-toast-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: lg-toast-entrance 0.7s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
 .lg-toast-item-content {
@@ -106,21 +106,41 @@
   transition: transform linear;
 }
 
-/* --- SEMANTIC VARIANTS --- */
+/* --- SEMANTIC VARIANTS & NEON AURAS --- */
 
-.lg-toast-success { color: #34d399; border-left: 4px solid rgba(52, 211, 153, 0.4); }
-.lg-toast-error   { color: #fb7185; border-left: 4px solid rgba(251, 113, 133, 0.4); }
-.lg-toast-info    { color: #60a5fa; border-left: 4px solid rgba(96, 165, 250, 0.4); }
+.lg-toast-success { 
+  color: #34d399; 
+  border-left: 4px solid #34d399;
+  filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.2));
+}
+.lg-toast-error   { 
+  color: #fb7185; 
+  border-left: 4px solid #fb7185;
+  filter: drop-shadow(0 0 20px rgba(251, 113, 133, 0.25));
+}
+.lg-toast-info    { 
+  color: #60a5fa; 
+  border-left: 4px solid #60a5fa;
+  filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.2));
+}
 
-.lg-toast-success .lg-toast-icon-area { color: #34d399; }
-.lg-toast-error .lg-toast-icon-area   { color: #fb7185; }
-.lg-toast-info .lg-toast-icon-area    { color: #60a5fa; }
+.lg-toast-success .lg-toast-icon-area { color: #34d399; background: rgba(52, 211, 153, 0.1); }
+.lg-toast-error .lg-toast-icon-area   { color: #fb7185; background: rgba(251, 113, 133, 0.1); }
+.lg-toast-info .lg-toast-icon-area    { color: #60a5fa; background: rgba(96, 165, 250, 0.1); }
 
 /* --- KEYFRAMES --- */
 
 @keyframes lg-toast-entrance {
-  from { opacity: 0; transform: translateX(50px) scale(0.95); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
+  from { 
+    opacity: 0; 
+    transform: translateX(40px) scale(0.85); 
+    filter: blur(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0) scale(1); 
+    filter: blur(0);
+  }
 }
 
 @keyframes lg-toast-exit {

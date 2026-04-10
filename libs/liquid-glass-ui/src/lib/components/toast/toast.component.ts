@@ -66,6 +66,23 @@ export class LiquidToastComponent implements OnInit, OnDestroy {
     this._totalTime = this.config.duration || 3500;
     this._remainingTime.set(this._totalTime);
     this._startTimer();
+    this._triggerHaptics();
+  }
+
+  private _triggerHaptics() {
+    if (!navigator.vibrate) return;
+
+    switch (this.config.type) {
+      case 'success':
+        navigator.vibrate(5);
+        break;
+      case 'error':
+        navigator.vibrate([10, 50, 10]);
+        break;
+      case 'info':
+        navigator.vibrate(2);
+        break;
+    }
   }
 
   ngOnDestroy() {

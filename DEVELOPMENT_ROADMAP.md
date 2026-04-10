@@ -52,8 +52,8 @@ Este documento rastrea el progreso de implementación de la librería **Liquid G
 
 ### Phase 4: Overlays & Z-Axis
 - [x] **Glass Modal**: Backdrop blur, elevation logic.
-- [x] **Glass Toast**: Global notification service.
-- [ ] **Glass Select**: (Pending Refinement: Haptic, Slide Physics).
+- [x] **Liquid Toast**: Global notification service (Haptics, Neon Auras).
+- [x] **Glass Select**: Premium Refinement (Haptics, Magnify, Liquid Slide).
 - [ ] **Glass Tooltip**: Floating glass bubbles.
 
 ### Phase 5: Navigation & Layout
