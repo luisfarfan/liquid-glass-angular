@@ -53,10 +53,17 @@ export class RadioButtonComponent implements FocusableOption {
   }
 
   tabIndex() {
-    // Si el grupo tiene un valor, solo el seleccionado es 0. 
-    // Si no tiene valor, el botón que sea el "primer tab" del grupo será 0.
-    // Esto lo coordinará el Group, pero por ahora simplificamos:
-    return (this.checked() && !this.isDisabled() && !this.group.disabled) ? 0 : -1;
+    const items = this.group.items();
+    const isFirstEnabled = items.find(i => !i.isDisabled() && !this.group.disabled) === this;
+    const noSelection = !items.some(i => i.checked());
+
+    // Es tabulable (0) si:
+    // 1. Está seleccionado
+    // 2. Nadie está seleccionado y es el primer item habilitado
+    if (this.checked()) return 0;
+    if (noSelection && isFirstEnabled) return 0;
+    
+    return -1;
   }
 
   @HostListener('keydown', ['$event'])

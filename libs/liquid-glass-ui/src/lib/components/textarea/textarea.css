@@ -114,9 +114,15 @@
   width: 5px;
 }
 
-.lg-textarea-control::-webkit-scrollbar-thumb {
-  background: var(--lg-t-glass-border);
-  border-radius: 10px;
+.lg-textarea-wrapper.is-disabled {
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+.lg-textarea-control:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Error Message */

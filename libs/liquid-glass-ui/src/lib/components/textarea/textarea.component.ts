@@ -52,12 +52,14 @@ import { TextFieldModule, CdkTextareaAutosize } from '@angular/cdk/text-field';
         class="lg-textarea-wrapper" 
         [class.is-focused]="isFocused()"
         [class.is-error]="error()"
+        [class.is-disabled]="isDisabled()"
       >
         <textarea
           #textareaControl
           class="lg-textarea-control"
           [placeholder]="placeholder()"
           [(ngModel)]="value"
+          [disabled]="isDisabled()"
           (input)="onInput($event)"
           (focus)="onFocus()"
           (blur)="onBlur()"
@@ -103,6 +105,7 @@ export class TextareaComponent implements ControlValueAccessor {
   /** Internal State */
   value = model<string>('');
   isFocused = signal(false);
+  isDisabled = signal(false);
   
   readonly uid = `lg-txt-${Math.random().toString(36).substring(2, 9)}`;
 
@@ -153,6 +156,6 @@ export class TextareaComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // Implement standard disabled handling if needed
+    this.isDisabled.set(isDisabled);
   }
 }

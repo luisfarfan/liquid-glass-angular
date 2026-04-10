@@ -65,6 +65,12 @@ lg-radio-button:active:not(.is-disabled) .lg-radio-outer {
   background: rgba(0, 0, 0, 0.2);
 }
 
+/* Focus State */
+lg-radio-button:focus-visible .lg-radio-outer {
+  border-color: var(--lg-t-primary);
+  box-shadow: 0 0 0 2px var(--lg-t-bg), 0 0 0 4px var(--lg-t-primary);
+}
+
 /* Label */
 .lg-radio-label {
   font-size: 0.875rem;
