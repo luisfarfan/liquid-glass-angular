@@ -4,45 +4,41 @@ import {
   model, 
   signal, 
   computed, 
-  contentChildren, 
-  AfterViewInit, 
   inject, 
-  NgZone, 
   ViewEncapsulation, 
   ChangeDetectionStrategy,
-  PLATFORM_ID,
-  OnDestroy
+  effect,
+  contentChildren
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { LiquidSidebarService } from './sidebar.service';
 import { LiquidSidebarItemComponent } from './sidebar-item.component';
 
 @Component({
   selector: 'lg-sidebar',
   standalone: true,
   imports: [CommonModule],
+  providers: [LiquidSidebarService],
   template: `
     <nav 
       class="lg-sidebar" 
-      [class.is-collapsed]="isCollapsed()"
+      [class.is-collapsed]="service.isCollapsed()"
       [class.is-mobile-open]="isMobileOpen()"
-      [attr.aria-expanded]="!isCollapsed()"
+      [attr.aria-expanded]="!service.isCollapsed()"
       role="navigation"
     >
       <!-- Logo / Header -->
       <div class="lg-sidebar-header">
         <ng-content select="[header]"></ng-content>
       </div>
-
+ 
       <!-- Main Navigation -->
-      <div class="lg-sidebar-content" #scrollContainer>
-        <!-- Liquid Active Indicator Capsule -->
+      <div class="lg-sidebar-content">
+        <!-- Liquid Active Indicator Capsule V2 -->
         <div 
           class="lg-active-indicator"
           [style.transform]="activeTransform()"
-          [style.opacity]="hasActiveItem() ? 1 : 0"
+          [style.opacity]="service.hasActiveItem() ? 1 : 0"
         ></div>
 
         <div class="lg-sidebar-items-wrapper">
@@ -60,70 +56,32 @@ import { LiquidSidebarItemComponent } from './sidebar-item.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LiquidSidebarComponent implements AfterViewInit, OnDestroy {
-  private router = inject(Router);
-  private ngZone = inject(NgZone);
-  private platformId = inject(PLATFORM_ID);
-  private destroy$ = new Subject<void>();
-
+export class LiquidSidebarComponent {
+  public service = inject(LiquidSidebarService);
+  
   /** Two-way bindable expansion state */
   isCollapsed = model<boolean>(false);
   
   /** Mobile-only side drawer state */
   isMobileOpen = signal<boolean>(false);
 
-  /** All sidebar items projected into the component */
-  items = contentChildren(LiquidSidebarItemComponent);
-
-  /** Current Y offset for the liquid indicator */
-  private _indicatorY = signal<number>(0);
-  
-  /** Whether there is an active item to show the indicator */
-  hasActiveItem = signal<boolean>(false);
-
   /** Transform string for the indicator physics */
-  activeTransform = computed(() => `translateY(${this._indicatorY()}px)`);
+  activeTransform = computed(() => `translateY(${this.service.activeItemY() / 16}rem)`);
 
   constructor() {
-    // Escuchar cambios de ruta para re-calcular posición
-    this.router.events.pipe(
-      filter(e => e instanceof NavigationEnd),
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
-      // Pequeño delay para permitir que routerLinkActive refresque clases
-      setTimeout(() => this.updateIndicator(), 50);
-    });
-  }
+    // Sync model with service
+    effect(() => {
+      this.service.isCollapsed.set(this.isCollapsed());
+    }, { allowSignalWrites: true });
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => this.updateIndicator(), 200);
-    }
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  /**
-   * Recalculates the active indicator position based on the currently
-   * active sidebar item.
-   */
-  public updateIndicator() {
-    const activeItem = this.items().find(item => item.isActive);
-    
-    if (activeItem) {
-      this._indicatorY.set(activeItem.offsetTop);
-      this.hasActiveItem.set(true);
-    } else {
-      this.hasActiveItem.set(false);
-    }
+    effect(() => {
+      this.isCollapsed.set(this.service.isCollapsed());
+    }, { allowSignalWrites: true });
   }
 
   /** Public API to toggle collapse */
   toggle() {
-    this.isCollapsed.update(v => !v);
+    this.service.toggle();
   }
 
   /** Public API for mobile toggle */

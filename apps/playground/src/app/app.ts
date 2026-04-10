@@ -51,16 +51,36 @@ interface UserData {
           <span class="font-display font-bold text-lg tracking-tight" *ngIf="!isSidebarCollapsed()">Liquid Glass</span>
         </div>
 
-        <lg-sidebar-item link="/" [badge]="'New'">
+        <lg-sidebar-item link="/" label="Dashboard">
           <i icon class="ri-dashboard-line"></i> Dashboard
         </lg-sidebar-item>
 
-        <lg-sidebar-item link="/components">
+        <lg-sidebar-item label="Components" [subItems]="true" [badge]="12">
           <i icon class="ri-stack-line"></i> Components
+          
+          <lg-sidebar-item link="/components/buttons" label="Buttons">
+            <i icon class="ri-mouse-line"></i> Buttons
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/components/forms" label="Forms">
+            <i icon class="ri-edit-box-line"></i> Forms
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/components/tables" label="Tables">
+            <i icon class="ri-table-line"></i> Tables
+          </lg-sidebar-item>
         </lg-sidebar-item>
 
-        <lg-sidebar-item link="/analytics">
+        <lg-sidebar-item link="/analytics" label="Analytics">
           <i icon class="ri-bar-chart-2-line"></i> Analytics
+        </lg-sidebar-item>
+
+        <lg-sidebar-item label="Settings" [subItems]="true">
+          <i icon class="ri-settings-4-line"></i> Settings
+          <lg-sidebar-item link="/settings/profile" label="Profile">
+             <i icon class="ri-user-line"></i> Profile
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/settings/security" label="Security">
+             <i icon class="ri-shield-keyhole-line"></i> Security
+          </lg-sidebar-item>
         </lg-sidebar-item>
 
         <div footer class="space-y-4">
