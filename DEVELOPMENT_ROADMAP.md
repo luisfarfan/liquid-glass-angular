@@ -11,7 +11,7 @@ Este documento rastrea el progreso de implementación de la librería **Liquid G
 | **Phase 1** | Foundations (Tokens, Theme, Typography) | ✅ Complete |
 | **Phase 2** | Primitives (Button, Badge) | ✅ Complete |
 | **Phase 3** | Form Components (Input, Radio, Checkbox...) | ✅ Complete |
-| **Phase 4** | Overlays (Modals, Select, Toasts) | 🔄 Partially Done |
+| **Phase 4** | Overlays (Modals, Select, Toasts) | 🚧 In Progress |
 | **Phase 5** | Navigation & Layout (Sidebar, Tabs, Shell) | 🔄 Partially Done |
 | **Phase 6** | Advanced Components (Data Table, Progress) | 🔄 Partially Done |
 
@@ -38,6 +38,12 @@ Este documento rastrea el progreso de implementación de la librería **Liquid G
   - [x] Selection Sync.
   - [x] Circular Keyboard Navigation (CDK FocusKeyManager).
   - [x] standard A11y TabIndex.
+- [x] **Glass Select**: 
+  - [x] Multi-selection mode (Crystals).
+  - [x] Internal Search & Filtering.
+  - [x] CDK Overlay Integration (Reposition strategy).
+  - [x] KeyManager accessibility.
+  - [x] Premium Refinement (Haptics, Magnify, Liquid Slide).
 - [x] **Glass Textarea**: 
   - [x] CDK Autosize.
   - [x] Character Count.

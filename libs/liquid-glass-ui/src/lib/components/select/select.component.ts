@@ -209,6 +209,10 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
   /** Component API */
   toggle() {
     if (this.disabled()) return;
+    
+    // Haptic interaction
+    if (navigator.vibrate) navigator.vibrate(5);
+    
     this.isOpen.update(v => !v);
     if (this.isOpen()) {
        setTimeout(() => this.searchInput?.nativeElement.focus(), 0);
@@ -246,6 +250,9 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
 
   selectOption(opt: SelectOptionComponent) {
     if (opt.isDisabled()) return;
+
+    // Haptic feedback on selection
+    if (navigator.vibrate) navigator.vibrate(2);
 
     if (this.multiple()) {
       let current = this.value() || [];
