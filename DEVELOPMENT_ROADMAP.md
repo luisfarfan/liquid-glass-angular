@@ -57,9 +57,9 @@ Este documento rastrea el progreso de implementación de la librería **Liquid G
 - [x] **Glass Tooltip**: Floating glass bubbles (Elastic physics, Levitating).
 
 ### Phase 5: Navigation & Layout
+- [x] **Glass Sidebar**: Collapsible navigation with liquid indicator.
 - [x] **Glass Tabs**: Sliding focus indicator, FocusKeyManager.
 - [x] **Glass Card**: Structural container.
-- [ ] **Sidebar**: Collapsible navigation.
 - [ ] **Topbar**: App header with profile actions.
 - [ ] **Drawer**: Side-sliding modal logic.
 

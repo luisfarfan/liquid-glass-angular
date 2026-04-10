@@ -28,6 +28,8 @@ export * from './lib/components/tabs/tab.component';
 export * from './lib/components/progress-bar/progress-bar.component';
 export * from './lib/components/tooltip/tooltip.component';
 export * from './lib/components/tooltip/tooltip.directive';
+export * from './lib/components/sidebar/sidebar.component';
+export * from './lib/components/sidebar/sidebar-item.component';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego
