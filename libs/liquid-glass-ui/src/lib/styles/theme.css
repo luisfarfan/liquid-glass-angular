@@ -27,6 +27,11 @@
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.3);
   --lg-t-input-border: rgba(255, 255, 255, 0.05);
+
+  /* Skeleton Loader */
+  --lg-t-skeleton-bg: rgba(255, 255, 255, 0.04);
+  --lg-t-skeleton-border: rgba(255, 255, 255, 0.05);
+  --lg-t-skeleton-shimmer: rgba(255, 255, 255, 0.08);
 }
 
 /* Light Theme (Mejorado) */
@@ -52,6 +57,11 @@
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.04);
   --lg-t-input-border: rgba(0, 0, 0, 0.08);
+
+  /* Skeleton Loader */
+  --lg-t-skeleton-bg: rgba(0, 0, 0, 0.08);
+  --lg-t-skeleton-border: rgba(0, 0, 0, 0.04);
+  --lg-t-skeleton-shimmer: rgba(255, 255, 255, 0.6);
 }
 
 /* Cyberpunk Theme (High Contrast Dark) */
@@ -77,6 +87,11 @@
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.3);
   --lg-t-input-border: rgba(240, 171, 251, 0.1);
+
+  /* Skeleton Loader */
+  --lg-t-skeleton-bg: rgba(240, 171, 252, 0.06);
+  --lg-t-skeleton-border: rgba(240, 171, 252, 0.1);
+  --lg-t-skeleton-shimmer: rgba(240, 171, 252, 0.15);
 }
 
 /* Emerald Theme (Organic Premium) */
@@ -102,4 +117,9 @@
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.2);
   --lg-t-input-border: rgba(52, 211, 153, 0.1);
+
+  /* Skeleton Loader */
+  --lg-t-skeleton-bg: rgba(52, 211, 153, 0.06);
+  --lg-t-skeleton-border: rgba(52, 211, 153, 0.1);
+  --lg-t-skeleton-shimmer: rgba(52, 211, 153, 0.15);
 }

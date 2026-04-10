@@ -21,6 +21,10 @@ export * from './lib/components/toast/toast.service';
 export * from './lib/components/toast/toast.types';
 export * from './lib/components/toast/toast.component';
 export * from './lib/components/skeleton/glass-skeleton.component';
+export * from './lib/components/data-table/data-table.component';
+export * from './lib/components/data-table/table.directives';
+export * from './lib/components/tabs/tabs.component';
+export * from './lib/components/tabs/tab.component';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego

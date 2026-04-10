@@ -1,6 +1,11 @@
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { Component, ViewEncapsulation, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent } from '@liquid-glass-ui/angular';
+import { SelectionModel } from '@angular/cdk/collections';
+import { CdkTableModule } from '@angular/cdk/table';
+import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent } from '@liquid-glass-ui/angular';
+import { LgTableDirective, LgHeaderCellDirective, LgCellDirective, LgHeaderRowDirective, LgRowDirective } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/table.directives';
+import { GlassDataTableContainerComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/data-table.component';
 import { RadioGroupComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-group.component';
 import { RadioButtonComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-button.component';
 import { SelectComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/select/select.component';
@@ -11,8 +16,25 @@ import { LiquidModalService } from '../../../../libs/liquid-glass-ui/src/lib/com
 import { LiquidToastService } from '../../../../libs/liquid-glass-ui/src/lib/components/toast/toast.service';
 import { DemoModalComponent } from './components/demo-modal.component';
 
+interface UserData {
+  id: string;
+  name: string;
+  role: string;
+  status: 'online' | 'away' | 'offline';
+  email: string;
+  lastActive: string;
+}
+
 @Component({
-  imports: [RouterModule, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, TextareaComponent, BadgeComponent, GlassSkeletonComponent],
+  imports: [
+    RouterModule, CdkTableModule, GlassCardComponent, ButtonComponent, 
+    InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, 
+    RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, 
+    TextareaComponent, BadgeComponent, GlassSkeletonComponent,
+    LgTableDirective, LgHeaderCellDirective, LgCellDirective, 
+    LgHeaderRowDirective, LgRowDirective, GlassDataTableContainerComponent,
+    TabsComponent, TabComponent
+  ],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
@@ -362,6 +384,297 @@ import { DemoModalComponent } from './components/demo-modal.component';
                   </div>
                </div>
             </div>
+          </section>
+          
+          <!-- SECCIÓN NAVEGACIÓN (Tabs System) -->
+          <section class="space-y-6">
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-menu-5-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Navigation & Layout (Glass Tabs)</h3>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8">
+              <!-- Underline Variant -->
+              <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Variant: Underline (Neon Blade)</p>
+                <lg-tabs variant="underline">
+                  <lg-tab label="Overview" icon="ri-dashboard-line">
+                    <div class="py-4 space-y-4">
+                      <h4 class="text-lg font-bold">System Overview</h4>
+                      <p class="text-sm text-zinc-400">Esta es la vista general del sistema. El indicador de neón se desplaza con inercia elástica.</p>
+                      <div class="grid grid-cols-3 gap-2">
+                        <div class="h-20 bg-white/5 rounded-xl border border-white/5"></div>
+                        <div class="h-20 bg-white/5 rounded-xl border border-white/5"></div>
+                        <div class="h-20 bg-white/5 rounded-xl border border-white/5"></div>
+                      </div>
+                    </div>
+                  </lg-tab>
+                  <lg-tab label="Security" icon="ri-shield-flash-line">
+                    <div class="py-4">
+                      <h4 class="text-lg font-bold">Security Protocols</h4>
+                      <p class="text-sm text-zinc-400">Configuración de cortafuegos y cifrado de hardware.</p>
+                      <button lg-button variant="primary" size="sm" class="mt-4">Reiniciar Firewall</button>
+                    </div>
+                  </lg-tab>
+                  <lg-tab label="Hardware" [disabled]="true" icon="ri-cpu-line">
+                    <div class="py-4 text-center">Hardware Stats (Locked)</div>
+                  </lg-tab>
+                  <lg-tab label="Advanced Settings">
+                     <div class="py-4">
+                       <lg-form-field label="Developer Mode">
+                         <lg-toggle [checked]="true"></lg-toggle>
+                       </lg-form-field>
+                     </div>
+                  </lg-tab>
+                </lg-tabs>
+              </div>
+
+              <!-- Pill Variant -->
+              <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Variant: Pill (Glass Capsules)</p>
+                <div class="flex justify-center">
+                  <lg-tabs variant="pill">
+                    <lg-tab label="Monthly">
+                      <div class="text-center py-6">
+                        <p class="text-3xl font-display font-bold">$12.99<span class="text-sm opacity-50">/mo</span></p>
+                      </div>
+                    </lg-tab>
+                    <lg-tab label="Yearly">
+                      <div class="text-center py-6">
+                        <p class="text-3xl font-display font-bold">$119.99<span class="text-sm opacity-50">/yr</span></p>
+                        <lg-badge variant="success" size="sm" class="mt-2">Save 25%</lg-badge>
+                      </div>
+                    </lg-tab>
+                    <lg-tab label="Lifetime">
+                      <div class="text-center py-6">
+                        <p class="text-3xl font-display font-bold">$499<span class="text-sm opacity-50">/once</span></p>
+                      </div>
+                    </lg-tab>
+                  </lg-tabs>
+                </div>
+              </div>
+            </div>
+
+            <!-- Escenarios Avanzados (Inspired by Material & Beyond) -->
+            <div class="grid grid-cols-1 gap-12 mt-8">
+              
+              <!-- Case 1: Centered & Custom Headers -->
+              <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Case 1: Centered & Custom Templates</p>
+                <lg-tabs variant="underline" align="center">
+                  <lg-tab>
+                    <ng-template #headerTemplate>
+                      <div class="flex items-center gap-2">
+                        <span>Messages</span>
+                        <lg-badge variant="error" size="sm">3</lg-badge>
+                      </div>
+                    </ng-template>
+                    <div class="py-12 text-center opacity-40">Inbox is empty</div>
+                  </lg-tab>
+                  <lg-tab label="Analytics" icon="ri-bar-chart-fill"></lg-tab>
+                  <lg-tab label="Team">
+                    <ng-template #headerTemplate>
+                      <div class="flex -space-x-2">
+                        <div class="w-6 h-6 rounded-full border border-black bg-primary"></div>
+                        <div class="w-6 h-6 rounded-full border border-black bg-emerald-500"></div>
+                      </div>
+                      <span class="ml-2">Collaborators</span>
+                    </ng-template>
+                  </lg-tab>
+                </lg-tabs>
+              </div>
+
+              <!-- Case 2: Stretched Tabs -->
+              <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Case 2: Full Width (Stretched)</p>
+                <lg-tabs variant="underline" [stretch]="true">
+                  <lg-tab label="Profile" icon="ri-user-smile-line"></lg-tab>
+                  <lg-tab label="Settings" icon="ri-settings-4-line"></lg-tab>
+                  <lg-tab label="Billing" icon="ri-bank-card-line"></lg-tab>
+                </lg-tabs>
+                <div class="h-32 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center text-xs opacity-20">
+                  Full Width Content Area
+                </div>
+              </div>
+
+              <!-- Case 3: End Aligned Pills -->
+              <div class="col-span-full p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-4">
+                <div class="flex justify-between items-center mb-2">
+                   <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Case 3: Right Aligned Controls</p>
+                   <lg-tabs variant="pill" align="end">
+                      <lg-tab label="View List" icon="ri-list-check"></lg-tab>
+                      <lg-tab label="View Grid" icon="ri-grid-fill"></lg-tab>
+                      <lg-tab label="View Timeline" icon="ri-history-line"></lg-tab>
+                   </lg-tabs>
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+                   @for (i of [1,2,3,4]; track i) {
+                     <div class="h-24 bg-white/5 rounded-lg border border-white/5"></div>
+                   }
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECCIÓN DATOS (Data Table Organism - Advanced Refinement) -->
+          <section class="space-y-6">
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+              <i class="ri-table-line text-[var(--lg-t-primary)]"></i>
+              <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Data Visuals (Glass Data Table)</h3>
+            </div>
+            
+            <div class="space-y-12 mb-12">
+               <!-- Filtro Global (Demo Sorting/Filtering) -->
+               <div class="p-4 rounded-xl bg-glass border border-glass-border">
+                 <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                   <div class="w-full sm:w-72">
+                     <lg-input 
+                       placeholder="Filter by name or role..." 
+                       (input)="searchQuery.set($any($event.target).value)">
+                       <i lg-icon-left class="ri-search-line"></i>
+                     </lg-input>
+                   </div>
+                   <div class="flex gap-2">
+                     <lg-badge variant="info" size="sm">Results: {{filteredUsers().length}}</lg-badge>
+                     <lg-badge variant="neutral" size="sm">Selected: {{selection.selected.length}}</lg-badge>
+                   </div>
+                 </div>
+               </div>
+
+               <!-- Ejemplo 1: Selección y Ordenamiento -->
+               <div class="space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">Example 1: Refined Glass Headers & Reactive Sorting</p>
+                  <lg-data-table-container>
+                    <table lg-table cdk-table [dataSource]="filteredUsers()">
+                      <!-- Checkbox Column -->
+                      <ng-container cdkColumnDef="select">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="w-12">
+                          <lg-checkbox (changed)="masterToggle()" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></lg-checkbox>
+                        </th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row">
+                          <lg-checkbox (click)="$event.stopPropagation()" (changed)="selection.toggle(row)" [checked]="selection.isSelected(row)"></lg-checkbox>
+                        </td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="id">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>ID</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="font-mono text-[10px] opacity-50">{{row.id}}</td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="name">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="is-sortable" (click)="toggleSort('name')">
+                          Member <i class="ml-1 opacity-40" [class.ri-arrow-up-s-line]="sortColumn() === 'name' && sortDirection() === 'asc'" [class.ri-arrow-down-s-line]="sortColumn() === 'name' && sortDirection() === 'desc'" [class.ri-sort-asc-desc]="sortColumn() !== 'name'"></i>
+                        </th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row">
+                          <div class="lg-cell-avatar">
+                            <div class="lg-avatar-circle">{{row.name.charAt(0)}}</div>
+                            <div>
+                              <span class="lg-cell-primary">{{row.name}}</span>
+                              <span class="lg-cell-secondary">{{row.email}}</span>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="role">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="is-sortable" (click)="toggleSort('role')">Role</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="opacity-70">{{row.role}}</td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="status">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Status</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row">
+                          <lg-badge [variant]="row.status === 'online' ? 'success' : row.status === 'away' ? 'warning' : 'error'" size="sm">
+                            {{row.status}}
+                          </lg-badge>
+                        </td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="email">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Email</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="text-xs opacity-40">{{row.email}}</td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="actions">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef></th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="text-right">
+                          <button lg-button variant="ghost" size="sm" [iconOnly]="true"><i class="ri-more-2-line"></i></button>
+                        </td>
+                      </ng-container>
+
+                      <tr lg-header-row cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+                      <tr lg-row cdk-row *cdkRowDef="let row; columns: displayedColumns;" [isSelected]="selection.isSelected(row)" (click)="selection.toggle(row)"></tr>
+                    </table>
+                  </lg-data-table-container>
+               </div>
+
+               <!-- Ejemplo 2: Alta Densidad y Sticky Columns -->
+               <div class="space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">Example 2: High Density & Side-Pinning (Liquid Pinned)</p>
+                  <lg-data-table-container>
+                    <table lg-table cdk-table [dataSource]="users()" class="min-w-[1200px]">
+                      <ng-container cdkColumnDef="id" sticky="true">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>ID</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="font-bold text-primary">{{row.id}}</td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="name">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Full Name</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row">{{row.name}}</td>
+                      </ng-container>
+
+                      <ng-container cdkColumnDef="role"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Role</th><td lg-cell cdk-cell *cdkCellDef="let row">{{row.role}}</td></ng-container>
+                      <ng-container cdkColumnDef="status"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Status</th><td lg-cell cdk-cell *cdkCellDef="let row">{{row.status}}</td></ng-container>
+                      <ng-container cdkColumnDef="email"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Email</th><td lg-cell cdk-cell *cdkCellDef="let row">{{row.email}}</td></ng-container>
+                      <ng-container cdkColumnDef="lastActive"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Last Active</th><td lg-cell cdk-cell *cdkCellDef="let row">{{row.lastActive}}</td></ng-container>
+                      
+                      <ng-container cdkColumnDef="col1"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Metric A</th><td lg-cell cdk-cell *cdkCellDef="let row">1,240</td></ng-container>
+                      <ng-container cdkColumnDef="col2"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Metric B</th><td lg-cell cdk-cell *cdkCellDef="let row">84%</td></ng-container>
+                      <ng-container cdkColumnDef="col3"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Metric C</th><td lg-cell cdk-cell *cdkCellDef="let row">Active</td></ng-container>
+                      <ng-container cdkColumnDef="col4"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Metric D</th><td lg-cell cdk-cell *cdkCellDef="let row">Global</td></ng-container>
+                      <ng-container cdkColumnDef="col5"><th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Metric E</th><td lg-cell cdk-cell *cdkCellDef="let row">Premium</td></ng-container>
+
+                      <ng-container cdkColumnDef="actions" stickyEnd="true">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Operations</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row" class="text-right">
+                          <button lg-button variant="primary" size="sm">Manage</button>
+                        </td>
+                      </ng-container>
+
+                      <tr lg-header-row cdk-header-row *cdkHeaderRowDef="denseColumns"></tr>
+                      <tr lg-row cdk-row *cdkRowDef="let row; columns: denseColumns;"></tr>
+                    </table>
+                  </lg-data-table-container>
+               </div>
+
+               <!-- Ejemplo 3: Skeleton Loader en Tabla -->
+               <div class="space-y-4">
+                  <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">Example 3: Skeleton UI (Loading State Integration)</p>
+                  <lg-data-table-container>
+                    <table lg-table cdk-table [dataSource]="[1,2,3]">
+                      <ng-container cdkColumnDef="id">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Identifier</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="rect" width="60px"></lg-skeleton></td>
+                      </ng-container>
+                      <ng-container cdkColumnDef="name">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Member</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="rect" width="140px"></lg-skeleton></td>
+                      </ng-container>
+                      <ng-container cdkColumnDef="status">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Status</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="circle" width="24px" height="24px"></lg-skeleton></td>
+                      </ng-container>
+                      <ng-container cdkColumnDef="email">
+                        <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Contact Info</th>
+                        <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="text" width="180px"></lg-skeleton></td>
+                      </ng-container>
+
+                      <tr lg-header-row cdk-header-row *cdkHeaderRowDef="['id', 'name', 'status', 'email']"></tr>
+                      <tr lg-row cdk-row *cdkRowDef="let row; columns: ['id', 'name', 'status', 'email'];" [isLoading]="true"></tr>
+                    </table>
+                  </lg-data-table-container>
+               </div>
+            </div>
 
             <!-- Selection: Radio Systems -->
             <div class="flex items-center gap-2 px-2 mt-8 mb-4">
@@ -439,6 +752,68 @@ export class App {
   public themeService = inject(ThemeService);
   private modalService = inject(LiquidModalService);
   private toastService = inject(LiquidToastService);
+
+  // DATA TABLE MOCK DATA
+  public users = signal<UserData[]>([
+    { id: 'USR-001', name: 'Alexander Wright', role: 'System Architect', status: 'online', email: 'alex.w@liquid.io', lastActive: '2 mins ago' },
+    { id: 'USR-002', name: 'Elena Rodriguez', role: 'UI/UX Lead', status: 'away', email: 'elena.r@liquid.io', lastActive: '15 mins ago' },
+    { id: 'USR-003', name: 'Marcus Chen', role: 'Backend Developer', status: 'offline', email: 'm.chen@liquid.io', lastActive: '3 hours ago' },
+    { id: 'USR-004', name: 'Sarah Jenkins', role: 'Product Manager', status: 'online', email: 's.jenkins@liquid.io', lastActive: 'Just now' },
+    { id: 'USR-005', name: 'David Miller', role: 'DevOps Engineer', status: 'online', email: 'd.miller@liquid.io', lastActive: '5 mins ago' },
+  ]);
+
+  // Advanced Table Logic (Signals)
+  public searchQuery = signal('');
+  public sortColumn = signal<keyof UserData | null>(null);
+  public sortDirection = signal<'asc' | 'desc'>('asc');
+
+  public filteredUsers = computed(() => {
+    let result = this.users().filter(u => 
+      u.name.toLowerCase().includes(this.searchQuery().toLowerCase()) ||
+      u.role.toLowerCase().includes(this.searchQuery().toLowerCase())
+    );
+
+    const col = this.sortColumn();
+    if (col) {
+      result = [...result].sort((a, b) => {
+        const valA = a[col];
+        const valB = b[col];
+        const dir = this.sortDirection() === 'asc' ? 1 : -1;
+        return valA > valB ? dir : -dir;
+      });
+    }
+    return result;
+  });
+
+  public selection = new SelectionModel<UserData>(true, []);
+  public displayedColumns = ['select', 'id', 'name', 'role', 'status', 'email', 'actions'];
+  public denseColumns = ['id', 'name', 'role', 'status', 'email', 'lastActive', 'col1', 'col2', 'col3', 'col4', 'col5', 'actions'];
+
+  toggleSort(col: keyof UserData) {
+    if (this.sortColumn() === col) {
+      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sortColumn.set(col);
+      this.sortDirection.set('asc');
+    }
+  }
+
+  /** Data Table Selection Helpers */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.filteredUsers().length;
+    return numSelected === numRows && numRows > 0;
+  }
+
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+    } else {
+      this.filteredUsers().forEach(row => this.selection.select(row));
+    }
+    // No necesitamos disparar CD manualmente porque el template leerá el signal de selección indirectamente o re-evaluará
+    // Pero como SelectionModel no es signal, a veces ayuda re-evaluar un signal dummy o simplemente el toggle() ya dispara CD si se hace desde un evento
+  }
 
   openModal(animation: string = 'cinema', enableParallax: boolean = true) {
     this.modalService.open(DemoModalComponent, {

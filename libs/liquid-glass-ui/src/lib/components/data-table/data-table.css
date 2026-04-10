@@ -1,0 +1,172 @@
+/**
+ * Liquid Glass Data Table Styles (Prism Refined)
+ * Focused on theme-adaptive vibrancy, light-leak headers, and premium data visualization.
+ */
+
+.lg-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  color: var(--lg-t-foreground);
+  font-size: 0.875rem;
+}
+
+/* Headers: Liquid Prism Style (No more "black/sad" headers) */
+.lg-header-row {
+  height: 4.5rem;
+}
+
+.lg-header-cell {
+  text-align: left;
+  padding: 0 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  
+  /* Vibrant Theme-Adaptive Glass */
+  color: var(--lg-t-text-main);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--lg-p-primary-rgb), 0.15) 0%,
+    var(--lg-t-glass-bg) 100%
+  );
+  
+  /* Beveled Prism Edge (Light Leak) */
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 0 rgba(var(--lg-p-primary-rgb), 0.2);
+    
+  backdrop-filter: blur(24px) saturate(250%) contrast(110%);
+  border-bottom: 2px solid rgba(var(--lg-p-primary-rgb), 0.3);
+  
+  white-space: nowrap;
+  transition: all 0.4s var(--lg-ease-standard);
+}
+
+/* Header Text Glow */
+.lg-header-cell {
+  text-shadow: 0 0 10px rgba(var(--lg-p-primary-rgb), 0.3);
+}
+
+/* Sorting Interaction - Enhanced Glow */
+.lg-header-cell.is-sortable {
+  cursor: pointer;
+}
+
+.lg-header-cell.is-sortable:hover {
+  color: var(--lg-t-primary);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--lg-p-primary-rgb), 0.25) 0%,
+    rgba(var(--lg-p-primary-rgb), 0.1) 100%
+  );
+  text-shadow: 0 0 15px rgba(var(--lg-p-primary-rgb), 0.4);
+}
+
+/* Data Rows */
+.lg-row {
+  height: 4rem;
+  transition: all 0.3s var(--lg-ease-standard);
+  border-left: 2px solid transparent;
+}
+
+.lg-row:hover {
+  background: rgba(var(--lg-p-primary-rgb), 0.04);
+}
+
+.lg-row-selected {
+  background: rgba(var(--lg-p-primary-rgb), 0.08) !important;
+  border-left: 2px solid var(--lg-t-primary);
+}
+
+.lg-row-selected td {
+  color: var(--lg-t-text-main);
+}
+
+/* Cells */
+.lg-cell {
+  padding: 0 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+}
+
+/* Sticky Column Behavior - Prism Integration */
+.cdk-table-sticky {
+  z-index: 20;
+  background: var(--lg-t-bg-card) !important;
+  backdrop-filter: blur(32px) saturate(200%);
+}
+
+/* Adaptive Sticky Header */
+th.cdk-table-sticky {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--lg-p-primary-rgb), 0.2),
+    var(--lg-t-bg-card)
+  ) !important;
+}
+
+/* Glow Effect for Pinned Columns */
+.lg-table th.cdk-table-sticky:not([stickyEnd="true"]),
+.lg-table td.cdk-table-sticky:not([stickyEnd="true"]) {
+  border-right: 1px solid rgba(var(--lg-p-primary-rgb), 0.2);
+  box-shadow: 15px 0 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+.lg-table th.cdk-table-sticky[stickyEnd="true"],
+.lg-table td.cdk-table-sticky[stickyEnd="true"] {
+  border-left: 1px solid rgba(var(--lg-p-primary-rgb), 0.2);
+  box-shadow: -15px 0 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Multi-line Cell Helpers (Premium SaaS Look) */
+.lg-cell-primary {
+  display: block;
+  font-weight: 700;
+  color: var(--lg-t-text-main);
+  letter-spacing: -0.01em;
+}
+
+.lg-cell-secondary {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--lg-t-text-muted);
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+
+/* Icon / Avatar Cell */
+.lg-cell-avatar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lg-avatar-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px; /* Slightly squircle for modern look */
+  background: linear-gradient(135deg, rgba(var(--lg-p-primary-rgb), 0.2), rgba(var(--lg-p-primary-rgb), 0.05));
+  border: 1px solid rgba(var(--lg-p-primary-rgb), 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--lg-t-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Search Bar Overlay */
+.lg-table-filter-bar {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(var(--lg-p-primary-rgb), 0.15);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}

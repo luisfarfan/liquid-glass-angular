@@ -6,9 +6,9 @@
 .lg-skeleton {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--lg-t-skeleton-bg);
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--lg-t-skeleton-border);
   display: block;
   width: var(--lg-skeleton-width, 100%);
   height: var(--lg-skeleton-height, 1rem);
@@ -40,7 +40,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
+    var(--lg-t-skeleton-shimmer) 50%,
     transparent 100%
   );
   filter: blur(15px);
