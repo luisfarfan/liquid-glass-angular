@@ -26,6 +26,8 @@ export * from './lib/components/data-table/table.directives';
 export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tab.component';
 export * from './lib/components/progress-bar/progress-bar.component';
+export * from './lib/components/tooltip/tooltip.component';
+export * from './lib/components/tooltip/tooltip.directive';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego

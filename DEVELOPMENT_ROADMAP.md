@@ -54,7 +54,7 @@ Este documento rastrea el progreso de implementación de la librería **Liquid G
 - [x] **Glass Modal**: Backdrop blur, elevation logic.
 - [x] **Liquid Toast**: Global notification service (Haptics, Neon Auras).
 - [x] **Glass Select**: Premium Refinement (Haptics, Magnify, Liquid Slide).
-- [ ] **Glass Tooltip**: Floating glass bubbles.
+- [x] **Glass Tooltip**: Floating glass bubbles (Elastic physics, Levitating).
 
 ### Phase 5: Navigation & Layout
 - [x] **Glass Tabs**: Sliding focus indicator, FocusKeyManager.
