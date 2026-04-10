@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTableModule } from '@angular/cdk/table';
 import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent } from '@liquid-glass-ui/angular';
+import { ProgressBarComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/progress-bar/progress-bar.component';
 import { LgTableDirective, LgHeaderCellDirective, LgCellDirective, LgHeaderRowDirective, LgRowDirective } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/table.directives';
 import { GlassDataTableContainerComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/data-table.component';
 import { RadioGroupComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/radio/radio-group.component';
@@ -27,13 +28,13 @@ interface UserData {
 
 @Component({
   imports: [
-    RouterModule, CdkTableModule, GlassCardComponent, ButtonComponent, 
+    CommonModule, RouterModule, CdkTableModule, GlassCardComponent, ButtonComponent, 
     InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, 
     RadioGroupComponent, RadioButtonComponent, SelectComponent, SelectOptionComponent, 
     TextareaComponent, BadgeComponent, GlassSkeletonComponent,
     LgTableDirective, LgHeaderCellDirective, LgCellDirective, 
     LgHeaderRowDirective, LgRowDirective, GlassDataTableContainerComponent,
-    TabsComponent, TabComponent
+    TabsComponent, TabComponent, ProgressBarComponent
   ],
   selector: 'app-root',
   standalone: true,
@@ -86,6 +87,58 @@ interface UserData {
                     </button>
                   </div>
                </div>
+            </div>
+          </section>
+
+          <!-- SECCIÓN PROGRESO (MOVIDA ARRIBA PARA VISIBILIDAD) -->
+          <section class="space-y-6">
+            <div class="flex items-center gap-2 px-2 mt-8 mb-4">
+               <span class="p-1 rounded bg-primary/20 text-primary">
+                  <i class="ri-loader-4-line animate-spin-slow"></i>
+               </span>
+               <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Status Feedback: Liquid Progress</h3>
+            </div>
+
+            <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border-2 border-primary/30 shadow-[0_0_20px_rgba(var(--lg-t-primary-rgb),0.2)] space-y-8">
+               
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <!-- Case 1: Determinate -->
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter opacity-40">
+                      <span>1. Determinate (Standard)</span>
+                      <span>{{ demoProgress() | number:'1.0-0' }}%</span>
+                    </div>
+                    <lg-progress-bar [value]="demoProgress()" color="primary" thickness="0.5rem"></lg-progress-bar>
+                  </div>
+
+                  <!-- Case 2: Indeterminate -->
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter opacity-40">
+                      <span>2. Indeterminate (Viscous Flow)</span>
+                    </div>
+                    <lg-progress-bar mode="indeterminate" color="accent" thickness="0.5rem"></lg-progress-bar>
+                  </div>
+
+                  <!-- Case 3: Buffer -->
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter opacity-40">
+                      <span>3. Buffer (Cloud Sync)</span>
+                      <span>{{ demoProgress() | number:'1.0-0' }}% / {{ demoBuffer() | number:'1.0-0' }}%</span>
+                    </div>
+                    <lg-progress-bar mode="buffer" [value]="demoProgress()" [buffer]="demoBuffer()" color="primary" thickness="6px"></lg-progress-bar>
+                  </div>
+
+                  <!-- Case 4: Query -->
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter opacity-40">
+                      <span>4. Query (Pre-loading Inverted)</span>
+                      <span class="text-primary animate-pulse">{{ demoQueryMode() === 'query' ? 'SCANNING...' : 'READY' }}</span>
+                    </div>
+                    <lg-progress-bar [mode]="demoQueryMode()" [value]="demoProgress()" color="warn" thickness="8px"></lg-progress-bar>
+                    <p class="text-[9px] opacity-30">Transitioning to determinate automatically...</p>
+                  </div>
+               </div>
+
             </div>
           </section>
 
@@ -698,6 +751,7 @@ interface UserData {
                   </lg-radio-group>
                </div>
             </div>
+
           </section>
 
           <footer class="flex items-center justify-between pt-6 border-t border-glass-border">
@@ -752,6 +806,25 @@ export class App {
   public themeService = inject(ThemeService);
   private modalService = inject(LiquidModalService);
   private toastService = inject(LiquidToastService);
+
+  // PROGRESS SIMULATION
+  public demoProgress = signal(0);
+  public demoBuffer = signal(0);
+  public demoQueryMode = signal<'query' | 'determinate'>('query');
+
+  constructor() {
+    // Simular carga progresiva constante
+    setInterval(() => {
+      this.demoProgress.update(v => v < 100 ? v + 0.3 : 0);
+      this.demoBuffer.update(v => v < 100 ? v + 0.5 : 0);
+    }, 50);
+
+    // Simular transición de Query a Determinado cada 8 segundos
+    setInterval(() => {
+      this.demoQueryMode.set('query');
+      setTimeout(() => this.demoQueryMode.set('determinate'), 3000);
+    }, 8000);
+  }
 
   // DATA TABLE MOCK DATA
   public users = signal<UserData[]>([
