@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTableModule } from '@angular/cdk/table';
-import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent } from '@liquid-glass-ui/angular';
+import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent, LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective } from '@liquid-glass-ui/angular';
 import { ProgressBarComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/progress-bar/progress-bar.component';
 import { LgTableDirective, LgHeaderCellDirective, LgCellDirective, LgHeaderRowDirective, LgRowDirective } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/table.directives';
 import { GlassDataTableContainerComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/data-table.component';
@@ -34,13 +34,45 @@ interface UserData {
     TextareaComponent, BadgeComponent, GlassSkeletonComponent,
     LgTableDirective, LgHeaderCellDirective, LgCellDirective, 
     LgHeaderRowDirective, LgRowDirective, GlassDataTableContainerComponent,
-    TabsComponent, TabComponent, ProgressBarComponent
+    TabsComponent, TabComponent, ProgressBarComponent,
+    LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective
   ],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="flex flex-col items-center justify-center min-h-screen p-8 transition-colors duration-500 overflow-y-auto">
+    <div class="flex min-h-screen bg-transparent overflow-hidden">
+      <!-- GLASS SIDEBAR -->
+      <lg-sidebar [(isCollapsed)]="isSidebarCollapsed">
+        <div header class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+            <i class="ri-liquid-fill text-white text-xl"></i>
+          </div>
+          <span class="font-display font-bold text-lg tracking-tight" *ngIf="!isSidebarCollapsed()">Liquid Glass</span>
+        </div>
+
+        <lg-sidebar-item link="/" [badge]="'New'">
+          <i icon class="ri-dashboard-line"></i> Dashboard
+        </lg-sidebar-item>
+
+        <lg-sidebar-item link="/components">
+          <i icon class="ri-stack-line"></i> Components
+        </lg-sidebar-item>
+
+        <lg-sidebar-item link="/analytics">
+          <i icon class="ri-bar-chart-2-line"></i> Analytics
+        </lg-sidebar-item>
+
+        <div footer class="space-y-4">
+           <button lg-button variant="ghost" size="sm" class="w-full" [lgGlassTooltip]="'Toggle Sidebar Position'" (click)="isSidebarCollapsed.set(!isSidebarCollapsed())">
+             <i icon class="ri-side-bar-line"></i>
+             <span *ngIf="!isSidebarCollapsed()">Collapse</span>
+           </button>
+        </div>
+      </lg-sidebar>
+
+      <main class="flex-1 h-screen overflow-y-auto p-8 relative">
+        <div class="max-w-6xl mx-auto">
       
       <lg-glass-card class="max-w-2xl w-full mb-8">
         <div class="flex flex-col gap-8">
@@ -797,12 +829,15 @@ interface UserData {
             <h3 class="text-h3 font-display mb-2">Premium Polish</h3>
             <p class="text-body-sm text-zinc-400">Scrollbars de cristal y selección de texto neon integradas en el core.</p>
          </div>
-      </div>
+          </div>
+        </div>
+      </main>
     </div>
   `,
   styleUrl: './app.css'
 })
 export class App {
+  public isSidebarCollapsed = signal(false);
   public themeService = inject(ThemeService);
   private modalService = inject(LiquidModalService);
   private toastService = inject(LiquidToastService);

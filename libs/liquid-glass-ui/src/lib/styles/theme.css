@@ -6,10 +6,13 @@
 /* Dark Theme (Default) */
 :root {
   --lg-t-primary: #06b6d4;      /* Cyan 500 */
+  --lg-t-primary-rgb: 6, 182, 212;
   --lg-t-primary-hover: #22d3ee;
   
   --lg-t-bg-app: #09090b;       /* Zinc 950 */
+  --lg-t-bg-app-rgb: 9, 9, 11;
   --lg-t-bg-card: #18181b;      /* Zinc 900 */
+  --lg-t-bg-card-rgb: 24, 24, 27;
   
   --lg-t-text-main: #fafafa;
   --lg-t-text-muted: #a1a1aa;
@@ -37,40 +40,46 @@
 /* Light Theme (Mejorado) */
 .light-theme {
   --lg-t-primary: #0891b2;      /* Cyan 600 */
+  --lg-t-primary-rgb: 8, 145, 178;
   --lg-t-primary-hover: #0e7490;
   
   --lg-t-bg-app: #f8fafc;       /* Slate 50 */
+  --lg-t-bg-app-rgb: 248, 250, 252;
   --lg-t-bg-card: #ffffff;
+  --lg-t-bg-card-rgb: 255, 255, 255;
   
   --lg-t-text-main: #0f172a;    /* Slate 900 */
   --lg-t-text-muted: #64748b;   /* Slate 500 */
   
-  --lg-t-glass-bg: rgba(255, 255, 255, 0.7); /* Opaco para legibilidad en luz */
-  --lg-t-glass-border: rgba(0, 0, 0, 0.08);
+  --lg-t-glass-bg: rgba(255, 255, 255, 0.5); /* Más translúcido */
+  --lg-t-glass-border: rgba(0, 0, 0, 0.06);
   
-  --lg-t-neon-shadow: 0 4px 20px rgba(8, 145, 178, 0.15);
+  --lg-t-neon-shadow: 0 4px 20px rgba(8, 145, 178, 0.1);
 
   /* Semantic Colors */
   --lg-t-destructive: #dc2626;  /* Red 600 */
   --lg-t-destructive-rgb: 220, 38, 38;
 
   /* Component Specific */
-  --lg-t-input-bg: rgba(0, 0, 0, 0.04);
-  --lg-t-input-border: rgba(0, 0, 0, 0.08);
+  --lg-t-input-bg: rgba(0, 0, 0, 0.03);
+  --lg-t-input-border: rgba(0, 0, 0, 0.06);
 
   /* Skeleton Loader */
-  --lg-t-skeleton-bg: rgba(0, 0, 0, 0.08);
-  --lg-t-skeleton-border: rgba(0, 0, 0, 0.04);
+  --lg-t-skeleton-bg: rgba(0, 0, 0, 0.06);
+  --lg-t-skeleton-border: rgba(0, 0, 0, 0.02);
   --lg-t-skeleton-shimmer: rgba(255, 255, 255, 0.6);
 }
 
 /* Cyberpunk Theme (High Contrast Dark) */
 .cyberpunk-theme {
   --lg-t-primary: #f0abfc;      /* Fuchsia 300 */
+  --lg-t-primary-rgb: 240, 171, 252;
   --lg-t-primary-hover: #e879f9;
   
   --lg-t-bg-app: #020617;       /* Slate 950 */
+  --lg-t-bg-app-rgb: 2, 6, 23;
   --lg-t-bg-card: #0f172a;
+  --lg-t-bg-card-rgb: 15, 23, 42;
   
   --lg-t-text-main: #fdf4ff;
   --lg-t-text-muted: #d8b4fe;
@@ -97,10 +106,13 @@
 /* Emerald Theme (Organic Premium) */
 .emerald-theme {
   --lg-t-primary: #34d399;      /* Emerald 400 */
+  --lg-t-primary-rgb: 52, 211, 153;
   --lg-t-primary-hover: #10b981;
   
   --lg-t-bg-app: #064e3b;       /* Emerald 900 base */
+  --lg-t-bg-app-rgb: 6, 78, 59;
   --lg-t-bg-card: #065f46;
+  --lg-t-bg-card-rgb: 6, 95, 70;
   
   --lg-t-text-main: #ecfdf5;
   --lg-t-text-muted: #a7f3d0;
