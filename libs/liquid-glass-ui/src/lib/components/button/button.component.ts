@@ -70,9 +70,11 @@ export class ButtonComponent {
   // Inputs via Signals
   variant = input<ButtonVariant>(this._defaultOptions?.variant ?? 'secondary');
   size = input<ButtonSize>(this._defaultOptions?.size ?? 'md');
-  iconOnly = input<boolean>(false); 
+  iconOnly = input<boolean>(false);
   ariaLabel = input<string | null>(null);
   enableHaptics = input<boolean>(this._defaultOptions?.enableHaptics ?? true);
+  /** Ink ripple on pointer down (host directive). Disable for dense controls (e.g. pagination). */
+  enableRipple = input<boolean>(true);
   
   // New States
   disabled = input<boolean>(false);
