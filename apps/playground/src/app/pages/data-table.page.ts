@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation, signal, computed, effect, untracked } from '@angular/core';
+import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTableModule } from '@angular/cdk/table';
 import {
@@ -15,6 +16,8 @@ import {
   LgHeaderRowDirective,
   LgRowDirective,
   PaginationComponent,
+  LgTableDataSource,
+  type LgPageEvent,
 } from '@liquid-glass-ui/angular';
 
 interface UserData {
@@ -72,7 +75,10 @@ function buildDemoUsers(): UserData[] {
   template: `
     <header class="mb-8">
       <h1 class="text-h1 font-display font-bold">Data table</h1>
-      <p class="text-body-sm text-zinc-400 mt-1">Tabla con cristal, orden, selección y paginación.</p>
+      <p class="text-body-sm text-zinc-400 mt-1">
+        Tabla con cristal, orden, selección y paginación vía <code class="text-xs opacity-80">LgTableDataSource</code> (estilo
+        MatTableDataSource).
+      </p>
     </header>
 
     <section class="space-y-6">
@@ -85,12 +91,12 @@ function buildDemoUsers(): UserData[] {
         <div class="p-4 rounded-xl bg-glass border border-glass-border">
           <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
             <div class="w-full sm:w-72">
-              <lg-input placeholder="Filter by name or role..." (input)="searchQuery.set($any($event.target).value)">
+              <lg-input placeholder="Filter by name or role..." (input)="userData.setFilter($any($event.target).value)">
                 <i lg-icon-left class="ri-search-line"></i>
               </lg-input>
             </div>
             <div class="flex gap-2">
-              <lg-badge variant="info" size="sm">Results: {{ filteredUsers().length }}</lg-badge>
+              <lg-badge variant="info" size="sm">Results: {{ filteredCount() }}</lg-badge>
               <lg-badge variant="neutral" size="sm">Selected: {{ selection.selected.length }}</lg-badge>
             </div>
           </div>
@@ -98,10 +104,10 @@ function buildDemoUsers(): UserData[] {
 
         <div class="space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">
-            Example 1: Refined Glass Headers, Sorting &amp; Pagination
+            Example 1: Refined Glass Headers, Sorting &amp; Pagination (<code class="text-[9px]">LgTableDataSource</code>)
           </p>
           <lg-data-table-container>
-            <table lg-table cdk-table [dataSource]="pagedUsers()">
+            <table lg-table cdk-table [dataSource]="userData">
               <ng-container cdkColumnDef="select">
                 <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="w-12">
                   <lg-checkbox
@@ -187,11 +193,10 @@ function buildDemoUsers(): UserData[] {
             </table>
           </lg-data-table-container>
           <lg-pagination
-            [length]="filteredUsers().length"
-            [pageIndex]="pageIndex()"
-            (pageIndexChange)="pageIndex.set($event)"
-            [pageSize]="pageSize()"
-            (pageSizeChange)="pageSize.set($event)"
+            [length]="filteredCount()"
+            [pageIndex]="dsPageIndex()"
+            [pageSize]="dsPageSize()"
+            (pageChange)="onUserPage($event)"
             [pageSizeOptions]="[3, 5, 10, 25]"
             [showFirstLast]="true"
             ariaLabel="Paginación de la tabla de miembros"
@@ -303,45 +308,23 @@ function buildDemoUsers(): UserData[] {
 export class DataTablePage {
   readonly users = signal<UserData[]>(buildDemoUsers());
 
-  readonly searchQuery = signal('');
+  readonly userData = new LgTableDataSource<UserData>(buildDemoUsers(), { pageSize: 5 });
+
   readonly sortColumn = signal<keyof UserData | null>(null);
   readonly sortDirection = signal<'asc' | 'desc'>('asc');
-  readonly pageIndex = signal(0);
-  readonly pageSize = signal(5);
+
+  readonly filteredCount = toSignal(this.userData.filteredLength$, { initialValue: buildDemoUsers().length });
+  readonly dsPageIndex = toSignal(this.userData.pageIndex$, { initialValue: 0 });
+  readonly dsPageSize = toSignal(this.userData.pageSize$, { initialValue: 5 });
+  readonly userPage = toSignal(this.userData.page$, { initialValue: [] as UserData[] });
 
   constructor() {
-    effect(() => {
-      void this.searchQuery();
-      void this.sortColumn();
-      void this.sortDirection();
-      untracked(() => this.pageIndex.set(0));
-    });
+    this.userData.filterPredicate = (u, filter) => {
+      const q = filter.trim().toLowerCase();
+      if (!q) return true;
+      return u.name.toLowerCase().includes(q) || u.role.toLowerCase().includes(q);
+    };
   }
-
-  readonly filteredUsers = computed(() => {
-    let result = this.users().filter(
-      (u) =>
-        u.name.toLowerCase().includes(this.searchQuery().toLowerCase()) ||
-        u.role.toLowerCase().includes(this.searchQuery().toLowerCase()),
-    );
-
-    const col = this.sortColumn();
-    if (col) {
-      result = [...result].sort((a, b) => {
-        const valA = a[col];
-        const valB = b[col];
-        const dir = this.sortDirection() === 'asc' ? 1 : -1;
-        return valA > valB ? dir : -dir;
-      });
-    }
-    return result;
-  });
-
-  readonly pagedUsers = computed(() => {
-    const list = this.filteredUsers();
-    const start = this.pageIndex() * this.pageSize();
-    return list.slice(start, start + this.pageSize());
-  });
 
   readonly selection = new SelectionModel<UserData>(true, []);
   readonly displayedColumns = ['select', 'id', 'name', 'role', 'status', 'email', 'actions'];
@@ -354,16 +337,21 @@ export class DataTablePage {
       this.sortColumn.set(col);
       this.sortDirection.set('asc');
     }
+    this.userData.setSort(this.sortColumn(), this.sortDirection());
+  }
+
+  onUserPage(ev: LgPageEvent): void {
+    this.userData.setPage(ev.pageIndex, ev.pageSize);
   }
 
   isAllSelected(): boolean {
-    const page = this.pagedUsers();
+    const page = this.userPage();
     if (page.length === 0) return false;
     return page.every((row) => this.selection.isSelected(row));
   }
 
   masterToggle(): void {
-    const page = this.pagedUsers();
+    const page = this.userPage();
     if (page.length === 0) return;
     if (this.isAllSelected()) {
       page.forEach((row) => this.selection.deselect(row));

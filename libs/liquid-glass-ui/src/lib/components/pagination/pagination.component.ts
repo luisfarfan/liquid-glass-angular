@@ -233,10 +233,16 @@ export class PaginationComponent {
       const maxIdx = Math.max(0, total - 1);
       const idx = this.pageIndex();
       if (total > 0 && idx > maxIdx) {
-        untracked(() => this.pageIndex.set(maxIdx));
+        untracked(() => {
+          this.pageIndex.set(maxIdx);
+          this.emitPageChange();
+        });
       }
       if (total === 0 && idx !== 0) {
-        untracked(() => this.pageIndex.set(0));
+        untracked(() => {
+          this.pageIndex.set(0);
+          this.emitPageChange();
+        });
       }
     });
   }
