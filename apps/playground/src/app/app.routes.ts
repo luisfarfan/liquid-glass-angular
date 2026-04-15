@@ -63,6 +63,11 @@ export const appRoutes: Route[] = [
     data: { title: 'Data table' },
   },
   {
+    path: 'demos/pagination',
+    loadComponent: () => import('./pages/pagination.page').then((m) => m.PaginationPage),
+    data: { title: 'Pagination' },
+  },
+  {
     path: 'demos/radio',
     loadComponent: () => import('./pages/radio.page').then((m) => m.RadioPage),
     data: { title: 'Radio' },

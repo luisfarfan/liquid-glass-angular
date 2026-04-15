@@ -23,6 +23,8 @@ export * from './lib/components/toast/toast.component';
 export * from './lib/components/skeleton/glass-skeleton.component';
 export * from './lib/components/empty-state/empty-state.component';
 export * from './lib/components/data-table/data-table.component';
+export * from './lib/components/pagination/pagination.types';
+export * from './lib/components/pagination/pagination.component';
 export * from './lib/components/data-table/table.directives';
 export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tab.component';

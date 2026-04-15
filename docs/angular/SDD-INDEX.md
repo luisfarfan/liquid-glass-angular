@@ -24,7 +24,7 @@ Este es el punto central de verdad para la implementación de la librería `@liq
 
 #### Paridad spec ↔ código
 
-Las specs **19 (Pagination)**, **21 (Scrollbar)**, **23 (Breadcrumbs)**, **24 (Avatar)**, **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). El resto del catálogo **01–22** tiene piezas exportadas desde la librería (incluido **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
+Las specs **21 (Scrollbar)**, **23 (Breadcrumbs)**, **24 (Avatar)**, **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). El resto del catálogo **01–22** tiene piezas exportadas desde la librería (incluido **Pagination** en `pagination/`, **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
 
 #### Shell (Topbar + Sidebar + Drawer)
 
