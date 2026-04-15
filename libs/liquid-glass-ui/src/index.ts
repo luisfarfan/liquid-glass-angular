@@ -21,6 +21,7 @@ export * from './lib/components/toast/toast.service';
 export * from './lib/components/toast/toast.types';
 export * from './lib/components/toast/toast.component';
 export * from './lib/components/skeleton/glass-skeleton.component';
+export * from './lib/components/empty-state/empty-state.component';
 export * from './lib/components/data-table/data-table.component';
 export * from './lib/components/data-table/table.directives';
 export * from './lib/components/tabs/tabs.component';
@@ -30,6 +31,14 @@ export * from './lib/components/tooltip/tooltip.component';
 export * from './lib/components/tooltip/tooltip.directive';
 export * from './lib/components/sidebar/sidebar.component';
 export * from './lib/components/sidebar/sidebar-item.component';
+export * from './lib/components/sidebar/sidebar.service';
+export * from './lib/components/topbar/topbar.component';
+export * from './lib/components/topbar/topbar.types';
+export * from './lib/components/drawer/drawer.service';
+export * from './lib/components/drawer/drawer.types';
+export * from './lib/components/drawer/drawer-container.component';
+export * from './lib/components/shell-layout/shell-layout.component';
+export * from './lib/components/shell-layout/shell-layout.constants';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego

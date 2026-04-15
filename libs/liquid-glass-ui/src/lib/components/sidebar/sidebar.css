@@ -8,6 +8,9 @@
   left: 0;
   top: 0;
   height: 100dvh;
+  /* Fuente única de anchos (alinear con shell-layout.constants / lg-shell-layout). */
+  --lg-sidebar-width-expanded: 17.5rem;
+  --lg-sidebar-width-collapsed: 5rem;
   background: rgba(var(--lg-t-bg-app-rgb), 0.7);
   backdrop-filter: blur(2rem) saturate(200%);
   border-right: 0.0625rem solid var(--lg-t-glass-border);
@@ -19,11 +22,11 @@
 }
 
 .lg-sidebar.is-collapsed {
-  width: 5rem;
+  width: var(--lg-sidebar-width-collapsed);
 }
 
 .lg-sidebar:not(.is-collapsed) {
-  width: 17.5rem;
+  width: var(--lg-sidebar-width-expanded);
 }
 
 /* --- Navigation Content --- */
@@ -233,11 +236,13 @@ lg-sidebar-item {
 @media (max-width: 48rem) {
   .lg-sidebar {
     transform: translateX(-100%);
-    width: 17.5rem !important;
+    width: var(--lg-sidebar-width-expanded) !important;
   }
   
   .lg-sidebar.is-mobile-open {
     transform: translateX(0);
     box-shadow: 1.25rem 0 3.125rem rgba(0, 0, 0, 0.5);
+    /* Por encima del backdrop del shell (p. ej. playground z-28), por debajo del topbar (z-40). */
+    z-index: 32;
   }
 }

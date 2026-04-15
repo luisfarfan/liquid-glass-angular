@@ -1,9 +1,10 @@
-import { Component, ViewEncapsulation, inject, signal, computed } from '@angular/core';
+import { Component, ViewEncapsulation, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTableModule } from '@angular/cdk/table';
-import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent, LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective } from '@liquid-glass-ui/angular';
+import { ThemeService, GlassCardComponent, ButtonComponent, InputComponent, FormFieldComponent, ToggleComponent, CheckboxComponent, GlassSkeletonComponent, TabsComponent, TabComponent, LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective, TopbarComponent, LiquidDrawerService, ShellLayoutComponent, lgShellSidebarContentInset, type LgTopbarUser } from '@liquid-glass-ui/angular';
+import { PlaygroundDrawerDemoComponent } from './components/playground-drawer-demo.component';
 import { ProgressBarComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/progress-bar/progress-bar.component';
 import { LgTableDirective, LgHeaderCellDirective, LgCellDirective, LgHeaderRowDirective, LgRowDirective } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/table.directives';
 import { GlassDataTableContainerComponent } from '../../../../libs/liquid-glass-ui/src/lib/components/data-table/data-table.component';
@@ -35,15 +36,21 @@ interface UserData {
     LgTableDirective, LgHeaderCellDirective, LgCellDirective, 
     LgHeaderRowDirective, LgRowDirective, GlassDataTableContainerComponent,
     TabsComponent, TabComponent, ProgressBarComponent,
-    LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective
+    LiquidSidebarComponent, LiquidSidebarItemComponent, LiquidTooltipDirective,
+    TopbarComponent, ShellLayoutComponent
   ],
   selector: 'app-root',
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="flex min-h-screen bg-transparent overflow-hidden">
-      <!-- GLASS SIDEBAR -->
-      <lg-sidebar [(isCollapsed)]="isSidebarCollapsed">
+    <lg-shell-layout
+      [contentInset]="shellContentInset()"
+      [backdropVisible]="isMobileShell() && sidebar.isMobileOpen()"
+      [backdropDismissLabel]="'Cerrar menú de navegación'"
+      [mainRegionLabel]="'Contenido del playground'"
+      (backdropDismiss)="sidebar.toggleMobile()"
+    >
+      <lg-sidebar #sidebar lgShellSidebar [(isCollapsed)]="isSidebarCollapsed">
         <div header class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
             <i class="ri-liquid-fill text-white text-xl"></i>
@@ -91,7 +98,27 @@ interface UserData {
         </div>
       </lg-sidebar>
 
-      <main class="flex-1 h-screen overflow-y-auto p-8 relative">
+      <div class="flex flex-1 flex-col min-w-0 min-h-0 h-screen overflow-hidden">
+        <lg-topbar
+          class="shrink-0"
+          [title]="'Playground'"
+          [user]="topbarUser()"
+          (sidebarToggle)="sidebar.toggleMobile()"
+          (searchToggle)="onTopbarSearch()"
+        >
+          <span lgTopbarStart class="text-[10px] uppercase tracking-widest text-[var(--lg-t-text-muted)] hidden md:inline">Shell</span>
+          <div lgTopbarSearch class="w-full min-w-0 flex items-center">
+            <lg-input placeholder="Buscar en el demo…" class="w-full !min-w-0" />
+          </div>
+          <div lgTopbarActions class="flex items-center gap-2 shrink-0">
+            <button lg-button variant="ghost" size="sm" type="button" (click)="themeService.toggleTheme()" title="Cambiar tema">
+              <i class="ri-palette-line"></i>
+            </button>
+            <button lg-button variant="secondary" size="sm" type="button" (click)="openPlaygroundDrawer()">Drawer</button>
+          </div>
+        </lg-topbar>
+
+        <main class="flex-1 min-h-0 overflow-y-auto p-8 relative">
         <div class="max-w-6xl mx-auto">
       
       <lg-glass-card class="max-w-2xl w-full mb-8">
@@ -851,16 +878,39 @@ interface UserData {
          </div>
           </div>
         </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </lg-shell-layout>
   `,
   styleUrl: './app.css'
 })
 export class App {
+  private readonly destroyRef = inject(DestroyRef);
+
   public isSidebarCollapsed = signal(false);
+  /** Viewport estilo shell móvil (alineado con topbar / sidebar a 48rem). */
+  public readonly isMobileShell = signal(false);
+  /**
+   * Desplazamiento horizontal de la columna principal (MatSidenav mode `side`):
+   * en desktop reserva el ancho del sidebar fijo; en móvil 0 (drawer overlay).
+   */
+  public readonly shellContentInset = computed(() =>
+    lgShellSidebarContentInset({
+      isMobileViewport: this.isMobileShell(),
+      isSidebarCollapsed: this.isSidebarCollapsed(),
+    }),
+  );
+
   public themeService = inject(ThemeService);
   private modalService = inject(LiquidModalService);
   private toastService = inject(LiquidToastService);
+  private drawerService = inject(LiquidDrawerService);
+
+  /** Usuario demo en el Topbar (avatar con iniciales si no hay URL). */
+  public topbarUser = signal<LgTopbarUser>({
+    name: 'Alex Rivera',
+    avatarUrl: null,
+  });
 
   // PROGRESS SIMULATION
   public demoProgress = signal(0);
@@ -868,6 +918,12 @@ export class App {
   public demoQueryMode = signal<'query' | 'determinate'>('query');
 
   constructor() {
+    const mq = matchMedia('(max-width: 767px)');
+    const syncShell = () => this.isMobileShell.set(mq.matches);
+    syncShell();
+    mq.addEventListener('change', syncShell);
+    this.destroyRef.onDestroy(() => mq.removeEventListener('change', syncShell));
+
     // Simular carga progresiva constante
     setInterval(() => {
       this.demoProgress.update(v => v < 100 ? v + 0.3 : 0);
@@ -949,6 +1005,17 @@ export class App {
       enableParallax,
       animation: animation as any,
       data: { title: `Animación: ${animation.toUpperCase()}` }
+    });
+  }
+
+  onTopbarSearch(): void {
+    this.toastService.info('Conecta aquí tu overlay o modal de búsqueda global.', 'Búsqueda');
+  }
+
+  openPlaygroundDrawer(): void {
+    this.drawerService.open(PlaygroundDrawerDemoComponent, {
+      width: 'min(100vw, 440px)',
+      position: 'right',
     });
   }
 

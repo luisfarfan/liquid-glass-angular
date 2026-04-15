@@ -1,7 +1,7 @@
 ---
 title: Liquid Glass UI - Angular SDD Master Index
 description: Documento raíz para la navegación técnica del sistema de diseño orientado a Angular 21.
-version: 2.0.0
+version: 2.4.0
 ---
 
 # 🧠 Angular SDD Master Index
@@ -15,13 +15,26 @@ Este es el punto central de verdad para la implementación de la librería `@liq
 *   **[02-core-principles.md](./sdd/02-core-principles.md)**: Reglas de oro sobre Signals, OnPush y ViewEncapsulation.
 
 ### 02. Catálogo de Componentes (Specs)
-*   **Estado: En curso** (Documentando via SDD)
-*   **01-08**: [Button](./sdd/components/01-button.md), [Input](./sdd/components/02-input.md), [Card](./sdd/components/03-card.md), [Badge](./sdd/components/04-badge.md), [Toggle](./sdd/components/05-toggle.md), [Checkbox](./sdd/components/06-checkbox.md), [Modal](./sdd/components/07-modal.md), [Tabs](./sdd/components/08-tabs.md).
-*   **Punto Actual**: [09-13](./sdd/components/09-progress-bar.md), [14. Skeleton](./sdd/components/14-skeleton.md).
-*   **Próximos**: Table.
+*   **Estado:** Las especificaciones **01–26** están publicadas en [`./sdd/components/`](./sdd/components/). La implementación vive en `libs/liquid-glass-ui`; la paridad spec ↔ código se resume en la subsección siguiente.
+*   **01–08:** [Button](./sdd/components/01-button.md), [Input](./sdd/components/02-input.md), [Card](./sdd/components/03-card.md), [Badge](./sdd/components/04-badge.md), [Toggle](./sdd/components/05-toggle.md), [Checkbox](./sdd/components/06-checkbox.md), [Modal](./sdd/components/07-modal.md), [Tabs](./sdd/components/08-tabs.md).
+*   **09–15:** [Progress bar](./sdd/components/09-progress-bar.md), [Select](./sdd/components/10-select.md), [Textarea](./sdd/components/11-textarea.md), [Tooltip](./sdd/components/12-tooltip.md), [Sidebar](./sdd/components/13-sidebar.md), [Skeleton](./sdd/components/14-skeleton.md), [Data table](./sdd/components/15-data-table.md).
+*   **16–18:** [Empty state](./sdd/components/16-empty-state.md), [Radio](./sdd/components/17-radio.md), [Toast](./sdd/components/18-toast.md).
+*   **19–26:** [Pagination](./sdd/components/19-pagination.md), [Topbar](./sdd/components/20-topbar.md), [Scrollbar](./sdd/components/21-scrollbar.md), [Drawer](./sdd/components/22-drawer.md), [Breadcrumbs](./sdd/components/23-breadcrumbs.md), [Avatar](./sdd/components/24-avatar.md), [Search input](./sdd/components/25-search-input.md), [Dropdown menu](./sdd/components/26-dropdown-menu.md).
+*   **27 (layout):** [Shell layout](./sdd/components/27-shell-layout.md) — contenedor app shell (`lg-shell-layout`).
+
+#### Paridad spec ↔ código
+
+Las specs **19 (Pagination)**, **21 (Scrollbar)**, **23 (Breadcrumbs)**, **24 (Avatar)**, **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). El resto del catálogo **01–22** tiene piezas exportadas desde la librería (incluido **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
+
+#### Shell (Topbar + Sidebar + Drawer)
+
+*   **Shell layout** (`lg-shell-layout`): contenedor estilo `MatSidenavContainer`; spec [27-shell-layout.md](./sdd/components/27-shell-layout.md). Proyección `[lgShellSidebar]` para `lg-sidebar`; el resto (topbar + main) en el slot por defecto. Inputs `contentInset` (idealmente vía `lgShellSidebarContentInset()`), `backdropVisible`, `backdropClass`, `backdropDismissLabel`, `mainRegionLabel`; output `backdropDismiss`. Con scrim visible: **FocusTrap** CDK solo en la región del sidebar; scrim con token `--lg-t-scrim`.
+*   **Topbar** (`lg-topbar`): emite `sidebarToggle` para móvil; enlazar con `LiquidSidebarComponent.toggleMobile()` (o lógica propia). Zonas de proyección: `[lgTopbarStart]`, `[lgTopbarSearch]`, `[lgTopbarActions]`.
+*   **Drawer**: `LiquidDrawerService.open(Componente, { width, position })` con CDK Dialog; datos vía `LIQUID_DRAWER_DATA`; scroll interno con la clase global `lg-glass-scroll` definida en los estilos del drawer.
+*   **Anchos del sidebar**: variables CSS `--lg-sidebar-width-expanded` / `--lg-sidebar-width-collapsed` en el host del sidebar; constantes TS `LG_SHELL_SIDEBAR_EXPANDED_INSET` y `LG_SHELL_SIDEBAR_COLLAPSED_INSET` alineadas con esos valores para el inset del shell.
 
 ### 03. Integración y Layout
-*   **[03-layout-architecture.md](./sdd/03-layout-architecture.md)**: El Shell de la aplicación y el sistema de grillas Bento.
+*   **[05-layout-architecture.md](./sdd/05-layout-architecture.md)**: El Shell de la aplicación y el sistema de grillas Bento.
 *   **[04-nx-strategy.md](./sdd/04-nx-strategy.md)**: Empaquetado de la librería y publicación NPM.
 
 ---
