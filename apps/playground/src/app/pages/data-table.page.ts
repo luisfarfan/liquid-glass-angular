@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, signal, computed } from '@angular/core';
+import { Component, ViewEncapsulation, signal, computed, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -14,6 +14,7 @@ import {
   LgCellDirective,
   LgHeaderRowDirective,
   LgRowDirective,
+  PaginationComponent,
 } from '@liquid-glass-ui/angular';
 
 interface UserData {
@@ -23,6 +24,29 @@ interface UserData {
   status: 'online' | 'away' | 'offline';
   email: string;
   lastActive: string;
+}
+
+function buildDemoUsers(): UserData[] {
+  const rows: UserData[] = [
+    { id: 'USR-001', name: 'Alexander Wright', role: 'System Architect', status: 'online', email: 'alex.w@liquid.io', lastActive: '2 mins ago' },
+    { id: 'USR-002', name: 'Elena Rodriguez', role: 'UI/UX Lead', status: 'away', email: 'elena.r@liquid.io', lastActive: '15 mins ago' },
+    { id: 'USR-003', name: 'Marcus Chen', role: 'Backend Developer', status: 'offline', email: 'm.chen@liquid.io', lastActive: '3 hours ago' },
+    { id: 'USR-004', name: 'Sarah Jenkins', role: 'Product Manager', status: 'online', email: 's.jenkins@liquid.io', lastActive: 'Just now' },
+    { id: 'USR-005', name: 'David Miller', role: 'DevOps Engineer', status: 'online', email: 'd.miller@liquid.io', lastActive: '5 mins ago' },
+  ];
+  const roles = ['System Architect', 'UI/UX Lead', 'Backend Developer', 'Product Manager', 'DevOps Engineer', 'QA Engineer', 'Data Analyst'];
+  const statuses: UserData['status'][] = ['online', 'away', 'offline'];
+  for (let i = 6; i <= 28; i++) {
+    rows.push({
+      id: `USR-${String(i).padStart(3, '0')}`,
+      name: `Team Member ${i}`,
+      role: roles[i % roles.length],
+      status: statuses[i % 3],
+      email: `member${i}@liquid.io`,
+      lastActive: `${(i * 7) % 59} mins ago`,
+    });
+  }
+  return rows;
 }
 
 @Component({
@@ -42,12 +66,13 @@ interface UserData {
     LgCellDirective,
     LgHeaderRowDirective,
     LgRowDirective,
+    PaginationComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
       <h1 class="text-h1 font-display font-bold">Data table</h1>
-      <p class="text-body-sm text-zinc-400 mt-1">Tabla con cristal, orden y selección.</p>
+      <p class="text-body-sm text-zinc-400 mt-1">Tabla con cristal, orden, selección y paginación.</p>
     </header>
 
     <section class="space-y-6">
@@ -73,10 +98,10 @@ interface UserData {
 
         <div class="space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">
-            Example 1: Refined Glass Headers &amp; Reactive Sorting
+            Example 1: Refined Glass Headers, Sorting &amp; Pagination
           </p>
           <lg-data-table-container>
-            <table lg-table cdk-table [dataSource]="filteredUsers()">
+            <table lg-table cdk-table [dataSource]="pagedUsers()">
               <ng-container cdkColumnDef="select">
                 <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="w-12">
                   <lg-checkbox
@@ -161,6 +186,16 @@ interface UserData {
               ></tr>
             </table>
           </lg-data-table-container>
+          <lg-pagination
+            [length]="filteredUsers().length"
+            [pageIndex]="pageIndex()"
+            (pageIndexChange)="pageIndex.set($event)"
+            [pageSize]="pageSize()"
+            (pageSizeChange)="pageSize.set($event)"
+            [pageSizeOptions]="[3, 5, 10, 25]"
+            [showFirstLast]="true"
+            ariaLabel="Paginación de la tabla de miembros"
+          />
         </div>
 
         <div class="space-y-4">
@@ -266,17 +301,22 @@ interface UserData {
   `,
 })
 export class DataTablePage {
-  readonly users = signal<UserData[]>([
-    { id: 'USR-001', name: 'Alexander Wright', role: 'System Architect', status: 'online', email: 'alex.w@liquid.io', lastActive: '2 mins ago' },
-    { id: 'USR-002', name: 'Elena Rodriguez', role: 'UI/UX Lead', status: 'away', email: 'elena.r@liquid.io', lastActive: '15 mins ago' },
-    { id: 'USR-003', name: 'Marcus Chen', role: 'Backend Developer', status: 'offline', email: 'm.chen@liquid.io', lastActive: '3 hours ago' },
-    { id: 'USR-004', name: 'Sarah Jenkins', role: 'Product Manager', status: 'online', email: 's.jenkins@liquid.io', lastActive: 'Just now' },
-    { id: 'USR-005', name: 'David Miller', role: 'DevOps Engineer', status: 'online', email: 'd.miller@liquid.io', lastActive: '5 mins ago' },
-  ]);
+  readonly users = signal<UserData[]>(buildDemoUsers());
 
   readonly searchQuery = signal('');
   readonly sortColumn = signal<keyof UserData | null>(null);
   readonly sortDirection = signal<'asc' | 'desc'>('asc');
+  readonly pageIndex = signal(0);
+  readonly pageSize = signal(5);
+
+  constructor() {
+    effect(() => {
+      void this.searchQuery();
+      void this.sortColumn();
+      void this.sortDirection();
+      untracked(() => this.pageIndex.set(0));
+    });
+  }
 
   readonly filteredUsers = computed(() => {
     let result = this.users().filter(
@@ -297,6 +337,12 @@ export class DataTablePage {
     return result;
   });
 
+  readonly pagedUsers = computed(() => {
+    const list = this.filteredUsers();
+    const start = this.pageIndex() * this.pageSize();
+    return list.slice(start, start + this.pageSize());
+  });
+
   readonly selection = new SelectionModel<UserData>(true, []);
   readonly displayedColumns = ['select', 'id', 'name', 'role', 'status', 'email', 'actions'];
   readonly denseColumns = ['id', 'name', 'role', 'status', 'email', 'lastActive', 'col1', 'col2', 'col3', 'col4', 'col5', 'actions'];
@@ -311,16 +357,18 @@ export class DataTablePage {
   }
 
   isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.filteredUsers().length;
-    return numSelected === numRows && numRows > 0;
+    const page = this.pagedUsers();
+    if (page.length === 0) return false;
+    return page.every((row) => this.selection.isSelected(row));
   }
 
   masterToggle(): void {
+    const page = this.pagedUsers();
+    if (page.length === 0) return;
     if (this.isAllSelected()) {
-      this.selection.clear();
+      page.forEach((row) => this.selection.deselect(row));
     } else {
-      this.filteredUsers().forEach((row) => this.selection.select(row));
+      page.forEach((row) => this.selection.select(row));
     }
   }
 }
