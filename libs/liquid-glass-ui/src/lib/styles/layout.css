@@ -49,8 +49,26 @@
 
 /* Glass Ripple Animations */
 @keyframes lg-ripple-expand {
-  0% { transform: scale(0); opacity: 0.5; }
-  100% { transform: scale(4); opacity: 0; }
+  0% {
+    transform: scale(0.15);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(3.25);
+    opacity: 0;
+  }
+}
+
+/** Host ~40px or less: stays inside rounded rect, no “broken” ring from overflow clip */
+@keyframes lg-ripple-expand-compact {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.32;
+  }
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
 }
 
 .lg-ripple-container {
@@ -68,7 +86,13 @@
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(4px);
   pointer-events: none;
-  animation: lg-ripple-expand 0.6s var(--lg-ease-out) forwards;
+  animation: lg-ripple-expand 0.55s var(--lg-ease-out) forwards;
+}
+
+.lg-glass-ripple--compact {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(2px);
+  animation: lg-ripple-expand-compact 0.48s var(--lg-ease-out) forwards;
 }
 
 /* Neon Button Base */
