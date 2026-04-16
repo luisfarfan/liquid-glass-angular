@@ -15,13 +15,15 @@ version: 1.0.0
 
 ## 2. API Reference (Angular CDK Menu)
 
-### Selector: `[lib-glass-menu-trigger]`
-Directiva que se aplica a cualquier botón para disparar el menú.
+### Disparador
 
-### Components
-- **`lib-glass-menu`**: El contenedor flotante.
-- **`lib-glass-menu-item`**: Cada opción individual.
-- **`lib-glass-menu-divider`**: Línea de separación sutil.
+- **`[cdkMenuTriggerFor]`** de `@angular/cdk/menu` en el botón (p. ej. `button[lg-button]`).
+
+### Componentes
+
+- **`lg-dropdown-menu`**: contenedor con `cdkMenu` y estilos glass.
+- **`lg-dropdown-menu-item`**: cada opción (`cdkMenuItem`).
+- **`lg-dropdown-menu-divider`**: separador.
 
 ---
 
@@ -39,26 +41,33 @@ El menú no solo aparece con fade; se expande desde el punto de origen (el botó
 
 ## 4. Technical Implementation (Angular v21)
 
-Utiliza el nuevo `@angular/cdk/menu` (experimental o estable según versión) para garantizar la navegación con flechas de dirección y soporte de submenús:
+### Implementación en `@liquid-glass-ui/angular`
+
+- Carpeta: `libs/liquid-glass-ui/src/lib/components/dropdown/`.
+- Componentes: **`lg-dropdown-menu`** (envoltorio con `cdkMenu` + estilos glass), **`lg-dropdown-menu-item`** (`cdkMenuItem`, icono vía `[lgDropdownItemIcon]`, `destructive`, `disabled`, output `triggered`), **`lg-dropdown-menu-divider`**.
+- Importar **`CdkMenuModule`** (reexportado desde el barrel) y usar **`[cdkMenuTriggerFor]`** en el disparador (p. ej. `button[lg-button]`). Opcional: `cdkMenuTriggerTransformOriginOn="self"` para el origen de la animación.
+- Constante **`LG_DROPDOWN_MENU`**: array de imports listo para `imports: [..., ...LG_DROPDOWN_MENU]` en componentes standalone.
+- Demo: playground **`/demos/dropdown-menu`**.
+
+Utiliza `@angular/cdk/menu` para posicionamiento en viewport, cierre por click exterior y navegación con teclado (flechas).
 
 ```html
-<button [cdkMenuTriggerFor]="userMenu" lib-glass-button variant="ghost">
+<button lg-button type="button" variant="ghost" [cdkMenuTriggerFor]="userMenu" cdkMenuTriggerTransformOriginOn="self">
   Perfil
 </button>
 
 <ng-template #userMenu>
-  <div cdkMenu class="glass-menu-container">
-    <button cdkMenuItem class="glass-menu-item">
-      <i class="ri-user-line"></i> Mi Perfil
-    </button>
-    <button cdkMenuItem class="glass-menu-item">
-      <i class="ri-settings-line"></i> Ajustes
-    </button>
-    <div class="glass-menu-divider"></div>
-    <button cdkMenuItem class="glass-menu-item destructive">
-      <i class="ri-logout-box-line"></i> Salir
-    </button>
-  </div>
+  <lg-dropdown-menu>
+    <lg-dropdown-menu-item (triggered)="onProfile()">
+      <i lgDropdownItemIcon class="ri-user-line"></i>
+      Mi perfil
+    </lg-dropdown-menu-item>
+    <lg-dropdown-menu-divider />
+    <lg-dropdown-menu-item [destructive]="true" (triggered)="onLogout()">
+      <i lgDropdownItemIcon class="ri-logout-box-line"></i>
+      Salir
+    </lg-dropdown-menu-item>
+  </lg-dropdown-menu>
 </ng-template>
 ```
 

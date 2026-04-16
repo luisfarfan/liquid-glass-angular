@@ -47,6 +47,11 @@ export * from './lib/components/breadcrumbs/breadcrumb.types';
 export * from './lib/components/breadcrumbs/breadcrumbs.component';
 export * from './lib/components/avatar/avatar.component';
 export * from './lib/components/search-input/search-input.component';
+export * from './lib/components/dropdown/dropdown-menu.component';
+export * from './lib/components/dropdown/dropdown-menu-item.component';
+export * from './lib/components/dropdown/dropdown-menu-divider.component';
+export { LG_DROPDOWN_MENU } from './lib/components/dropdown/dropdown-menu.imports';
+export { CdkMenuModule } from '@angular/cdk/menu';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego

@@ -88,6 +88,11 @@ export const appRoutes: Route[] = [
     data: { title: 'Search input' },
   },
   {
+    path: 'demos/dropdown-menu',
+    loadComponent: () => import('./pages/dropdown-menu.page').then((m) => m.DropdownMenuPage),
+    data: { title: 'Dropdown menu' },
+  },
+  {
     path: 'demos/radio',
     loadComponent: () => import('./pages/radio.page').then((m) => m.RadioPage),
     data: { title: 'Radio' },
