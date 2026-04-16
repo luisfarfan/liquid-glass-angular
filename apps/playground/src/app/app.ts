@@ -55,7 +55,7 @@ import { readDeepestRouteData } from './playground-route-utils';
           <i icon class="ri-dashboard-line"></i> Dashboard
         </lg-sidebar-item>
 
-        <lg-sidebar-item label="Components" [subItems]="true" [badge]="13">
+        <lg-sidebar-item label="Components" [subItems]="true" [badge]="14">
           <i icon class="ri-stack-line"></i> Components
 
           <lg-sidebar-item link="/demos/buttons" label="Buttons">
@@ -93,6 +93,9 @@ import { readDeepestRouteData } from './playground-route-utils';
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/pagination" label="Pagination">
             <i icon class="ri-pages-line"></i> Pagination
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/scrollbar" label="Scrollbar">
+            <i icon class="ri-scroll-to-bottom-line"></i> Scrollbar
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/radio" label="Radio">
             <i icon class="ri-radio-button-line"></i> Radio

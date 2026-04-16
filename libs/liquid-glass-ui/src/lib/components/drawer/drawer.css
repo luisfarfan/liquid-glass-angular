@@ -2,6 +2,8 @@
  * Glass Drawer — SDD 22 (CDK overlay: backdrop + panel)
  */
 
+@import '../scrollbar/scrollbar.css';
+
 .lg-drawer-backdrop {
   background: rgba(0, 0, 0, 0.4);
   animation: lg-drawer-backdrop-in 0.35s ease-out forwards;
@@ -85,23 +87,4 @@
     transform: translateX(0);
     opacity: 1;
   }
-}
-
-/**
- * Scroll estilizado para el cuerpo del drawer (SDD: glass-scroll).
- * Aplicar en el contenido con scroll interno.
- */
-.lg-glass-scroll {
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(var(--lg-t-primary-rgb), 0.35) transparent;
-}
-
-.lg-glass-scroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.lg-glass-scroll::-webkit-scrollbar-thumb {
-  background: rgba(var(--lg-t-primary-rgb), 0.35);
-  border-radius: 9999px;
 }

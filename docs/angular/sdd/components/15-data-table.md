@@ -86,3 +86,9 @@ Cuando `virtualScroll` es `true`, la tabla se envuelve en un `cdk-virtual-scroll
 - [ ] Las columnas ancladas (Select/Actions) permanecen visibles durante el scroll horizontal.
 - [ ] El tooltips aparece correctamente sobre contenidos truncados.
 - [ ] Si se habilita virtual scroll, la tabla mantiene 60fps durante el desplazamiento rápido.
+
+---
+
+## 7. Pendientes de documentación (TODO)
+
+Seguimiento central en [SDD-INDEX.md](../../SDD-INDEX.md) (sección *TODO documentación / paridad*). Aquí, foco tabla: documentar de forma explícita `LgTableDataSource` frente a `MatTableDataSource` (API ya expuesta en código), el ejemplo del playground con `lg-pagination`, y los huecos de paridad (paginación servidor, orden tipo `MatSort`, `trackBy`, tests).

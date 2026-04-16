@@ -26,6 +26,7 @@ export * from './lib/components/data-table/data-table.component';
 export * from './lib/components/data-table/lg-table-data-source';
 export * from './lib/components/pagination/pagination.types';
 export * from './lib/components/pagination/pagination.component';
+export * from './lib/components/scrollbar/glass-scroll.directive';
 export * from './lib/components/data-table/table.directives';
 export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tab.component';

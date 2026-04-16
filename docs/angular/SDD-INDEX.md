@@ -1,7 +1,7 @@
 ---
 title: Liquid Glass UI - Angular SDD Master Index
 description: Documento raíz para la navegación técnica del sistema de diseño orientado a Angular 21.
-version: 2.4.0
+version: 2.4.1
 ---
 
 # 🧠 Angular SDD Master Index
@@ -24,13 +24,19 @@ Este es el punto central de verdad para la implementación de la librería `@liq
 
 #### Paridad spec ↔ código
 
-Las specs **21 (Scrollbar)**, **23 (Breadcrumbs)**, **24 (Avatar)**, **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). El resto del catálogo **01–22** tiene piezas exportadas desde la librería (incluido **Pagination** en `pagination/`, **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
+Las specs **23 (Breadcrumbs)**, **24 (Avatar)**, **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). El resto del catálogo **01–22** tiene piezas exportadas desde la librería (incluido **Scrollbar** en `scrollbar/` con utilidad `.lg-glass-scroll` y directiva `lgGlassScroll`, **Pagination** en `pagination/`, **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
+
+#### TODO documentación / paridad (seguimiento)
+
+- **Data table (15) + `LgTableDataSource`:** ampliar [15-data-table.md](./sdd/components/15-data-table.md) con el patrón tipo Material (`connect`, `filterPredicate`, `sortingDataAccessor`, cableado con `lg-pagination`); referencia viva: playground **Data table** ejemplo 1. Pendientes de producto/doc: paginación servidor, cabeceras de orden estilo `MatSort`, `trackBy`, y notas de testing.
+- **Scrollbar (21):** enlazar en la guía de integración que `layout.css` ya incorpora `scrollbar/scrollbar.css`; opcionalmente documentar consumo sin `layout.css` importando solo esa hoja.
+- **Catálogo 23–26:** actualizar la tabla de paridad anterior cuando existan rutas bajo `libs/liquid-glass-ui/src/lib/components/`.
 
 #### Shell (Topbar + Sidebar + Drawer)
 
 *   **Shell layout** (`lg-shell-layout`): contenedor estilo `MatSidenavContainer`; spec [27-shell-layout.md](./sdd/components/27-shell-layout.md). Proyección `[lgShellSidebar]` para `lg-sidebar`; el resto (topbar + main) en el slot por defecto. Inputs `contentInset` (idealmente vía `lgShellSidebarContentInset()`), `backdropVisible`, `backdropClass`, `backdropDismissLabel`, `mainRegionLabel`; output `backdropDismiss`. Con scrim visible: **FocusTrap** CDK solo en la región del sidebar; scrim con token `--lg-t-scrim`.
 *   **Topbar** (`lg-topbar`): emite `sidebarToggle` para móvil; enlazar con `LiquidSidebarComponent.toggleMobile()` (o lógica propia). Zonas de proyección: `[lgTopbarStart]`, `[lgTopbarSearch]`, `[lgTopbarActions]`.
-*   **Drawer**: `LiquidDrawerService.open(Componente, { width, position })` con CDK Dialog; datos vía `LIQUID_DRAWER_DATA`; scroll interno con la clase global `lg-glass-scroll` definida en los estilos del drawer.
+*   **Drawer**: `LiquidDrawerService.open(Componente, { width, position })` con CDK Dialog; datos vía `LIQUID_DRAWER_DATA`; scroll interno con la clase `lg-glass-scroll` (spec 21, hoja `scrollbar/scrollbar.css` importada por el drawer y por `layout.css`).
 *   **Anchos del sidebar**: variables CSS `--lg-sidebar-width-expanded` / `--lg-sidebar-width-collapsed` en el host del sidebar; constantes TS `LG_SHELL_SIDEBAR_EXPANDED_INSET` y `LG_SHELL_SIDEBAR_COLLAPSED_INSET` alineadas con esos valores para el inset del shell.
 
 ### 03. Integración y Layout

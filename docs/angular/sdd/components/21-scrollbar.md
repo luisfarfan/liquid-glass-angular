@@ -28,6 +28,13 @@ version: 1.0.0
 
 ## 3. Technical Implementation (Tailwind v4 / CSS)
 
+### Implementación en `@liquid-glass-ui/angular`
+
+- Hoja de utilidad: `libs/liquid-glass-ui/src/lib/components/scrollbar/scrollbar.css` — clase **`.lg-glass-scroll`**.
+- Carga típica: `styles/layout.css` ya importa esa hoja; el drawer también la importa para que el panel con scroll no dependa solo del host de la app.
+- Directiva opcional: **`LgGlassScrollDirective`** (`[lgGlassScroll]`) aplica la clase en el host.
+- Demo: playground **`/demos/scrollbar`**.
+
 ### Pure CSS Implementation
 Dado que las scrollbars son difíciles de manejar vía componentes, definimos una utilidad de clase global que puede aplicarse a cualquier contenedor `overflow-auto`.
 
