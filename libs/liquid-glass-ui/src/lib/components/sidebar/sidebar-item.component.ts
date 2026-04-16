@@ -1,4 +1,14 @@
-import { Component, Input, ElementRef, inject, ChangeDetectionStrategy, ViewEncapsulation, signal, HostBinding, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ElementRef,
+  inject,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  signal,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LiquidSidebarService } from './sidebar.service';
@@ -137,12 +147,40 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Ancla cuya geometría define la cápsula: en rail colapsado con ruta en un hijo,
+   * usamos el `<a>` del grupo padre para alinear con el icono visible.
+   */
+  private indicatorAnchorForLayout(): HTMLElement | null {
+    const selfAnchor = this.elementRef.nativeElement.querySelector(
+      ':scope > a.lg-sidebar-item',
+    ) as HTMLElement | null;
+    if (!selfAnchor) {
+      return null;
+    }
+    if (this.service.isCollapsed() && this._isNested && this.isActive) {
+      const nestedContainer = this.elementRef.nativeElement.parentElement;
+      if (nestedContainer?.classList.contains('lg-sidebar-nested-container')) {
+        const parentHost = nestedContainer.parentElement;
+        if (parentHost?.tagName.toLowerCase() === 'lg-sidebar-item') {
+          const parentAnchor = parentHost.querySelector(
+            ':scope > a.lg-sidebar-item',
+          ) as HTMLElement | null;
+          if (parentAnchor) {
+            return parentAnchor;
+          }
+        }
+      }
+    }
+    return selfAnchor;
+  }
+
+  /**
    * Distancia desde el borde superior del área scrollable `.lg-sidebar-content`
    * hasta el ítem activo (incluye jerarquía anidada). `offsetTop` solo respecto al
    * `offsetParent` rompía la cápsula al estar dentro de `.lg-sidebar-nested-container`.
    */
   private indicatorYRelativeToContent(): number {
-    const anchor = this.elementRef.nativeElement.querySelector('.lg-sidebar-item') as HTMLElement | null;
+    const anchor = this.indicatorAnchorForLayout();
     if (!anchor) {
       return 0;
     }

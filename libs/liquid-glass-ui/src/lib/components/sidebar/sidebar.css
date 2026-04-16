@@ -207,6 +207,29 @@ lg-sidebar-item {
   display: none;
 }
 
+/* Rail colapsado: solo ítems de primer nivel; evita columna larga de hijos y desalinea el indicador */
+.lg-sidebar.is-collapsed .lg-sidebar-nested-container {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+}
+
+/* Resalta el grupo padre cuando la ruta activa es un hijo (sin is-active en el padre) */
+.lg-sidebar.is-collapsed
+  lg-sidebar-item:has(.lg-sidebar-nested-container .lg-sidebar-item.is-active)
+  > a.lg-sidebar-item {
+  color: var(--lg-t-primary);
+}
+
+.lg-sidebar.is-collapsed .lg-active-indicator {
+  left: 50%;
+  width: 3rem;
+}
+
 .lg-sidebar.is-collapsed .lg-sidebar-item-label,
 .lg-sidebar.is-collapsed .lg-sidebar-expand-icon,
 .lg-sidebar.is-collapsed .lg-sidebar-badge {

@@ -8,7 +8,6 @@ import {
   ViewEncapsulation, 
   ChangeDetectionStrategy,
   effect,
-  contentChildren
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LiquidSidebarService } from './sidebar.service';
@@ -65,8 +64,14 @@ export class LiquidSidebarComponent {
   /** Mobile-only side drawer state */
   isMobileOpen = signal<boolean>(false);
 
-  /** Transform string for the indicator physics */
-  activeTransform = computed(() => `translateY(${this.service.activeItemY() / 16}rem)`);
+  /** Transform del indicador: centrado horizontal en rail colapsado */
+  activeTransform = computed(() => {
+    const yRem = this.service.activeItemY() / 16;
+    if (this.service.isCollapsed()) {
+      return `translateX(-50%) translateY(${yRem}rem)`;
+    }
+    return `translateY(${yRem}rem)`;
+  });
 
   constructor() {
     // Sync model with service
