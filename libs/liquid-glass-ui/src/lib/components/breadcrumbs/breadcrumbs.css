@@ -1,0 +1,82 @@
+/**
+ * Glass Breadcrumbs — SDD 23
+ */
+
+.lg-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.125rem 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lg-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.lg-breadcrumbs__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--lg-t-text-muted);
+  text-decoration: none;
+  transition: color var(--lg-g-transition-fast);
+}
+
+.lg-breadcrumbs__link:hover {
+  color: var(--lg-t-text-main);
+}
+
+.lg-breadcrumbs__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--lg-t-text-muted);
+}
+
+.lg-breadcrumbs__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--lg-t-text-main);
+}
+
+.lg-breadcrumbs__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lg-breadcrumbs__icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0.85;
+}
+
+.lg-breadcrumbs__sep {
+  flex-shrink: 0;
+  user-select: none;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--lg-t-text-main, #fff) 10%, transparent);
+}

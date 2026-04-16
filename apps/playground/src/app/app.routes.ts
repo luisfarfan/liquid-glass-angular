@@ -73,6 +73,11 @@ export const appRoutes: Route[] = [
     data: { title: 'Scrollbar' },
   },
   {
+    path: 'demos/breadcrumbs',
+    loadComponent: () => import('./pages/breadcrumbs.page').then((m) => m.BreadcrumbsPage),
+    data: { title: 'Breadcrumbs' },
+  },
+  {
     path: 'demos/radio',
     loadComponent: () => import('./pages/radio.page').then((m) => m.RadioPage),
     data: { title: 'Radio' },

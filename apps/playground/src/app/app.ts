@@ -15,10 +15,11 @@ import {
   ShellLayoutComponent,
   lgShellSidebarContentInset,
   LiquidToastService,
+  BreadcrumbsComponent,
   type LgTopbarUser,
 } from '@liquid-glass-ui/angular';
 import { PlaygroundDrawerDemoComponent } from './components/playground-drawer-demo.component';
-import { readDeepestRouteData } from './playground-route-utils';
+import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-route-utils';
 
 @Component({
   imports: [
@@ -31,6 +32,7 @@ import { readDeepestRouteData } from './playground-route-utils';
     LiquidTooltipDirective,
     TopbarComponent,
     ShellLayoutComponent,
+    BreadcrumbsComponent,
   ],
   selector: 'app-root',
   standalone: true,
@@ -55,7 +57,7 @@ import { readDeepestRouteData } from './playground-route-utils';
           <i icon class="ri-dashboard-line"></i> Dashboard
         </lg-sidebar-item>
 
-        <lg-sidebar-item label="Components" [subItems]="true" [badge]="14">
+        <lg-sidebar-item label="Components" [subItems]="true" [badge]="15">
           <i icon class="ri-stack-line"></i> Components
 
           <lg-sidebar-item link="/demos/buttons" label="Buttons">
@@ -96,6 +98,9 @@ import { readDeepestRouteData } from './playground-route-utils';
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/scrollbar" label="Scrollbar">
             <i icon class="ri-scroll-to-bottom-line"></i> Scrollbar
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/breadcrumbs" label="Breadcrumbs">
+            <i icon class="ri-git-branch-line"></i> Breadcrumbs
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/radio" label="Radio">
             <i icon class="ri-radio-button-line"></i> Radio
@@ -138,7 +143,12 @@ import { readDeepestRouteData } from './playground-route-utils';
         </lg-topbar>
 
         <main class="flex-1 min-h-0 overflow-y-auto p-8 relative">
-          <div class="max-w-6xl mx-auto">
+          <div class="max-w-6xl mx-auto space-y-6">
+            <lg-breadcrumbs
+              class="block min-w-0"
+              [items]="breadcrumbItems()"
+              ariaLabel="Ubicación en el playground"
+            />
             <router-outlet />
           </div>
         </main>
@@ -182,6 +192,19 @@ export class App {
         return typeof t === 'string' && t.length > 0 ? t : 'Playground';
       })(),
     },
+  );
+
+  private readonly routerUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  readonly breadcrumbItems = computed(() =>
+    buildPlaygroundBreadcrumbs(this.routerUrl(), this.pageTitle()),
   );
 
   readonly topbarUser = signal<LgTopbarUser>({

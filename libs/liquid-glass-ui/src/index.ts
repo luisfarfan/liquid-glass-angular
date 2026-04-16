@@ -43,6 +43,8 @@ export * from './lib/components/drawer/drawer.types';
 export * from './lib/components/drawer/drawer-container.component';
 export * from './lib/components/shell-layout/shell-layout.component';
 export * from './lib/components/shell-layout/shell-layout.constants';
+export * from './lib/components/breadcrumbs/breadcrumb.types';
+export * from './lib/components/breadcrumbs/breadcrumbs.component';
 export * from './lib/core/component-options';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego

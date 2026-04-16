@@ -32,7 +32,15 @@ version: 1.0.0
 
 ## 4. Technical Implementation (Angular v21)
 
-El componente debe poder resolver las rutas automáticamente si se integra con el `Router` de Angular, o aceptar una lista estática:
+### Implementación en `@liquid-glass-ui/angular`
+
+- Componente: `libs/liquid-glass-ui/src/lib/components/breadcrumbs/breadcrumbs.component.ts` — selector **`lg-breadcrumbs`**.
+- API: `items` (`LgBreadcrumbItem[]`: `label`, `link?`, `icon?`), `separator` (texto, por defecto `'/'`), `ariaLabel` para el `<nav>`.
+- Enlaces con **`RouterLink`**; el último ítem no es enlace y lleva `aria-current="page"`.
+- Demo: playground **`/demos/breadcrumbs`**.
+
+El componente puede alimentarse con una lista estática o generada desde el router en el host:
+
 
 ```html
 <nav class="glass-breadcrumbs">
