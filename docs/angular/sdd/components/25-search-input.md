@@ -21,6 +21,12 @@ version: 1.0.0
 | `placeholder` | `input<string>` | `'Search...'` | Texto de ayuda. |
 | `value` | `model<string>` | `''` | Valor del input (Signal reactiva). |
 | `debounceTime` | `input<number>` | `300` | Tiempo de espera antes de emitir la búsqueda. |
+| `expandOnFocus` | `input<boolean>` | `false` | Aumenta ~20% el `max-width` del host al enfocar. |
+| `showShortcutBadge` | `input<boolean>` | `true` | Muestra el badge de atajo cuando el campo no tiene foco. |
+| `shortcutEnabled` | `input<boolean>` | `false` | Captura **Ctrl+K** / **⌘+K** a nivel documento y enfoca el campo. |
+| `ariaLabel` | `input<string>` | `'Buscar'` | Texto de la etiqueta oculta y del landmark `role="search"`. |
+| `clearAriaLabel` | `input<string>` | `'Limpiar búsqueda'` | `aria-label` del botón limpiar. |
+| `shortcutLabel` | `input<string>` | `'K'` | Texto visible del badge (p. ej. `⌘K`). |
 
 ### Outputs
 | Property | Type | Description |
@@ -40,7 +46,15 @@ Soporte visual para el atajo de teclado: se muestra un pequeño badge de cristal
 
 ---
 
-## 4. Estilos (Tailwind v4)
+## 4. Implementación en `@liquid-glass-ui/angular`
+
+- Componente: `libs/liquid-glass-ui/src/lib/components/search-input/search-input.component.ts` — selector **`lg-search-input`**.
+- `search` emite tras **debounce** (`debounce` + `timer(debounceTime())`); el valor sigue siendo reactivo con **`model` `value`**.
+- Demo: playground **`/demos/search-input`**.
+
+---
+
+## 5. Estilos (Tailwind v4)
 
 *   **Wrapper**: `relative flex items-center w-full max-w-md transition-all`.
 *   **Input Field**: `w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-10 pr-4 text-sm text-zinc-200 placeholder:text-zinc-500 focus:bg-white/10 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none`.
@@ -49,7 +63,7 @@ Soporte visual para el atajo de teclado: se muestra un pequeño badge de cristal
 
 ---
 
-## 5. Acceptance Criteria
+## 6. Acceptance Criteria
 - [ ] El debouncing funciona correctamente (no emite por cada tecla).
 - [ ] El icono de búsqueda se ilumina cuando el campo tiene foco.
 - [ ] Es accesible mediante el atajo de teclado global si se implementa en la raíz.

@@ -1,7 +1,7 @@
 ---
 title: Liquid Glass UI - Angular SDD Master Index
 description: Documento raíz para la navegación técnica del sistema de diseño orientado a Angular 21.
-version: 2.4.3
+version: 2.4.4
 ---
 
 # 🧠 Angular SDD Master Index
@@ -24,13 +24,13 @@ Este es el punto central de verdad para la implementación de la librería `@liq
 
 #### Paridad spec ↔ código
 
-Las specs **25 (Search input)** y **26 (Dropdown menu)** aún no tienen carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). Las specs **01–24** y **27** tienen piezas exportadas desde la librería (incluido **Avatar** en `avatar/` como `lg-avatar`, **Breadcrumbs** en `breadcrumbs/` como `lg-breadcrumbs`, **Scrollbar** en `scrollbar/` con utilidad `.lg-glass-scroll` y directiva `lgGlassScroll`, **Pagination** en `pagination/`, **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
+La spec **26 (Dropdown menu)** aún no tiene carpeta de componente dedicada bajo `libs/liquid-glass-ui/src/lib/components/` (pendiente de implementación o de un patrón compartido documentado). Las specs **01–25** y **27** tienen piezas exportadas desde la librería (incluido **Search input** en `search-input/` como `lg-search-input`, **Avatar** en `avatar/` como `lg-avatar`, **Breadcrumbs** en `breadcrumbs/` como `lg-breadcrumbs`, **Scrollbar** en `scrollbar/` con utilidad `.lg-glass-scroll` y directiva `lgGlassScroll`, **Pagination** en `pagination/`, **Empty state** en `empty-state/`, **Topbar** en `topbar/` y **Drawer** en `drawer/`), junto con **Form field** para composición de formularios.
 
 #### TODO documentación / paridad (seguimiento)
 
 - **Data table (15) + `LgTableDataSource`:** ampliar [15-data-table.md](./sdd/components/15-data-table.md) con el patrón tipo Material (`connect`, `filterPredicate`, `sortingDataAccessor`, cableado con `lg-pagination`); referencia viva: playground **Data table** ejemplo 1. Pendientes de producto/doc: paginación servidor, cabeceras de orden estilo `MatSort`, `trackBy`, y notas de testing.
 - **Scrollbar (21):** enlazar en la guía de integración que `layout.css` ya incorpora `scrollbar/scrollbar.css`; opcionalmente documentar consumo sin `layout.css` importando solo esa hoja.
-- **Catálogo 25–26:** actualizar la tabla de paridad anterior cuando existan rutas bajo `libs/liquid-glass-ui/src/lib/components/`.
+- **Catálogo 26:** actualizar la tabla de paridad anterior cuando exista ruta bajo `libs/liquid-glass-ui/src/lib/components/`.
 
 #### Shell (Topbar + Sidebar + Drawer)
 

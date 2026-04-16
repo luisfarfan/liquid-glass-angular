@@ -57,7 +57,7 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           <i icon class="ri-dashboard-line"></i> Dashboard
         </lg-sidebar-item>
 
-        <lg-sidebar-item label="Components" [subItems]="true" [badge]="16">
+        <lg-sidebar-item label="Components" [subItems]="true" [badge]="17">
           <i icon class="ri-stack-line"></i> Components
 
           <lg-sidebar-item link="/demos/buttons" label="Buttons">
@@ -104,6 +104,9 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/avatar" label="Avatar">
             <i icon class="ri-user-smile-line"></i> Avatar
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/search-input" label="Search input">
+            <i icon class="ri-search-line"></i> Search input
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/radio" label="Radio">
             <i icon class="ri-radio-button-line"></i> Radio
