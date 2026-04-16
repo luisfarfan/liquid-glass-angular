@@ -73,6 +73,12 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   public elementRef = inject(ElementRef);
   public service = inject(LiquidSidebarService);
   private destroy$ = new Subject<void>();
+  private scrollContentEl: HTMLElement | null = null;
+  private readonly onSidebarContentScroll = () => {
+    if (this.isActive) {
+      this.service.updateIndicator(this.indicatorYRelativeToContent(), true);
+    }
+  };
 
   @Input() link: string | any[] = '/';
   @Input() badge?: string | number;
@@ -92,17 +98,28 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // Polling slightly for active state to report to service (CDK doesn't always emit immediately)
+    // Polling: RouterLinkActive + layout anidado no siempre actualizan en el mismo frame.
     interval(100)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         if (this.isActive) {
-          this.service.updateIndicator(this.offsetTop);
+          this.service.updateIndicator(this.indicatorYRelativeToContent(), true);
         }
       });
+
+    const anchor = this.elementRef.nativeElement.querySelector('.lg-sidebar-item') as HTMLElement | null;
+    const content = anchor?.closest('.lg-sidebar-content') as HTMLElement | null;
+    if (content) {
+      this.scrollContentEl = content;
+      content.addEventListener('scroll', this.onSidebarContentScroll, { passive: true });
+    }
   }
 
   ngOnDestroy() {
+    if (this.scrollContentEl) {
+      this.scrollContentEl.removeEventListener('scroll', this.onSidebarContentScroll);
+      this.scrollContentEl = null;
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -119,7 +136,22 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
     return btn?.classList.contains('is-active') ?? false;
   }
 
-  get offsetTop(): number {
-    return this.elementRef.nativeElement.querySelector('.lg-sidebar-item').offsetTop;
+  /**
+   * Distancia desde el borde superior del área scrollable `.lg-sidebar-content`
+   * hasta el ítem activo (incluye jerarquía anidada). `offsetTop` solo respecto al
+   * `offsetParent` rompía la cápsula al estar dentro de `.lg-sidebar-nested-container`.
+   */
+  private indicatorYRelativeToContent(): number {
+    const anchor = this.elementRef.nativeElement.querySelector('.lg-sidebar-item') as HTMLElement | null;
+    if (!anchor) {
+      return 0;
+    }
+    const content = anchor.closest('.lg-sidebar-content') as HTMLElement | null;
+    if (!content) {
+      return anchor.offsetTop;
+    }
+    const c = content.getBoundingClientRect();
+    const a = anchor.getBoundingClientRect();
+    return a.top - c.top + content.scrollTop;
   }
 }
