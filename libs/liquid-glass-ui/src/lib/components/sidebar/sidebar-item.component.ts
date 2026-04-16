@@ -3,17 +3,25 @@ import {
   Input,
   ElementRef,
   inject,
+  Injector,
   ChangeDetectionStrategy,
   ViewEncapsulation,
   signal,
   AfterViewInit,
+  AfterContentInit,
   OnDestroy,
+  effect,
+  untracked,
+  ContentChildren,
+  QueryList,
+  afterNextRender,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LiquidSidebarService } from './sidebar.service';
 import { Subject, takeUntil, interval } from 'rxjs';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { filter } from 'rxjs/operators';
+import { trigger, state, style, transition, animate, type AnimationEvent } from '@angular/animations';
 
 @Component({
   selector: 'lg-sidebar-item',
@@ -21,9 +29,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
     <!-- MAIN ITEM BUTTON -->
-    <a 
+    <a
       class="lg-sidebar-item"
-      [class.is-nested]="_isNested"
+      [class.is-nested]="isNestedItem()"
       [routerLink]="subItems ? null : link"
       routerLinkActive="is-active"
       #rla="routerLinkActive"
@@ -50,10 +58,12 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     </a>
 
     <!-- NESTED ITEMS CONTAINER -->
-    <div 
-      *ngIf="subItems" 
+    <div
+      *ngIf="subItems"
       class="lg-sidebar-nested-container"
+      [class.lg-sidebar-nested-collapsed]="!isExpanded()"
       [@expandCollapse]="isExpanded() ? 'expanded' : 'collapsed'"
+      (@expandCollapse.done)="onNestedPanelAnimDone($event)"
     >
       <ng-content select="lg-sidebar-item"></ng-content>
     </div>
@@ -79,10 +89,16 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
+export class LiquidSidebarItemComponent implements AfterViewInit, AfterContentInit, OnDestroy {
   public elementRef = inject(ElementRef);
   public service = inject(LiquidSidebarService);
+  private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
   private destroy$ = new Subject<void>();
+
+  /** Ítems proyectados bajo este grupo (solo aplica si `subItems`). */
+  @ContentChildren(LiquidSidebarItemComponent, { descendants: true })
+  private readonly nestedItemQuery!: QueryList<LiquidSidebarItemComponent>;
   private scrollContentEl: HTMLElement | null = null;
   private readonly onSidebarContentScroll = () => {
     if (this.isActive) {
@@ -97,17 +113,45 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   @Input() label = '';
 
   isExpanded = signal(false);
-  _isNested = false;
 
   constructor() {
-    // Check if we are inside another sidebar item
-    const parent = this.elementRef.nativeElement.parentElement;
-    if (parent?.classList.contains('lg-sidebar-nested-container')) {
-      this._isNested = true;
+    effect(() => {
+      this.service.layoutTick();
+      untracked(() => {
+        if (!this.isActive) {
+          return;
+        }
+        afterNextRender(
+          () => {
+            if (this.isActive) {
+              this.service.updateIndicator(this.indicatorYRelativeToContent(), true);
+            }
+          },
+          { injector: this.injector },
+        );
+      });
+    });
+  }
+
+  ngAfterContentInit(): void {
+    if (!this.subItems) {
+      return;
     }
+    const run = () => this.syncExpandFromRouter();
+    queueMicrotask(run);
+    this.nestedItemQuery.changes.pipe(takeUntil(this.destroy$)).subscribe(run);
   }
 
   ngAfterViewInit() {
+    if (this.subItems) {
+      this.router.events
+        .pipe(
+          filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+          takeUntil(this.destroy$),
+        )
+        .subscribe(() => this.syncExpandFromRouter());
+    }
+
     // Polling: RouterLinkActive + layout anidado no siempre actualizan en el mismo frame.
     interval(100)
       .pipe(takeUntil(this.destroy$))
@@ -137,8 +181,24 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   handleToggle(event: Event) {
     if (this.subItems) {
       event.preventDefault();
-      this.isExpanded.update(v => !v);
+      this.isExpanded.update((v) => !v);
+      // queueMicrotask corre antes del CD que pinta `lg-sidebar-nested-collapsed` y la cápsula no usa la fila del padre.
+      afterNextRender(() => this.service.notifyIndicatorLayout(), { injector: this.injector });
     }
+  }
+
+  /** Tras animar altura/visibilidad del panel, vuelve a medir la Y del indicador. */
+  onNestedPanelAnimDone(_event: AnimationEvent): void {
+    if (this.subItems) {
+      this.service.notifyIndicatorLayout();
+    }
+  }
+
+  /** No cachear en el constructor: el host a veces aún no está bajo `.lg-sidebar-nested-container`. */
+  isNestedItem(): boolean {
+    return (
+      this.elementRef.nativeElement.parentElement?.classList.contains('lg-sidebar-nested-container') ?? false
+    );
   }
 
   get isActive(): boolean {
@@ -147,8 +207,66 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Submenú del padre cerrado: el hijo sigue `is-active` pero su rect no es usable.
+   * `lg-sidebar-nested-collapsed` refleja `!isExpanded()` al instante (la animación tarda
+   * ~400ms en llevar height/visibility al estado final; sin esto la cápsula se queda en la Y del hijo).
+   */
+  private isNestedSectionCollapsed(): boolean {
+    const host = this.elementRef.nativeElement;
+    const container = host.parentElement;
+    if (!container?.classList.contains('lg-sidebar-nested-container')) {
+      return false;
+    }
+    if (container.classList.contains('lg-sidebar-nested-collapsed')) {
+      return true;
+    }
+    if (container.getBoundingClientRect().height < 2) {
+      return true;
+    }
+    const s = getComputedStyle(container);
+    return s.visibility === 'hidden' || s.display === 'none';
+  }
+
+  /**
+   * Abre el grupo si la URL actual coincide con el `link` de algún hijo proyectado.
+   * No depende de `is-active` ni de capturar el primer `NavigationEnd` (suele emitirse
+   * antes de `ngAfterViewInit`).
+   */
+  private syncExpandFromRouter(): void {
+    if (!this.subItems) {
+      return;
+    }
+    const list = this.nestedItemQuery;
+    if (!list?.length) {
+      return;
+    }
+    for (const item of list) {
+      if (item.subItems) {
+        continue;
+      }
+      if (this.linkMatchesRouter(item.link)) {
+        this.isExpanded.set(true);
+        afterNextRender(() => this.service.notifyIndicatorLayout(), { injector: this.injector });
+        return;
+      }
+    }
+  }
+
+  private linkMatchesRouter(link: string | any[]): boolean {
+    const tree = Array.isArray(link)
+      ? this.router.createUrlTree(link)
+      : this.router.parseUrl(typeof link === 'string' ? link : String(link));
+    return this.router.isActive(tree, {
+      paths: 'exact',
+      queryParams: 'ignored',
+      fragment: 'ignored',
+      matrixParams: 'ignored',
+    });
+  }
+
+  /**
    * Ancla cuya geometría define la cápsula: en rail colapsado con ruta en un hijo,
-   * usamos el `<a>` del grupo padre para alinear con el icono visible.
+   * o hijo activo con submenú colapsado, usamos el `<a>` del grupo padre.
    */
   private indicatorAnchorForLayout(): HTMLElement | null {
     const selfAnchor = this.elementRef.nativeElement.querySelector(
@@ -157,7 +275,11 @@ export class LiquidSidebarItemComponent implements AfterViewInit, OnDestroy {
     if (!selfAnchor) {
       return null;
     }
-    if (this.service.isCollapsed() && this._isNested && this.isActive) {
+    const useParentRow =
+      this.isNestedItem() &&
+      this.isActive &&
+      (this.service.isCollapsed() || this.isNestedSectionCollapsed());
+    if (useParentRow) {
       const nestedContainer = this.elementRef.nativeElement.parentElement;
       if (nestedContainer?.classList.contains('lg-sidebar-nested-container')) {
         const parentHost = nestedContainer.parentElement;

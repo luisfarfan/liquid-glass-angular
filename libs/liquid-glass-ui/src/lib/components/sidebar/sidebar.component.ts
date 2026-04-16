@@ -1,13 +1,14 @@
-import { 
-  Component, 
-  Input, 
-  model, 
-  signal, 
-  computed, 
-  inject, 
-  ViewEncapsulation, 
+import {
+  Component,
+  Input,
+  model,
+  signal,
+  computed,
+  inject,
+  ViewEncapsulation,
   ChangeDetectionStrategy,
   effect,
+  afterNextRender,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LiquidSidebarService } from './sidebar.service';
@@ -82,6 +83,11 @@ export class LiquidSidebarComponent {
     effect(() => {
       this.isCollapsed.set(this.service.isCollapsed());
     }, { allowSignalWrites: true });
+
+    // Primera pintura + URL inicial: RouterLinkActive aún no ha pintado is-active en el mismo frame.
+    afterNextRender(() => {
+      this.service.notifyIndicatorLayout();
+    });
   }
 
   /** Public API to toggle collapse */
