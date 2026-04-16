@@ -69,8 +69,14 @@
     }
   },
   "release": {
+    "projects": ["liquid-glass-ui"],
+    "releaseTagPattern": "{projectName}@{version}",
     "version": {
-      "preVersionCommand": "bunx nx run-many -t build"
+      "conventionalCommits": true,
+      "preVersionCommand": "npm run ci:release:verify"
+    },
+    "changelog": {
+      "projectChangelogs": true
     }
   }
 }

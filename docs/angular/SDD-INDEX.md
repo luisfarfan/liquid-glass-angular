@@ -41,6 +41,7 @@ Las specs **01–26** y **27** tienen piezas exportadas desde la librería bajo 
 ### 03. Integración y Layout
 *   **[05-layout-architecture.md](./sdd/05-layout-architecture.md)**: El Shell de la aplicación y el sistema de grillas Bento.
 *   **[04-nx-strategy.md](./sdd/04-nx-strategy.md)**: Empaquetado de la librería y publicación NPM.
+*   **[release-maintainers.md](./release-maintainers.md)**: Estrategia pre-1.0 (`0.y.z`), flujo automatizado de tags/releases y guardrails de mantenimiento.
 
 ---
 
