@@ -29,6 +29,12 @@
   /* Semantic Colors */
   --lg-t-destructive: #ef4444;  /* Red 500 */
   --lg-t-destructive-rgb: 239, 68, 68;
+  --lg-t-success: #10b981;      /* Emerald 500 */
+  --lg-t-success-rgb: 16, 185, 129;
+  --lg-t-warning: #f59e0b;      /* Amber 500 */
+  --lg-t-warning-rgb: 245, 158, 11;
+  --lg-t-info: #0ea5e9;         /* Sky 500 */
+  --lg-t-info-rgb: 14, 165, 233;
 
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.3);
@@ -64,6 +70,12 @@
   /* Semantic Colors */
   --lg-t-destructive: #dc2626;  /* Red 600 */
   --lg-t-destructive-rgb: 220, 38, 38;
+  --lg-t-success: #059669;      /* Emerald 600 */
+  --lg-t-success-rgb: 5, 150, 105;
+  --lg-t-warning: #d97706;      /* Amber 600 */
+  --lg-t-warning-rgb: 217, 119, 6;
+  --lg-t-info: #0284c7;         /* Sky 600 */
+  --lg-t-info-rgb: 2, 132, 199;
 
   /* Component Specific */
   --lg-t-input-bg: rgba(0, 0, 0, 0.03);

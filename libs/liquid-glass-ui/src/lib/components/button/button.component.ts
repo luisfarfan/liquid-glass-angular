@@ -12,7 +12,8 @@ import { RippleDirective } from './ripple.directive';
 import { 
   LG_BUTTON_DEFAULT_OPTIONS, 
   ButtonVariant, 
-  ButtonSize 
+  ButtonSize, 
+  ButtonShape
 } from '../../core/component-options';
 
 /**
@@ -70,6 +71,9 @@ export class ButtonComponent {
   // Inputs via Signals
   variant = input<ButtonVariant>(this._defaultOptions?.variant ?? 'secondary');
   size = input<ButtonSize>(this._defaultOptions?.size ?? 'md');
+  shape = input<ButtonShape>(this._defaultOptions?.shape ?? 'default');
+  fullWidth = input<boolean>(this._defaultOptions?.fullWidth ?? false);
+  
   iconOnly = input<boolean>(false);
   ariaLabel = input<string | null>(null);
   enableHaptics = input<boolean>(this._defaultOptions?.enableHaptics ?? true);
@@ -84,27 +88,22 @@ export class ButtonComponent {
   readonly hostClasses = computed(() => {
     const v = this.variant();
     const s = this.size();
+    const shape = this.shape();
     const isIcon = this.iconOnly();
+    const isFull = this.fullWidth();
     const isDisabled = this.disabled() || this.isLoading();
     
     const base = 'inline-flex items-center justify-center font-bold lg-transition-glass lg-focus-ring lg-active-scale lg-btn-neon whitespace-nowrap overflow-hidden relative';
     
     const stateClasses = isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none grayscale-[0.5]' : 'cursor-pointer';
     
-    const variantClasses: Record<ButtonVariant, string> = {
-      primary: 'lg-btn-primary',
-      secondary: 'bg-glass border border-glass-border backdrop-blur-md text-[var(--lg-t-text-main)] hover:bg-white/10',
-      ghost: 'bg-transparent text-[var(--lg-t-text-main)] hover:bg-white/5 border border-transparent hover:border-glass-border',
-      destructive: 'bg-red-500/10 border border-red-500/30 text-red-500 hover:bg-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-    };
+    const variantClass = `lg-btn-${v}`;
+    const sizeBaseClass = `lg-btn-${s}`;
+    const iconClass = isIcon ? 'lg-btn-icon' : '';
+    const fullClass = isFull ? 'lg-btn-full' : '';
+    const shapeClass = shape !== 'default' ? `lg-btn-${shape}` : '';
 
-    const sizeClasses: Record<ButtonSize, string> = {
-      sm: isIcon ? 'w-8 h-8 rounded-lg' : 'px-3 py-1.5 text-xs rounded-lg',
-      md: isIcon ? 'w-11 h-11 rounded-xl' : 'px-5 py-2.5 text-sm rounded-[calc(var(--lg-g-unit)*2.5)]',
-      lg: isIcon ? 'w-14 h-14 rounded-2xl' : 'px-8 py-3.5 text-base rounded-2xl'
-    };
-
-    return `${base} ${stateClasses} ${variantClasses[v]} ${sizeClasses[s]}`.trim();
+    return `${base} ${stateClasses} ${variantClass} ${sizeBaseClass} ${iconClass} ${fullClass} ${shapeClass}`.trim();
   });
 
   @HostListener('click', ['$event'])

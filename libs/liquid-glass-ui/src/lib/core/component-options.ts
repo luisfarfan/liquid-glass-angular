@@ -32,12 +32,25 @@ export const LG_GLASS_CARD_DEFAULT_OPTIONS = createLgConfigToken<LgGlassCardOpti
 /**
  * Configuración por defecto para GlassButton
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive';
+export type ButtonVariant = 
+  | 'primary' 
+  | 'secondary' 
+  | 'ghost' 
+  | 'destructive' 
+  | 'success' 
+  | 'warning' 
+  | 'info' 
+  | 'outlined' 
+  | 'text';
+
 export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonShape = 'default' | 'pill' | 'square';
 
 export interface LgButtonOptions extends LgComponentOptions {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  shape?: ButtonShape;
+  fullWidth?: boolean;
   enableHaptics?: boolean;
 }
 
