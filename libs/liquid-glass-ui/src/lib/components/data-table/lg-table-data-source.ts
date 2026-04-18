@@ -21,9 +21,19 @@ export class LgTableDataSource<T> implements DataSource<T> {
   private readonly _sort = new BehaviorSubject<LgTableSortState<T>>({ active: null, direction: '' });
   private readonly _pageIndex = new BehaviorSubject(0);
   private readonly _pageSize = new BehaviorSubject(10);
+  private readonly _totalOverride = new BehaviorSubject<number | null>(null);
+
+  /** Whether the data source is used for server-side pagination (skips local filtering/sorting/paging). */
+  isServerSide = false;
+
+  /** Whether to return the full filtered data instead of a page slice (for virtual scroll). */
+  isVirtualized = false;
 
   private readonly _filteredSorted = combineLatest([this._data, this._filter, this._sort]).pipe(
-    map(([rows, filter, sort]) => this.applyFilterAndSort(rows, filter, sort)),
+    map(([rows, filter, sort]) => {
+      if (this.isServerSide) return rows;
+      return this.applyFilterAndSort(rows, filter, sort);
+    }),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
 
@@ -31,10 +41,13 @@ export class LgTableDataSource<T> implements DataSource<T> {
   readonly filteredData$: Observable<T[]> = this._filteredSorted;
 
   /** Row count after filter/sort — bind to `lg-pagination` `[length]`. */
-  readonly filteredLength$: Observable<number> = this._filteredSorted.pipe(map((r) => r.length));
+  readonly filteredLength$: Observable<number> = combineLatest([this._filteredSorted, this._totalOverride]).pipe(
+    map(([rows, override]) => override ?? rows.length)
+  );
 
   private readonly _pageData = combineLatest([this._filteredSorted, this._pageIndex, this._pageSize]).pipe(
     map(([rows, pageIndex, pageSize]) => {
+      if (this.isVirtualized || this.isServerSide) return rows;
       const ps = Math.max(1, pageSize);
       const maxIndex = Math.max(0, Math.ceil(rows.length / ps) - 1);
       const safeIndex = Math.min(pageIndex, maxIndex);
@@ -73,11 +86,14 @@ export class LgTableDataSource<T> implements DataSource<T> {
 
   constructor(
     initialData: T[] = [],
-    options?: { pageSize?: number },
+    options?: { pageSize?: number; isVirtualized?: boolean },
   ) {
     this._data.next(initialData.slice());
     if (options?.pageSize != null && options.pageSize > 0) {
       this._pageSize.next(options.pageSize);
+    }
+    if (options?.isVirtualized) {
+      this.isVirtualized = true;
     }
   }
 
@@ -90,6 +106,12 @@ export class LgTableDataSource<T> implements DataSource<T> {
     this._pageIndex.next(0);
   }
 
+  /** Append rows to existing data (useful for infinite scroll). */
+  appendData(rows: T[]): void {
+    const current = this._data.value;
+    this._data.next([...current, ...rows]);
+  }
+
   setFilter(value: string): void {
     this._filter.next(value);
     this._pageIndex.next(0);
@@ -98,7 +120,14 @@ export class LgTableDataSource<T> implements DataSource<T> {
   setSort(active: keyof T & string | null, direction: LgTableSortDirection): void {
     const dir: LgTableSortDirection = active ? direction || 'asc' : '';
     this._sort.next({ active, direction: dir });
-    this._pageIndex.next(0);
+    if (!this.isServerSide) {
+      this._pageIndex.next(0);
+    }
+  }
+
+  /** Set the total record count when using server-side pagination. */
+  setTotal(total: number | null): void {
+    this._totalOverride.next(total);
   }
 
   /** Sync page from `lg-pagination` `(pageChange)` or two-way models. */

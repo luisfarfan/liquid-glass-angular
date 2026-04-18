@@ -17,6 +17,10 @@ import {
   LgRowDirective,
   PaginationComponent,
   LgTableDataSource,
+  LgSortDirective,
+  LgSortHeaderComponent,
+  LgTableEmptyStateComponent,
+  LgVirtualDataTableComponent,
   type LgPageEvent,
 } from '@liquid-glass-ui/angular';
 
@@ -52,6 +56,19 @@ function buildDemoUsers(): UserData[] {
   return rows;
 }
 
+function buildMassiveUsers(count: number): UserData[] {
+  const roles = ['System Architect', 'UI/UX Lead', 'Backend Developer', 'Product Manager', 'DevOps Engineer', 'QA Engineer', 'Data Analyst'];
+  const statuses: UserData['status'][] = ['online', 'away', 'offline'];
+  return Array.from({ length: count }, (_, i) => ({
+    id: `MASS-${String(i).padStart(6, '0')}`,
+    name: `User ${i}`,
+    role: roles[i % roles.length],
+    status: statuses[i % 3],
+    email: `user${i}@bigdata.io`,
+    lastActive: 'Now',
+  }));
+}
+
 @Component({
   selector: 'pg-data-table-page',
   standalone: true,
@@ -70,6 +87,10 @@ function buildDemoUsers(): UserData[] {
     LgHeaderRowDirective,
     LgRowDirective,
     PaginationComponent,
+    LgSortDirective,
+    LgSortHeaderComponent,
+    LgTableEmptyStateComponent,
+    LgVirtualDataTableComponent,
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -107,7 +128,7 @@ function buildDemoUsers(): UserData[] {
             Example 1: Refined Glass Headers, Sorting &amp; Pagination (<code class="text-[9px]">LgTableDataSource</code>)
           </p>
           <lg-data-table-container>
-            <table lg-table cdk-table [dataSource]="userData">
+            <table lg-table cdk-table [dataSource]="userData" lgSort (lgSortChange)="userData.setSort($any($event.active), $event.direction)" [trackBy]="trackById">
               <ng-container cdkColumnDef="select">
                 <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="w-12">
                   <lg-checkbox
@@ -131,14 +152,8 @@ function buildDemoUsers(): UserData[] {
               </ng-container>
 
               <ng-container cdkColumnDef="name">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="is-sortable" (click)="toggleSort('name')">
+                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef lg-sort-header="name">
                   Member
-                  <i
-                    class="ml-1 opacity-40"
-                    [class.ri-arrow-up-s-line]="sortColumn() === 'name' && sortDirection() === 'asc'"
-                    [class.ri-arrow-down-s-line]="sortColumn() === 'name' && sortDirection() === 'desc'"
-                    [class.ri-sort-asc-desc]="sortColumn() !== 'name'"
-                  ></i>
                 </th>
                 <td lg-cell cdk-cell *cdkCellDef="let row">
                   <div class="lg-cell-avatar">
@@ -152,7 +167,7 @@ function buildDemoUsers(): UserData[] {
               </ng-container>
 
               <ng-container cdkColumnDef="role">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef class="is-sortable" (click)="toggleSort('role')">
+                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef lg-sort-header="role">
                   Role
                 </th>
                 <td lg-cell cdk-cell *cdkCellDef="let row" class="opacity-70">{{ row.role }}</td>
@@ -208,7 +223,7 @@ function buildDemoUsers(): UserData[] {
             Example 2: High Density &amp; Side-Pinning (Liquid Pinned)
           </p>
           <lg-data-table-container>
-            <table lg-table cdk-table [dataSource]="users()" class="min-w-[1200px]">
+            <table lg-table cdk-table [dataSource]="users()" class="min-w-[1200px]" [trackBy]="trackById">
               <ng-container cdkColumnDef="id" sticky="true">
                 <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>ID</th>
                 <td lg-cell cdk-cell *cdkCellDef="let row" class="font-bold text-primary">{{ row.id }}</td>
@@ -271,34 +286,132 @@ function buildDemoUsers(): UserData[] {
         </div>
 
         <div class="space-y-4">
-          <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">Example 3: Skeleton UI (Loading State Integration)</p>
+          <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest px-2">Example 4: Empty State &amp; Filter Results</p>
           <lg-data-table-container>
-            <table lg-table cdk-table [dataSource]="[1, 2, 3]">
+            <table lg-table cdk-table [dataSource]="emptyData" [trackBy]="trackById">
               <ng-container cdkColumnDef="id">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Identifier</th>
-                <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="rect" width="60px"></lg-skeleton></td>
+                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>ID</th>
+                <td lg-cell cdk-cell *cdkCellDef="let row">{{ row.id }}</td>
               </ng-container>
               <ng-container cdkColumnDef="name">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Member</th>
-                <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="rect" width="140px"></lg-skeleton></td>
-              </ng-container>
-              <ng-container cdkColumnDef="status">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Status</th>
-                <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="circle" width="24px" height="24px"></lg-skeleton></td>
-              </ng-container>
-              <ng-container cdkColumnDef="email">
-                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Contact Info</th>
-                <td lg-cell cdk-cell *cdkCellDef="let row"><lg-skeleton type="text" width="180px"></lg-skeleton></td>
+                <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Name</th>
+                <td lg-cell cdk-cell *cdkCellDef="let row">{{ row.name }}</td>
               </ng-container>
 
-              <tr lg-header-row cdk-header-row *cdkHeaderRowDef="['id', 'name', 'status', 'email']"></tr>
-              <tr
-                lg-row
-                cdk-row
-                *cdkRowDef="let row; columns: ['id', 'name', 'status', 'email']"
-                [isLoading]="true"
-              ></tr>
+              <tr lg-header-row cdk-header-row *cdkHeaderRowDef="['id', 'name']"></tr>
+              <tr lg-row cdk-row *cdkRowDef="let row; columns: ['id', 'name']"></tr>
             </table>
+
+            <lg-table-empty-state
+              *ngIf="emptyData.data.length === 0"
+              title="No members found"
+              description="We couldn't find any team members matching your search criteria."
+            >
+              <button actions lg-button variant="primary" size="sm" (click)="emptyData.setFilter('')">
+                Clear Filters
+              </button>
+            </lg-table-empty-state>
+          </lg-data-table-container>
+        </div>
+
+        <!-- Example 5: Virtual Scroll (10,000+ Rows) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between px-2">
+            <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">
+              Example 5: Virtual Scroll &amp; Infinite Load (10,000+ Records)
+            </p>
+            <lg-badge variant="info" [isPulsating]="true">{{ massiveData.data.length }} Records</lg-badge>
+          </div>
+          
+          <lg-virtual-data-table 
+            height="500px" 
+            [itemSize]="64" 
+            [isLoading]="isMassiveLoading"
+            (loadMore)="loadMoreMassive()"
+          >
+            <!-- Header must be provided separately to stay fixed -->
+            <div lgVirtualHeader class="lg-table-flex lg-table">
+              <div class="lg-row lg-header-row">
+                <div class="lg-header-cell">ID</div>
+                <div class="lg-header-cell">User</div>
+                <div class="lg-header-cell">Role</div>
+                <div class="lg-header-cell">Status</div>
+              </div>
+            </div>
+
+            <table cdk-table [dataSource]="massiveData" class="lg-table-flex lg-table">
+              <ng-container cdkColumnDef="id">
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-mono text-[11px] opacity-50">{{ row.id }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="name">
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-bold">{{ row.name }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="role">
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell">{{ row.role }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="status">
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell">
+                   <lg-badge [variant]="row.status === 'online' ? 'success' : (row.status === 'away' ? 'warning' : 'neutral')">
+                    {{ row.status }}
+                   </lg-badge>
+                </td>
+              </ng-container>
+
+              <tr cdk-row *cdkRowDef="let row; columns: ['id', 'name', 'role', 'status']" class="lg-row"></tr>
+            </table>
+          </lg-virtual-data-table>
+        </div>
+
+        <!-- Example 6: Remote API (Server-side Pagination) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between px-2">
+            <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">
+              Example 6: Remote API Mock (Server-side Pagination)
+            </p>
+            <div class="flex items-center gap-2">
+               <lg-badge *ngIf="isRemoteLoading" variant="info" [isPulsating]="true">Fetching API...</lg-badge>
+               <lg-badge variant="neutral">{{ remoteTotal }} Total</lg-badge>
+            </div>
+          </div>
+
+          <lg-data-table-container [isLoading]="isRemoteLoading">
+            <div lgTableHeader class="p-4 border-b border-white/5 flex items-center gap-4">
+              <div class="relative flex-1">
+                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 opacity-30"></i>
+                <input 
+                  lg-input 
+                  placeholder="Search API (Remote)..." 
+                  class="pl-10"
+                  (input)="onRemoteSearch($event)"
+                >
+              </div>
+            </div>
+
+            <table cdk-table [dataSource]="remoteData" class="lg-table">
+              <ng-container cdkColumnDef="id">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">ID</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-mono text-[11px] opacity-50">{{ row.id }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="name">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">User</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-bold text-[var(--lg-t-primary)]">{{ row.name }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="role">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Role</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell opacity-80">{{ row.role }}</td>
+              </ng-container>
+
+              <tr cdk-header-row *cdkHeaderRowDef="['id', 'name', 'role']" class="lg-header-row"></tr>
+              <tr cdk-row *cdkRowDef="let row; columns: ['id', 'name', 'role']" class="lg-row"></tr>
+            </table>
+
+            <lg-pagination 
+              lgTablePagination 
+              [length]="remoteTotal"
+              [pageSize]="remotePageSize" 
+              [pageIndex]="remotePageIndex"
+              (pageChange)="onRemotePage($event)"
+            ></lg-pagination>
           </lg-data-table-container>
         </div>
       </div>
@@ -309,9 +422,19 @@ export class DataTablePage {
   readonly users = signal<UserData[]>(buildDemoUsers());
 
   readonly userData = new LgTableDataSource<UserData>(buildDemoUsers(), { pageSize: 5 });
+  readonly emptyData = new LgTableDataSource<UserData>([]);
 
-  readonly sortColumn = signal<keyof UserData | null>(null);
-  readonly sortDirection = signal<'asc' | 'desc'>('asc');
+  // Virtual Scroll Demo (Stress Test)
+  readonly massiveData = new LgTableDataSource<UserData>(buildMassiveUsers(10000), { isVirtualized: true });
+  isMassiveLoading = false;
+
+  // Remote API Demo
+  readonly remoteData = new LgTableDataSource<UserData>([]);
+  isRemoteLoading = false;
+  remoteTotal = 0;
+  remotePageIndex = 0;
+  remotePageSize = 5;
+  private remoteSearch = '';
 
   readonly filteredCount = toSignal(this.userData.filteredLength$, { initialValue: buildDemoUsers().length });
   readonly dsPageIndex = toSignal(this.userData.pageIndex$, { initialValue: 0 });
@@ -324,21 +447,15 @@ export class DataTablePage {
       if (!q) return true;
       return u.name.toLowerCase().includes(q) || u.role.toLowerCase().includes(q);
     };
+
+    // Initial fetch for remote
+    this.remoteData.isServerSide = true;
+    this.fetchRemoteData();
   }
 
   readonly selection = new SelectionModel<UserData>(true, []);
   readonly displayedColumns = ['select', 'id', 'name', 'role', 'status', 'email', 'actions'];
   readonly denseColumns = ['id', 'name', 'role', 'status', 'email', 'lastActive', 'col1', 'col2', 'col3', 'col4', 'col5', 'actions'];
-
-  toggleSort(col: keyof UserData): void {
-    if (this.sortColumn() === col) {
-      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
-    } else {
-      this.sortColumn.set(col);
-      this.sortDirection.set('asc');
-    }
-    this.userData.setSort(this.sortColumn(), this.sortDirection());
-  }
 
   onUserPage(ev: LgPageEvent): void {
     this.userData.setPage(ev.pageIndex, ev.pageSize);
@@ -358,5 +475,59 @@ export class DataTablePage {
     } else {
       page.forEach((row) => this.selection.select(row));
     }
+  }
+
+  trackById(index: number, item: UserData): string {
+    return item.id;
+  }
+
+  loadMoreMassive(): void {
+    if (this.isMassiveLoading || this.massiveData.data.length >= 100000) return;
+    
+    this.isMassiveLoading = true;
+    // Simulate API delay
+    setTimeout(() => {
+      const nextBatch = buildMassiveUsers(200).map(u => ({
+        ...u,
+        id: `MASS-${String(this.massiveData.data.length + 1).padStart(6, '0')}`,
+        name: `User ${this.massiveData.data.length}`
+      }));
+      this.massiveData.appendData(nextBatch);
+      this.isMassiveLoading = false;
+    }, 800);
+  }
+
+  onRemotePage(ev: LgPageEvent): void {
+    this.remotePageIndex = ev.pageIndex;
+    this.remotePageSize = ev.pageSize;
+    this.fetchRemoteData();
+  }
+
+  onRemoteSearch(ev: Event): void {
+    const input = ev.target as HTMLInputElement;
+    this.remoteSearch = input.value;
+    this.remotePageIndex = 0; // Reset to first page
+    this.fetchRemoteData();
+  }
+
+  private fetchRemoteData(): void {
+    this.isRemoteLoading = true;
+    
+    // Simulate remote API call
+    setTimeout(() => {
+      const allMockData = buildDemoUsers();
+      const filtered = allMockData.filter(u => 
+        u.name.toLowerCase().includes(this.remoteSearch.toLowerCase()) ||
+        u.role.toLowerCase().includes(this.remoteSearch.toLowerCase())
+      );
+      
+      this.remoteTotal = filtered.length;
+      const start = this.remotePageIndex * this.remotePageSize;
+      const pageData = filtered.slice(start, start + this.remotePageSize);
+      
+      this.remoteData.data = pageData;
+      this.remoteData.setTotal(this.remoteTotal);
+      this.isRemoteLoading = false;
+    }, 1000);
   }
 }
