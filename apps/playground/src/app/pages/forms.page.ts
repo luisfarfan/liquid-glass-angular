@@ -4,9 +4,12 @@ import {
   GlassCardComponent,
   InputComponent,
   FormFieldComponent,
+  FormLayoutComponent,
   SelectComponent,
   SelectOptionComponent,
   TextareaComponent,
+  CheckboxComponent,
+  ButtonComponent
 } from '@liquid-glass-ui/angular';
 
 @Component({
@@ -17,111 +20,114 @@ import {
     GlassCardComponent,
     InputComponent,
     FormFieldComponent,
+    FormLayoutComponent,
     SelectComponent,
     SelectOptionComponent,
     TextareaComponent,
+    CheckboxComponent,
+    ButtonComponent
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
-      <h1 class="text-h1 font-display font-bold">Forms</h1>
-      <p class="text-body-sm text-zinc-400 mt-1">Entrada de datos y composición.</p>
+      <h1 class="text-h1 font-display font-bold">Form System</h1>
+      <p class="text-body-sm text-zinc-400 mt-1">Sistemas de composición y validación neón-glass.</p>
     </header>
 
-    <section class="space-y-6">
-      <div class="flex items-center gap-2 mb-4">
-        <i class="ri-survey-line text-[var(--lg-t-primary)]"></i>
-        <h3 class="text-sm font-bold uppercase tracking-widest opacity-60">Data Entry &amp; Composition</h3>
-      </div>
-
-      <lg-glass-card class="!p-6 border-none shadow-none">
-        <div class="space-y-2">
-          <lg-form-field [cols]="2" hint="Información personal básica">
-            <lg-input label="Nombre" placeholder="Ej: John"></lg-input>
-            <lg-input label="Apellidos" placeholder="Ej: Doe"></lg-input>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1">
-            <lg-input label="Correo Electrónico" type="email" placeholder="john@example.com">
-              <i lg-icon-left class="ri-mail-line"></i>
-            </lg-input>
-          </lg-form-field>
-
-          <lg-form-field [cols]="2" hint="Seguridad y Acceso">
-            <lg-input label="Contraseña" type="password" placeholder="••••••••">
-              <i lg-icon-left class="ri-lock-password-line"></i>
-            </lg-input>
-            <lg-input label="Repetir" type="password" placeholder="••••••••"></lg-input>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1" hint="Búsqueda sin etiquetas (Bare Input)">
-            <lg-input placeholder="Presiona / para buscar..." class="w-full">
-              <i lg-icon-left class="ri-search-line"></i>
-              <i lg-icon-right class="ri-command-line"></i>
-            </lg-input>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1">
-            <lg-input label="Estado del Sistema" placeholder="Validando..." [error]="'Servidor ocupado. Intente de nuevo.'">
-              <i lg-icon-left class="ri-error-warning-line"></i>
-            </lg-input>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1" hint="Selección Premium (CDK Overlay)">
-            <lg-select label="País de Residencia" placeholder="Selecciona tu país">
-              <lg-option value="es" label="España"></lg-option>
-              <lg-option value="mx" label="México"></lg-option>
-              <lg-option value="us" label="Estados Unidos"></lg-option>
-              <lg-option value="ar" label="Argentina"></lg-option>
-            </lg-select>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1" hint="Modo Multi-Select (Crystals)">
-            <lg-select label="Habilidades Técnicas" [multiple]="true" placeholder="Elige tus skills">
-              <lg-option value="angular" label="Angular 21"></lg-option>
-              <lg-option value="nx" label="Nx Monorepo"></lg-option>
-              <lg-option value="tailwind" label="Tailwind v4"></lg-option>
-              <lg-option value="signals" label="Signals"></lg-option>
-            </lg-select>
-          </lg-form-field>
-
-          <lg-form-field [cols]="1" hint="Buscable con Iconos">
-            <lg-select label="Tipo de Cuenta" [searchable]="true" placeholder="Busca un plan...">
-              <lg-option value="starter" label="Starter Plan">
-                <i lg-icon-left class="ri-seedling-line"></i>
-              </lg-option>
-              <lg-option value="pro" label="Professional">
-                <i lg-icon-left class="ri-rocket-line"></i>
-              </lg-option>
-              <lg-option value="enterprise" label="Enterprise">
-                <i lg-icon-left class="ri-building-line"></i>
-              </lg-option>
-            </lg-select>
-          </lg-form-field>
-
-          <div class="pt-6 border-t border-glass-border/30 mt-6">
-            <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-4">Multi-line Glass Etching (Autosize)</p>
-            <lg-form-field [cols]="1">
-              <lg-textarea
-                label="Comentarios del Proyecto"
-                placeholder="Describe los requerimientos detallados..."
-                [maxChars]="200"
-                [autosize]="true"
-              ></lg-textarea>
-            </lg-form-field>
-
-            <lg-form-field [cols]="1" class="mt-4">
-              <lg-textarea
-                label="Mensaje de Error (Prueba)"
-                placeholder="Campo con error para validar UI..."
-                error="Este es un mensaje de error táctil neón."
-                [maxChars]="100"
-              ></lg-textarea>
-            </lg-form-field>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Demo: Compositional Architecture -->
+      <section class="lg:col-span-8 space-y-8">
+        <lg-glass-card class="!p-8">
+          <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+               <i class="ri-ruler-2-line"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold">New Compositional Field</h3>
+              <p class="text-xs opacity-50 uppercase tracking-tighter">Unified label & error handling</p>
+            </div>
           </div>
-        </div>
-      </lg-glass-card>
-    </section>
+
+          <lg-form-layout [cols]="2" gap="md">
+            <lg-form-field label="First Name" hint="As it appears on ID" [required]="true">
+              <lg-input placeholder="Enter first name"></lg-input>
+            </lg-form-field>
+
+            <lg-form-field label="Last Name">
+              <lg-input placeholder="Enter last name"></lg-input>
+            </lg-form-field>
+          </lg-form-layout>
+
+          <lg-form-layout [cols]="1" class="mt-4">
+             <lg-form-field label="Support Message" error="Message cannot be empty">
+              <lg-textarea placeholder="How can we help you?" [autosize]="true"></lg-textarea>
+            </lg-form-field>
+          </lg-form-layout>
+
+          <lg-form-layout [cols]="2" class="mt-4">
+            <lg-form-field label="Privacy Settings" hint="Visibility in discovery">
+              <lg-checkbox label="Make profile public"></lg-checkbox>
+            </lg-form-field>
+
+            <lg-form-field label="Communications" [required]="true">
+              <lg-checkbox label="Receive marketing emails"></lg-checkbox>
+            </lg-form-field>
+          </lg-form-layout>
+
+          <div class="mt-8 pt-6 border-t border-white/5 flex justify-end gap-3">
+             <button lg-button variant="outlined">Discard Changes</button>
+             <button lg-button>Save Information</button>
+          </div>
+        </lg-glass-card>
+
+        <!-- Demo: Legacy / Integrated Mode -->
+        <lg-glass-card class="!p-8 opacity-80">
+          <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-zinc-500/20 flex items-center justify-center">
+               <i class="ri-history-line"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold opacity-60">Legacy Integrated Mode</h3>
+              <p class="text-[10px] opacity-40 uppercase tracking-tighter">Shortcut mode for simple forms</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <lg-input label="Simplified Label" placeholder="Direct input usage"></lg-input>
+            <lg-checkbox label="Direct Checkbox usage"></lg-checkbox>
+          </div>
+        </lg-glass-card>
+      </section>
+
+      <!-- Sidebar: Information -->
+      <aside class="lg:col-span-4 space-y-6">
+        <lg-glass-card class="!p-6 bg-primary/5 border-primary/20">
+          <h4 class="text-sm font-bold text-primary mb-3">Form Architecture</h4>
+          <ul class="space-y-4 text-xs">
+            <li class="flex gap-2">
+              <i class="ri-checkbox-circle-fill text-primary"></i>
+              <span><strong>lg-form-layout</strong> manages grid positioning (1-4 columns).</span>
+            </li>
+            <li class="flex gap-2">
+              <i class="ri-checkbox-circle-fill text-primary"></i>
+              <span><strong>lg-form-field</strong> orchestrates labels, hints, and error states.</span>
+            </li>
+             <li class="flex gap-2">
+              <i class="ri-checkbox-circle-fill text-primary"></i>
+              <span>Works with <strong>Template Driven</strong> and <strong>Reactive Forms</strong>.</span>
+            </li>
+          </ul>
+        </lg-glass-card>
+
+        <section class="space-y-4 px-2">
+          <h4 class="text-[10px] font-bold uppercase tracking-widest opacity-40">Layout Preview</h4>
+          <div class="space-y-2">
+            <div class="h-10 w-full rounded-lg bg-white/5 border border-white/10 flex items-center px-4 text-[10px] opacity-40">Field Row 1</div>
+            <div class="h-10 w-full rounded-lg bg-white/5 border border-white/10 flex items-center px-4 text-[10px] opacity-40">Field Row 2</div>
+          </div>
+        </section>
+      </aside>
+    </div>
   `,
 })
 export class FormsPage {}

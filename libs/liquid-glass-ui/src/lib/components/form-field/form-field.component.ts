@@ -3,48 +3,62 @@ import { CommonModule } from '@angular/common';
 
 /**
  * Form Field Component
- * A layout container for grouping inputs and form controls.
+ * A premium wrapper for individual form controls (input, checkbox, select).
+ * Manages label positioning, hint text, and validation error messages.
  */
 @Component({
   selector: 'lg-form-field',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="lg-form-field flex flex-col gap-1 w-full" [class]="layoutClass()">
-      <div class="grid gap-4" [ngClass]="gridClass()">
+    <div class="lg-form-field" [class.has-error]="error()" [class]="customClass()">
+      <!-- Header: Label & Optional Extra Info -->
+      <div class="lg-form-field-header" *ngIf="label()">
+        <label class="lg-form-field-label">
+          {{ label() }}
+          <span *ngIf="required()" class="text-destructive ml-0.5">*</span>
+        </label>
+        
+        <ng-content select="[lg-label-suffix]"></ng-content>
+      </div>
+
+      <!-- Control Container -->
+      <div class="lg-form-field-control">
         <ng-content></ng-content>
       </div>
-      
-      @if (hint()) {
-        <span class="text-[10px] opacity-30 mt-1 uppercase tracking-wider font-bold">
-          {{ hint() }}
-        </span>
-      }
+
+      <!-- Footer: Errors & Hints -->
+      <div class="lg-form-field-footer">
+        @if (error()) {
+          <span class="lg-form-field-error" aria-live="polite">
+            <i class="ri-error-warning-line mr-1"></i>
+            {{ error() }}
+          </span>
+        } @else if (hint()) {
+          <span class="lg-form-field-hint">
+            {{ hint() }}
+          </span>
+        }
+      </div>
     </div>
   `,
-  styles: [`
-    .lg-form-field {
-      margin-bottom: 1.5rem;
-    }
-  `],
+  styleUrl: './form-field.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class FormFieldComponent {
-  /** Número de columnas para el layout (1 a 4) */
-  cols = input<1 | 2 | 3 | 4>(1);
+  /** Label descriptivo del campo */
+  label = input<string | null>(null);
   
-  /** Una pequeña nota o pista para todo el grupo */
+  /** Ayuda visual o instrucción corta */
   hint = input<string | null>(null);
 
-  gridClass = computed(() => {
-    const c = this.cols();
-    if (c === 1) return 'grid-cols-1';
-    if (c === 2) return 'grid-cols-2';
-    if (c === 3) return 'grid-cols-3';
-    if (c === 4) return 'grid-cols-4';
-    return 'grid-cols-1';
-  });
+  /** Mensaje de error (si hay) */
+  error = input<string | null>(null);
 
-  layoutClass = input<string>('');
+  /** Indica si el campo es obligatorio (añade asterisco) */
+  required = input<boolean>(false);
+
+  /** Clase CSS adicional para personalización */
+  customClass = input<string>('');
 }

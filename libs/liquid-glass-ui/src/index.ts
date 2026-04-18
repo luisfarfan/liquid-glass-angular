@@ -6,6 +6,7 @@ export * from './lib/components/button/button.component';
 export * from './lib/components/button/ripple.directive';
 export * from './lib/components/input/input.component';
 export * from './lib/components/form-field/form-field.component';
+export * from './lib/components/form-field/form-layout.component';
 export * from './lib/components/toggle/toggle.component';
 export * from './lib/components/checkbox/checkbox.component';
 export * from './lib/components/select/select.component';

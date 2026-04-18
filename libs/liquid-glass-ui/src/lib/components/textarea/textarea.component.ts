@@ -95,7 +95,7 @@ import { TextFieldModule, CdkTextareaAutosize } from '@angular/cdk/text-field';
 })
 export class TextareaComponent implements ControlValueAccessor {
   /** Inputs */
-  label = input.required<string>();
+  label = input<string | null>(null);
   placeholder = input<string>('');
   rows = input<number>(3);
   autosize = input<boolean>(true);
