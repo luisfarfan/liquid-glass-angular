@@ -144,7 +144,11 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
             <lg-input placeholder="Buscar en el demo…" class="w-full !min-w-0" />
           </div>
           <div lgTopbarActions class="flex items-center gap-2 shrink-0">
-            <button lg-button variant="ghost" size="sm" type="button" (click)="themeService.toggleTheme()" title="Cambiar tema">
+            <div class="hidden lg:flex flex-col items-end mr-2">
+              <span class="text-[10px] uppercase tracking-tighter text-[var(--lg-t-text-muted)]">Tema Actual</span>
+              <span class="text-xs font-bold text-primary">{{ themeService.currentThemeDefinition().displayName }}</span>
+            </div>
+            <button lg-button variant="ghost" size="sm" type="button" (click)="themeService.toggleTheme()" [title]="'Cambiar tema (Actual: ' + themeService.currentThemeDefinition().displayName + ')'">
               <i class="ri-palette-line"></i>
             </button>
             <button lg-button variant="secondary" size="sm" type="button" (click)="openPlaygroundDrawer()">Drawer</button>

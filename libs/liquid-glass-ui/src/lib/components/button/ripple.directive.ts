@@ -11,6 +11,9 @@ export class RippleDirective {
   /** Si el ripple está habilitado */
   enabled = input<boolean>(true);
 
+  /** Color opcional para el ripple. Si no se provee, usa currentColor. */
+  color = input<string | null>(null);
+
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent) {
     if (!this.enabled()) return;
@@ -32,24 +35,34 @@ export class RippleDirective {
       this._renderer.appendChild(target, container);
     }
 
-    const maxDim = Math.max(rect.width, rect.height);
-    /** Icon-only, pagination numbers, dense sm: avoid large scale + clip reading as a broken ring */
-    const isCompact = maxDim <= 52;
+    // Coordenadas relativas al elemento
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
 
-    const size = isCompact ? maxDim * 0.92 : maxDim;
-    const x = event.clientX - rect.left - size / 2;
-    const y = event.clientY - rect.top - size / 2;
+    // Calcular la distancia a la esquina más lejana para asegurar cobertura total
+    const cornerDistances = [
+      { x: 0, y: 0 },
+      { x: rect.width, y: 0 },
+      { x: 0, y: rect.height },
+      { x: rect.width, y: rect.height }
+    ].map(corner => Math.sqrt(Math.pow(clickX - corner.x, 2) + Math.pow(clickY - corner.y, 2)));
+
+    const radius = Math.max(...cornerDistances);
+    const diameter = radius * 2;
 
     const ripple = this._renderer.createElement('span');
     this._renderer.addClass(ripple, 'lg-glass-ripple');
-    if (isCompact) {
-      this._renderer.addClass(ripple, 'lg-glass-ripple--compact');
+    
+    // Aplicar color si se provee
+    const customColor = this.color();
+    if (customColor) {
+      this._renderer.setStyle(ripple, 'background', customColor);
     }
 
-    this._renderer.setStyle(ripple, 'width', `${size}px`);
-    this._renderer.setStyle(ripple, 'height', `${size}px`);
-    this._renderer.setStyle(ripple, 'left', `${x}px`);
-    this._renderer.setStyle(ripple, 'top', `${y}px`);
+    this._renderer.setStyle(ripple, 'width', `${diameter}px`);
+    this._renderer.setStyle(ripple, 'height', `${diameter}px`);
+    this._renderer.setStyle(ripple, 'left', `${clickX - radius}px`);
+    this._renderer.setStyle(ripple, 'top', `${clickY - radius}px`);
 
     this._renderer.appendChild(container, ripple);
 

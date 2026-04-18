@@ -1,4 +1,6 @@
 export * from './lib/services/theme.service';
+export * from './lib/services/theme.models';
+export * from './lib/services/theme.provider';
 export * from './lib/components/glass-card/glass-card.component';
 export * from './lib/components/button/button.component';
 export * from './lib/components/button/ripple.directive';

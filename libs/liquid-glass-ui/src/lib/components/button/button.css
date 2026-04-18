@@ -4,6 +4,7 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   overflow: hidden;
+  contain: paint; /* Optimization for clipping and layout */
 }
 
 :host:disabled {
