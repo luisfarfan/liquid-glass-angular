@@ -98,6 +98,11 @@ export const appRoutes: Route[] = [
     data: { title: 'Radio' },
   },
   {
+    path: 'demos/select',
+    loadComponent: () => import('./pages/select.page').then((m) => m.SelectPage),
+    data: { title: 'Select & Tag Input' },
+  },
+  {
     path: 'demos/date-picker',
     loadComponent: () => import('./pages/date-picker.page').then((m) => m.DatePickerPage),
     data: { title: 'DatePicker' },

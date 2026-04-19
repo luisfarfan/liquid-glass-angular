@@ -10,17 +10,23 @@ import {
   signal, 
   computed, 
   effect, 
+  untracked,
   ViewChild, 
   ElementRef, 
-  inject,
   HostListener,
-  AfterContentInit
+  AfterContentInit,
+  contentChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { OverlayModule, ConnectedPosition } from '@angular/cdk/overlay';
 import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { SelectOptionComponent } from './select-option.component';
+import { 
+  SelectTriggerDirective, 
+  SelectHeaderDirective, 
+  SelectFooterDirective 
+} from './select-templates.directive';
 
 /**
  * Glass Select Component
@@ -34,12 +40,19 @@ import { SelectOptionComponent } from './select-option.component';
     <div class="lg-select-group">
       <!-- Label -->
       @if (label()) {
-        <label [class.is-focused]="isOpen()" class="lg-select-label">{{ label() }}</label>
+        <label 
+          [id]="labelId" 
+          [class.is-focused]="isOpen()" 
+          class="lg-select-label"
+        >
+          {{ label() }}
+        </label>
       }
 
       <!-- Trigger -->
       <div 
         #trigger
+        [id]="triggerId"
         class="lg-select-trigger" 
         [class.is-open]="isOpen()"
         [class.is-disabled]="disabled()"
@@ -52,26 +65,54 @@ import { SelectOptionComponent } from './select-option.component';
         [attr.aria-haspopup]="'listbox'"
         [attr.aria-controls]="isOpen() ? uid + '-panel' : null"
         [attr.aria-activedescendant]="activeOptionId()"
+        [attr.aria-labelledby]="label() ? labelId : null"
       >
         <div class="lg-select-value-container">
-          @if (!hasValue()) {
+          @if (customTrigger()) {
+            <ng-container [ngTemplateOutlet]="customTrigger()!.template"></ng-container>
+          } @else if (!hasValue()) {
             <span class="lg-select-placeholder">{{ placeholder() }}</span>
           } @else if (multiple()) {
             <div class="lg-select-crystals">
-              @for (val of selectedLabels(); track val) {
-                <span class="lg-crystal">{{ val }}</span>
+              @for (item of selectedData(); track item.value) {
+                <span class="lg-crystal" (click)="$event.stopPropagation()">
+                  {{ item.label }}
+                  <span class="lg-crystal-remove" (click)="deselectValue(item.value, $event)">
+                    <svg viewBox="0 0 24 24" width="14" height="14">
+                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                </span>
               }
             </div>
           } @else {
-            <span class="lg-select-selected-label">{{ selectedLabels()[0] }}</span>
+            <span class="lg-select-selected-label">{{ selectedData()[0]?.label }}</span>
           }
         </div>
 
-        <span class="lg-select-arrow" [class.is-rotated]="isOpen()">
-          <svg viewBox="0 0 24 24" width="20" height="20">
-            <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
-          </svg>
-        </span>
+        <div class="lg-select-actions">
+          @if (loading()) {
+            <span class="lg-select-loading">
+              <svg class="lg-spinner" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+              </svg>
+            </span>
+          } @else {
+            @if (clearable() && hasValue() && !multiple()) {
+              <span class="lg-select-clear" (click)="clearSelection($event)" title="Limpiar">
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+                </svg>
+              </span>
+            }
+            
+            <span class="lg-select-arrow" [class.is-rotated]="isOpen()">
+              <svg viewBox="0 0 24 24" width="20" height="20">
+                <path d="M7 10l5 5 5-5H7z" fill="currentColor"/>
+              </svg>
+            </span>
+          }
+        </div>
       </div>
     </div>
 
@@ -109,14 +150,31 @@ import { SelectOptionComponent } from './select-option.component';
         }
         
         <div class="lg-select-options-list">
+          @if (headerTemplate()) {
+            <div class="lg-select-header-content">
+              <ng-container [ngTemplateOutlet]="headerTemplate()!.template"></ng-container>
+            </div>
+          }
+
           <ng-content></ng-content>
           
           @if (noResults()) {
-            <div class="lg-select-empty-message">
+            <div class="lg-select-empty-message" role="status">
               No se encontraron resultados para "{{ searchQuery() }}"
             </div>
           }
+
+          @if (footerTemplate()) {
+            <div class="lg-select-footer-content">
+              <ng-container [ngTemplateOutlet]="footerTemplate()!.template"></ng-container>
+            </div>
+          }
         </div>
+
+        <!-- A11y Announcements -->
+        <span class="sr-only" aria-live="polite">
+          {{ ariaLiveMessage() }}
+        </span>
       </div>
     </ng-template>
   `,
@@ -140,7 +198,14 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
   placeholder = input<string>('Seleccionar...');
   multiple = input<boolean>(false);
   searchable = input<boolean>(false);
+  loading = input<boolean>(false);
+  clearable = input<boolean>(false);
   disabled = model<boolean>(false);
+
+  /** Outputs */
+  opened = output<void>();
+  closed = output<void>();
+  selectionChange = output<any>();
 
   /** Signals & State */
   isOpen = signal(false);
@@ -148,15 +213,40 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
   searchQuery = signal('');
   activeOptionId = signal<string | null>(null);
   noResults = signal(false);
+  ariaLiveMessage = signal('');
+
+  readonly uid = `lg-select-${Math.random().toString(36).substring(2, 9)}`;
+  readonly labelId = `${this.uid}-label`;
+  readonly triggerId = `${this.uid}-trigger`;
+
+  /** Computed selection data for Tags */
+  selectedData = computed(() => {
+    const val = this.value();
+    const opts = this.options();
+    if (this.multiple() && Array.isArray(val)) {
+      return (opts as Array<SelectOptionComponent>)
+        .filter((o: SelectOptionComponent) => o.value() !== undefined && val.includes(o.value()))
+        .map((o: SelectOptionComponent) => ({
+          label: o.label() || o.getLabel?.() || '',
+          value: o.value()
+        }));
+    }
+    const found = (opts as Array<SelectOptionComponent>).find((o: SelectOptionComponent) => o.value() !== undefined && o.value() === val);
+    return found ? [{
+      label: found.label() || found.getLabel?.() || '',
+      value: found.value()
+    }] : [];
+  });
   
   /** Queries */
   options = contentChildren(SelectOptionComponent, { descendants: true });
+  customTrigger = contentChild(SelectTriggerDirective);
+  headerTemplate = contentChild(SelectHeaderDirective);
+  footerTemplate = contentChild(SelectFooterDirective);
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
   /** Key Manager for A11y */
   private _keyManager?: ActiveDescendantKeyManager<SelectOptionComponent>;
-
-  readonly uid = `lg-select-${Math.random().toString(36).substring(2, 9)}`;
 
   /** CDK Overlay Positions */
   positions: ConnectedPosition[] = [
@@ -169,7 +259,7 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
     effect(() => {
       const currentVal = this.value();
       const opts = this.options();
-      opts.forEach(opt => {
+      opts.forEach((opt: SelectOptionComponent) => {
         const optVal = opt.value();
         if (optVal === undefined) return;
         
@@ -213,17 +303,23 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
   toggle() {
     if (this.disabled()) return;
     
-    // Haptic interaction
-    if (navigator.vibrate) navigator.vibrate(5);
+    // Haptic interaction (refined for mobile)
+    if (navigator.vibrate) navigator.vibrate(10);
     
-    this.isOpen.update(v => !v);
+    this.isOpen.update((v: boolean) => !v);
     if (this.isOpen()) {
        setTimeout(() => this.searchInput?.nativeElement.focus(), 0);
+       this.opened.emit();
+    } else {
+       this.closed.emit();
     }
   }
 
   close() {
-    this.isOpen.set(false);
+    if (this.isOpen()) {
+      this.isOpen.set(false);
+      this.closed.emit();
+    }
   }
 
   hasValue = computed(() => {
@@ -232,17 +328,7 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
     return val !== null && val !== undefined && val !== '';
   });
 
-  selectedLabels = computed(() => {
-    const val = this.value();
-    const opts = this.options();
-    if (this.multiple() && Array.isArray(val)) {
-      return opts
-        .filter(o => o.value() !== undefined && val.includes(o.value()))
-        .map(o => o.label() || o.getLabel?.() || '');
-    }
-    const found = opts.find(o => o.value() !== undefined && o.value() === val);
-    return found ? [found.label() || found.getLabel?.() || ''] : [];
-  });
+  selectedLabels = computed(() => this.selectedData().map((d: any) => d.label));
 
   _onPanelClick(event: MouseEvent) {
     // Redundant now that SelectOption handles its own click
@@ -255,15 +341,19 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
 
   selectOption(opt: SelectOptionComponent) {
     if (opt.isDisabled()) return;
+    this.toggleValue(opt.value());
+  }
 
-    // Haptic feedback on selection
-    if (navigator.vibrate) navigator.vibrate(2);
+  toggleValue(val: any) {
+    if (this.disabled()) return;
+
+    // Haptic feedback on selection (refined for mobile)
+    if (navigator.vibrate) navigator.vibrate(15);
 
     if (this.multiple()) {
       let current = this.value() || [];
       if (!Array.isArray(current)) current = [current];
       
-      const val = opt.value();
       const index = current.indexOf(val);
       if (index > -1) {
         current = current.filter((v: any) => v !== val);
@@ -272,12 +362,42 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
       }
       this.value.set(current);
     } else {
-      this.value.set(opt.value());
+      this.value.set(val);
       this.close();
     }
 
+    this.selectionChange.emit(this.value());
     this.onChange(this.value());
     this.onTouched();
+  }
+
+  deselectValue(val: any, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    
+    if (this.disabled()) return;
+
+    if (this.multiple()) {
+      let current = this.value() || [];
+      if (Array.isArray(current)) {
+        this.value.set(current.filter((v: any) => v !== val));
+        this.onChange(this.value());
+        this.onTouched();
+      }
+    }
+  }
+
+  clearSelection(event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    this.value.set(this.multiple() ? [] : null);
+    this.onChange(this.value());
+    this.onTouched();
+    this.close();
   }
 
   /** Keyboard Navigation */
@@ -301,25 +421,41 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
         this._keyManager.onKeydown(event);
       }
       event.preventDefault();
+    } else if (event.key === 'Backspace') {
+      // Remove last tag if not open and has values
+      if (!this.isOpen() && this.multiple() && this.hasValue()) {
+        const current = this.value();
+        if (Array.isArray(current) && current.length > 0) {
+          this.deselectValue(current[current.length - 1]);
+        }
+      }
     }
   }
 
   _onSearchInput() {
-    const query = this.searchQuery().toLowerCase().trim();
-    const opts = this.options();
-    
-    opts.forEach(opt => {
-      const label = (opt.label() || opt.getLabel?.() || '').toLowerCase();
-      opt.isVisible.set(label.includes(query));
+    untracked(() => {
+      const query = this.searchQuery().toLowerCase().trim();
+      const opts = this.options();
+      
+      opts.forEach((opt: SelectOptionComponent) => {
+        const label = (opt.label() || opt.getLabel?.() || '').toLowerCase();
+        opt.isVisible.set(label.includes(query));
+      });
+
+      const visibleCount = opts.filter((opt: SelectOptionComponent) => opt.isVisible()).length;
+      this.noResults.set(visibleCount === 0);
+      
+      this.ariaLiveMessage.set(
+        visibleCount > 0 
+          ? `${visibleCount} resultados encontrados` 
+          : 'No se encontraron resultados'
+      );
+
+      // Ajustar KeyManager: Si el item activo se ocultó, mover al primero visible
+      if (this._keyManager && this._keyManager.activeItem && !this._keyManager.activeItem.isVisible()) {
+        this._keyManager.setFirstItemActive();
+      }
     });
-
-    const anyVisible = opts.some(opt => opt.isVisible());
-    this.noResults.set(!anyVisible);
-
-    // Ajustar KeyManager: Si el item activo se ocultó, mover al primero visible
-    if (this._keyManager && this._keyManager.activeItem && !this._keyManager.activeItem.isVisible()) {
-      this._keyManager.setFirstItemActive();
-    }
   }
 
   /** ControlValueAccessor Implementation */

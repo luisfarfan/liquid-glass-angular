@@ -85,7 +85,8 @@ export class SelectOptionComponent implements Highlightable {
     this.select.selectOption(this);
   }
 
-  getLabel?(): string {
-    return this.label() || '';
+  getLabel(): string {
+    if (this.label()) return this.label();
+    return this.el.nativeElement.textContent?.trim() || '';
   }
 }

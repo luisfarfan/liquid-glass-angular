@@ -114,6 +114,9 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           <lg-sidebar-item link="/demos/radio" label="Radio">
             <i icon class="ri-radio-button-line"></i> Radio
           </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/select" label="Select &amp; Tag Input">
+            <i icon class="ri-list-check"></i> Select &amp; Tag Input
+          </lg-sidebar-item>
           <lg-sidebar-item link="/demos/date-picker" label="DatePicker">
             <i icon class="ri-calendar-line"></i> DatePicker
           </lg-sidebar-item>

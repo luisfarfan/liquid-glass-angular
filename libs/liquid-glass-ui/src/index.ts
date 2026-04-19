@@ -11,6 +11,8 @@ export * from './lib/components/toggle/toggle.component';
 export * from './lib/components/checkbox/checkbox.component';
 export * from './lib/components/select/select.component';
 export * from './lib/components/select/select-option.component';
+export * from './lib/components/select/select-group.component';
+export * from './lib/components/select/select-templates.directive';
 export * from './lib/components/textarea/textarea.component';
 export * from './lib/components/badge/badge.component';
 export * from './lib/components/modal/modal.service';
