@@ -64,6 +64,8 @@ export * from './lib/components/charts/sparkline.component';
 export * from './lib/components/data-table/filter/filter-panel.component';
 export * from './lib/components/data-table/filter/filter-badge.component';
 export * from './lib/components/data-table/column-selector/column-selector.component';
+export * from './lib/components/date-picker/date-picker.component';
+export * from './lib/components/date-picker/calendar.component';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego
 // export * from './lib/liquid-glass-ui/liquid-glass-ui';

@@ -97,5 +97,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/radio.page').then((m) => m.RadioPage),
     data: { title: 'Radio' },
   },
+  {
+    path: 'demos/date-picker',
+    loadComponent: () => import('./pages/date-picker.page').then((m) => m.DatePickerPage),
+    data: { title: 'DatePicker' },
+  },
   { path: '**', redirectTo: 'dashboard' },
+
 ];
