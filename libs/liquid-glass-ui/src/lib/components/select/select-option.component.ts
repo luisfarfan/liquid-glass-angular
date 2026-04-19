@@ -42,7 +42,7 @@ import { SelectComponent } from './select.component';
 })
 export class SelectOptionComponent implements Highlightable {
   /** Inputs */
-  value = input.required<any>();
+  value = input<any>();
   label = input<string>('');
   icon = input<string | null>(null);
   isDisabled = input<boolean>(false, { alias: 'disabled' });
@@ -51,7 +51,10 @@ export class SelectOptionComponent implements Highlightable {
   private select = inject(SelectComponent);
 
   /** Generated ID for ARIA */
-  optionId = computed(() => `${this.select.uid}-opt-${this.value()}`);
+  optionId = computed(() => {
+    const val = this.value();
+    return `${this.select.uid}-opt-${val !== undefined ? val : Math.random().toString(36).substring(7)}`;
+  });
 
   get disabled(): boolean {
     return this.isDisabled();

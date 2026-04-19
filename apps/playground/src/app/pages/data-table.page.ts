@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, signal } from '@angular/core';
+import { Component, ViewEncapsulation, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -8,7 +8,6 @@ import {
   InputComponent,
   CheckboxComponent,
   BadgeComponent,
-  GlassSkeletonComponent,
   GlassDataTableContainerComponent,
   LgTableDirective,
   LgHeaderCellDirective,
@@ -21,7 +20,11 @@ import {
   LgSortHeaderComponent,
   LgTableEmptyStateComponent,
   LgVirtualDataTableComponent,
+  LgSparklineComponent,
+  SearchInputComponent,
+  CdkMenuModule,
   type LgPageEvent,
+  type LgGroupRow,
 } from '@liquid-glass-ui/angular';
 
 interface UserData {
@@ -31,6 +34,15 @@ interface UserData {
   status: 'online' | 'away' | 'offline';
   email: string;
   lastActive: string;
+}
+
+interface CryptoCoin {
+  symbol: string;
+  name: string;
+  price: number;
+  change24h: number;
+  history: number[];
+  flash?: 'up' | 'down' | null;
 }
 
 function buildDemoUsers(): UserData[] {
@@ -69,6 +81,8 @@ function buildMassiveUsers(count: number): UserData[] {
   }));
 }
 
+
+
 @Component({
   selector: 'pg-data-table-page',
   standalone: true,
@@ -79,7 +93,6 @@ function buildMassiveUsers(count: number): UserData[] {
     InputComponent,
     CheckboxComponent,
     BadgeComponent,
-    GlassSkeletonComponent,
     GlassDataTableContainerComponent,
     LgTableDirective,
     LgHeaderCellDirective,
@@ -91,6 +104,9 @@ function buildMassiveUsers(count: number): UserData[] {
     LgSortHeaderComponent,
     LgTableEmptyStateComponent,
     LgVirtualDataTableComponent,
+    LgSparklineComponent,
+    SearchInputComponent,
+    CdkMenuModule,
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -414,6 +430,119 @@ function buildMassiveUsers(count: number): UserData[] {
             ></lg-pagination>
           </lg-data-table-container>
         </div>
+
+        <!-- Example 7: Premium Row Grouping -->
+        <div class="col-span-12">
+          <div class="mb-4 flex items-center justify-between">
+            <div>
+              <h3 class="text-xl font-bold text-white">Example 7: Premium Row Grouping</h3>
+              <p class="text-glass-text-muted text-sm">Organized hierarchical data with sticky glass headers and aggregations.</p>
+            </div>
+            <div class="flex gap-2">
+              <button lg-button variant="outlined" size="sm" (click)="groupedData.setGroupBy('role')">Group by Role</button>
+              <button lg-button variant="outlined" size="sm" (click)="groupedData.setGroupBy('status')">Group by Status</button>
+              <button lg-button variant="outlined" size="sm" (click)="groupedData.setGroupBy(null)">Clear Grouping</button>
+            </div>
+          </div>
+
+          <lg-data-table-container>
+            <table cdk-table [dataSource]="groupedData" class="lg-table">
+              <!-- Group Header Row Template -->
+              <ng-container cdkColumnDef="groupHeader">
+                <td cdk-cell *cdkCellDef="let group" [attr.colspan]="4" class="lg-group-row" [class.cdk-table-sticky]="true" (click)="groupedData.toggleGroup(group.groupValue)">
+                  <div class="lg-group-content">
+                    <i class="ri-arrow-right-s-line lg-group-toggle" [class.is-expanded]="group.expanded"></i>
+                    <span class="lg-group-title">{{ group.groupKey }}: {{ group.groupValue }}</span>
+                    <div class="lg-group-aggregate">
+                      <span class="lg-group-badge">{{ group.totalCount }} Members</span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Data Columns -->
+              <ng-container cdkColumnDef="id">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">ID</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-mono text-[11px] opacity-40">{{ row.id }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="name">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">User</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell font-bold">{{ row.name }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="role">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Role</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell">{{ row.role }}</td>
+              </ng-container>
+              <ng-container cdkColumnDef="status">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Status</th>
+                <td cdk-cell *cdkCellDef="let row" class="lg-cell">
+                   <lg-badge [variant]="row.status === 'online' ? 'success' : 'warning'">{{ row.status }}</lg-badge>
+                </td>
+              </ng-container>
+
+              <tr cdk-header-row *cdkHeaderRowDef="['id', 'name', 'role', 'status']" class="lg-header-row"></tr>
+              
+              <!-- Regular rows (with isGroup check) -->
+              <tr cdk-row *cdkRowDef="let row; columns: ['id', 'name', 'role', 'status']; when: isNotGroup" class="lg-row"></tr>
+              
+              <!-- Group rows (using the specific template) -->
+              <tr cdk-row *cdkRowDef="let row; columns: ['groupHeader']; when: isGroup" class="lg-row-group"></tr>
+            </table>
+          </lg-data-table-container>
+        </div>
+
+        <!-- Example 8: Realtime Crypto Market -->
+        <div class="col-span-12">
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-white">Example 8: Realtime Crypto Market</h3>
+            <p class="text-glass-text-muted text-sm">High-frequency updates (1s) with embedded SVG Sparklines and price flash effects.</p>
+          </div>
+
+          <lg-data-table-container>
+            <table cdk-table [dataSource]="cryptoData" class="lg-table">
+               <ng-container cdkColumnDef="symbol">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Asset</th>
+                <td cdk-cell *cdkCellDef="let coin" class="lg-cell">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-glass-border flex items-center justify-center font-bold text-xs">{{ coin.symbol[0] }}</div>
+                    <div>
+                      <div class="font-bold">{{ coin.symbol }}</div>
+                      <div class="text-[10px] opacity-50">{{ coin.name }}</div>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="price">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell text-right">Price</th>
+                <td cdk-cell *cdkCellDef="let coin" class="lg-cell text-right">
+                  <lg-badge [variant]="coin.change24h >= 0 ? 'success' : 'error'" class="font-mono px-3 py-1">
+                    $ {{ coin.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+                  </lg-badge>
+                </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="change">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell text-right">24h Change</th>
+                <td cdk-cell *cdkCellDef="let coin" class="lg-cell text-right">
+                  <span [class.text-emerald-400]="coin.change24h > 0" [class.text-red-400]="coin.change24h < 0" class="font-bold">
+                    {{ coin.change24h > 0 ? '+' : '' }}{{ coin.change24h }}%
+                  </span>
+                </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="trend">
+                <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Trend (1h)</th>
+                <td cdk-cell *cdkCellDef="let coin" class="lg-cell">
+                  <lg-sparkline [data]="coin.history" [width]="100" [height]="30"></lg-sparkline>
+                </td>
+              </ng-container>
+
+              <tr cdk-header-row *cdkHeaderRowDef="['symbol', 'price', 'change', 'trend']" class="lg-header-row"></tr>
+              <tr cdk-row *cdkRowDef="let row; columns: ['symbol', 'price', 'change', 'trend']" class="lg-row"></tr>
+            </table>
+          </lg-data-table-container>
+        </div>
       </div>
     </section>
   `,
@@ -422,6 +551,7 @@ export class DataTablePage {
   readonly users = signal<UserData[]>(buildDemoUsers());
 
   readonly userData = new LgTableDataSource<UserData>(buildDemoUsers(), { pageSize: 5 });
+  
   readonly emptyData = new LgTableDataSource<UserData>([]);
 
   // Virtual Scroll Demo (Stress Test)
@@ -436,10 +566,19 @@ export class DataTablePage {
   remotePageSize = 5;
   private remoteSearch = '';
 
+  readonly groupedData = new LgTableDataSource<UserData>(buildDemoUsers());
+
+  // Crypto Realtime Demo
+  readonly cryptoData = new LgTableDataSource<CryptoCoin>([]);
+  private cryptoInterval: any;
+
   readonly filteredCount = toSignal(this.userData.filteredLength$, { initialValue: buildDemoUsers().length });
   readonly dsPageIndex = toSignal(this.userData.pageIndex$, { initialValue: 0 });
   readonly dsPageSize = toSignal(this.userData.pageSize$, { initialValue: 5 });
   readonly userPage = toSignal(this.userData.page$, { initialValue: [] as UserData[] });
+
+  readonly isGroup = (i: number, row: any) => this.groupedData.isGroup(row);
+  readonly isNotGroup = (i: number, row: any) => !this.groupedData.isGroup(row);
 
   constructor() {
     this.userData.filterPredicate = (u, filter) => {
@@ -447,6 +586,12 @@ export class DataTablePage {
       if (!q) return true;
       return u.name.toLowerCase().includes(q) || u.role.toLowerCase().includes(q);
     };
+
+    // Default grouping for Example 7
+    this.groupedData.setGroupBy('role');
+    this.groupedData.toggleGroup('Admin'); // Start with one open
+
+    this.initCryptoStream();
 
     // Initial fetch for remote
     this.remoteData.isServerSide = true;
@@ -462,13 +607,17 @@ export class DataTablePage {
   }
 
   isAllSelected(): boolean {
-    const page = this.userPage();
+    const dataSource = this.userData;
+    const items = this.userPage() as (UserData | LgGroupRow<UserData>)[];
+    const page = items.filter((row): row is UserData => !dataSource.isGroup(row));
     if (page.length === 0) return false;
     return page.every((row) => this.selection.isSelected(row));
   }
 
   masterToggle(): void {
-    const page = this.userPage();
+    const dataSource = this.userData;
+    const items = this.userPage() as (UserData | LgGroupRow<UserData>)[];
+    const page = items.filter((row): row is UserData => !dataSource.isGroup(row));
     if (page.length === 0) return;
     if (this.isAllSelected()) {
       page.forEach((row) => this.selection.deselect(row));
@@ -477,8 +626,10 @@ export class DataTablePage {
     }
   }
 
-  trackById(index: number, item: UserData): string {
-    return item.id;
+
+
+  trackById(index: number, item: any): string {
+    return item.isGroup ? `group-${item.groupKey}-${item.groupValue}` : item.id;
   }
 
   loadMoreMassive(): void {
@@ -529,5 +680,40 @@ export class DataTablePage {
       this.remoteData.setTotal(this.remoteTotal);
       this.isRemoteLoading = false;
     }, 1000);
+  }
+
+  private initCryptoStream(): void {
+    const coins: CryptoCoin[] = [
+      { symbol: 'BTC', name: 'Bitcoin', price: 64230.50, change24h: 2.4, history: [64000, 64100, 64050, 64200, 64150, 64230] },
+      { symbol: 'ETH', name: 'Ethereum', price: 3450.20, change24h: -1.2, history: [3480, 3470, 3460, 3455, 3452, 3450] },
+      { symbol: 'SOL', name: 'Solana', price: 145.75, change24h: 5.8, history: [138, 140, 142, 144, 145, 145.75] },
+      { symbol: 'BNB', name: 'Binance Coin', price: 580.10, change24h: 0.5, history: [578, 579, 580, 581, 580, 580.10] },
+      { symbol: 'ADA', name: 'Cardano', price: 0.45, change24h: -3.1, history: [0.47, 0.46, 0.46, 0.45, 0.45, 0.45] },
+    ];
+
+    this.cryptoData.data = coins;
+
+    this.cryptoInterval = setInterval(() => {
+      const updated = this.cryptoData.data.map((coin: CryptoCoin) => {
+        const volatility = coin.price * 0.002;
+        const change = (Math.random() - 0.5) * volatility;
+        const newPrice = coin.price + change;
+        
+        // Update history window (keep last 20)
+        const newHistory = [...coin.history, newPrice].slice(-20);
+
+        return {
+          ...coin,
+          price: newPrice,
+          history: newHistory,
+        };
+      });
+
+      this.cryptoData.data = updated;
+    }, 1500);
+  }
+
+  ngOnDestroy(): void {
+    if (this.cryptoInterval) clearInterval(this.cryptoInterval);
   }
 }

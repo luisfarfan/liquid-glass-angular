@@ -5,8 +5,6 @@ import {
   InputComponent,
   FormFieldComponent,
   FormLayoutComponent,
-  SelectComponent,
-  SelectOptionComponent,
   TextareaComponent,
   CheckboxComponent,
   ButtonComponent
@@ -21,8 +19,6 @@ import {
     InputComponent,
     FormFieldComponent,
     FormLayoutComponent,
-    SelectComponent,
-    SelectOptionComponent,
     TextareaComponent,
     CheckboxComponent,
     ButtonComponent

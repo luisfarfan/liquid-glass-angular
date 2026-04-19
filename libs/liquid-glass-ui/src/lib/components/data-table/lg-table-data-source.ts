@@ -8,20 +8,53 @@ export interface LgTableSortState<T> {
   direction: LgTableSortDirection;
 }
 
+export type LgFilterOperator = 
+  | 'contains' | 'notContains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith' | 'isEmpty' | 'isNotEmpty'
+  | '>' | '>=' | '<' | '<=' | '=' | '!=' | 'is' | 'gt' | 'lt' | 'gte' | 'lte';
+
+export interface LgFilterItem<T> {
+  id: string;
+  field: keyof T & string;
+  operator: LgFilterOperator;
+  value?: any;
+}
+
+export interface LgTableFilterModel<T> {
+  items: LgFilterItem<T>[];
+  logicOperator: 'and' | 'or';
+}
+
+/** Represents a summary row for a group in the table. */
+export interface LgGroupRow<T> {
+  isGroup: true;
+  groupKey: keyof T & string;
+  groupValue: any;
+  items: T[];
+  expanded: boolean;
+  totalCount: number;
+  aggregations: Record<string, number>;
+}
+
 /**
  * Client-side table data source similar in spirit to {@link MatTableDataSource}:
  * filter → sort → paginate, then expose the page slice through {@link DataSource.connect}.
  *
- * Wire `lg-pagination` with `[length]` from `filteredLength$` (e.g. `toSignal`) and `(pageChange)` calling
+ * Wire `lg-pagination` with `[length]` from `filteredLength$` (e.g. `toSignal`) and
  * `setPage(event.pageIndex, event.pageSize)`.
+ *
+ * Supports: Standard Filtering, Multi-column Sorting, Virtual Scrolling, and Premium Row Grouping.
  */
-export class LgTableDataSource<T> implements DataSource<T> {
+export class LgTableDataSource<T> implements DataSource<T | LgGroupRow<T>> {
   private readonly _data = new BehaviorSubject<T[]>([]);
   private readonly _filter = new BehaviorSubject('');
+  private readonly _filterModel = new BehaviorSubject<LgTableFilterModel<T>>({ items: [], logicOperator: 'and' });
   private readonly _sort = new BehaviorSubject<LgTableSortState<T>>({ active: null, direction: '' });
   private readonly _pageIndex = new BehaviorSubject(0);
   private readonly _pageSize = new BehaviorSubject(10);
   private readonly _totalOverride = new BehaviorSubject<number | null>(null);
+  
+  private readonly _groupBy = new BehaviorSubject<keyof T & string | null>(null);
+  private readonly _expandedGroups = new BehaviorSubject<Set<string>>(new Set());
 
   /** Whether the data source is used for server-side pagination (skips local filtering/sorting/paging). */
   isServerSide = false;
@@ -29,10 +62,28 @@ export class LgTableDataSource<T> implements DataSource<T> {
   /** Whether to return the full filtered data instead of a page slice (for virtual scroll). */
   isVirtualized = false;
 
-  private readonly _filteredSorted = combineLatest([this._data, this._filter, this._sort]).pipe(
-    map(([rows, filter, sort]) => {
+  private readonly _filteredSorted = combineLatest([this._data, this._filter, this._filterModel, this._sort]).pipe(
+    map(([rows, filter, filterModel, sort]) => {
       if (this.isServerSide) return rows;
-      return this.applyFilterAndSort(rows, filter, sort);
+      
+      // 1. Global Filter (simple string)
+      let out = rows.filter((row) => this.filterPredicate(row, filter));
+      
+      // 2. Advanced Filters (multi-column)
+      if (filterModel.items.length > 0) {
+        out = this.applyAdvancedFilters(out, filterModel);
+      }
+
+      // 3. Sorting
+      return this.applySort(out, sort);
+    }),
+    shareReplay({ bufferSize: 1, refCount: true }),
+  );
+
+  private readonly _grouped = combineLatest([this._filteredSorted, this._groupBy, this._expandedGroups]).pipe(
+    map(([rows, groupBy, expanded]) => {
+      if (!groupBy || this.isServerSide) return rows as (T | LgGroupRow<T>)[];
+      return this.applyGrouping(rows, groupBy, expanded);
     }),
     shareReplay({ bufferSize: 1, refCount: true }),
   );
@@ -41,11 +92,11 @@ export class LgTableDataSource<T> implements DataSource<T> {
   readonly filteredData$: Observable<T[]> = this._filteredSorted;
 
   /** Row count after filter/sort — bind to `lg-pagination` `[length]`. */
-  readonly filteredLength$: Observable<number> = combineLatest([this._filteredSorted, this._totalOverride]).pipe(
+  readonly filteredLength$: Observable<number> = combineLatest([this._grouped, this._totalOverride]).pipe(
     map(([rows, override]) => override ?? rows.length)
   );
 
-  private readonly _pageData = combineLatest([this._filteredSorted, this._pageIndex, this._pageSize]).pipe(
+  private readonly _pageData = combineLatest([this._grouped, this._pageIndex, this._pageSize]).pipe(
     map(([rows, pageIndex, pageSize]) => {
       if (this.isVirtualized || this.isServerSide) return rows;
       const ps = Math.max(1, pageSize);
@@ -117,6 +168,21 @@ export class LgTableDataSource<T> implements DataSource<T> {
     this._pageIndex.next(0);
   }
 
+  get filterModel(): LgTableFilterModel<T> {
+    return this._filterModel.value;
+  }
+
+  set filterModel(value: LgTableFilterModel<T>) {
+    this._filterModel.next(value);
+    this._pageIndex.next(0);
+  }
+
+  readonly filterModel$ = this._filterModel.asObservable();
+
+  setFilterModel(model: LgTableFilterModel<T>): void {
+    this.filterModel = model;
+  }
+
   setSort(active: keyof T & string | null, direction: LgTableSortDirection): void {
     const dir: LgTableSortDirection = active ? direction || 'asc' : '';
     this._sort.next({ active, direction: dir });
@@ -136,26 +202,145 @@ export class LgTableDataSource<T> implements DataSource<T> {
     this._pageSize.next(pageSize);
   }
 
-  connect(_collectionViewer: CollectionViewer): Observable<readonly T[]> {
-    return this._pageData;
+  setGroupBy(key: keyof T & string | null): void {
+    this._groupBy.next(key);
+    this._pageIndex.next(0);
+  }
+
+  toggleGroup(value: any): void {
+    const current = new Set(this._expandedGroups.value);
+    const id = String(value);
+    if (current.has(id)) {
+      current.delete(id);
+    } else {
+      current.add(id);
+    }
+    this._expandedGroups.next(current);
+  }
+
+  isGroup(row: T | LgGroupRow<T>): row is LgGroupRow<T> {
+    return (row as LgGroupRow<T>).isGroup === true;
+  }
+
+  connect(_collectionViewer: CollectionViewer): Observable<readonly (T | LgGroupRow<T>)[]> {
+    return this._pageData as Observable<readonly (T | LgGroupRow<T>)[]>;
   }
 
   disconnect(_collectionViewer: CollectionViewer): void {}
 
-  private applyFilterAndSort(rows: T[], filter: string, sort: LgTableSortState<T>): T[] {
-    let out = rows.filter((row) => this.filterPredicate(row, filter));
-    const { active, direction } = sort;
-    if (active && direction) {
-      const dir = direction === 'asc' ? 1 : -1;
-      const prop = active as keyof T & string;
-      out = [...out].sort((a, b) => {
-        const av = this.sortingDataAccessor(a, prop);
-        const bv = this.sortingDataAccessor(b, prop);
-        if (av < bv) return -1 * dir;
-        if (av > bv) return 1 * dir;
-        return 0;
+  private applyAdvancedFilters(rows: T[], model: LgTableFilterModel<T>): T[] {
+    const { items, logicOperator } = model;
+    
+    return rows.filter((row) => {
+      const results = items.map((item) => {
+        // Skip filter if value is empty/null/undefined unless checking for emptiness
+        if (item.value === null || item.value === undefined || item.value === '') {
+          if (item.operator !== 'isEmpty' && item.operator !== 'isNotEmpty') {
+            return true;
+          }
+        }
+
+        const val = this.sortingDataAccessor(row, item.field);
+        const filterVal = item.value;
+
+        // Type conversion for numeric comparisons
+        const numericVal = typeof val === 'string' && !isNaN(Number(val)) ? Number(val) : val;
+        const numericFilterVal = typeof filterVal === 'string' && !isNaN(Number(filterVal)) ? Number(filterVal) : filterVal;
+        const isNumeric = typeof numericVal === 'number' && typeof numericFilterVal === 'number';
+
+        switch (item.operator) {
+          case 'contains':
+            return String(val).toLowerCase().includes(String(filterVal).toLowerCase());
+          case 'notContains':
+            return !String(val).toLowerCase().includes(String(filterVal).toLowerCase());
+          case 'equals':
+            if (typeof val === 'string' && typeof filterVal === 'string') {
+              return val.toLowerCase() === filterVal.toLowerCase();
+            }
+            return val === filterVal;
+          case 'notEquals':
+            return val !== filterVal;
+          case 'startsWith':
+            return String(val).toLowerCase().startsWith(String(filterVal).toLowerCase());
+          case 'endsWith':
+            return String(val).toLowerCase().endsWith(String(filterVal).toLowerCase());
+          case 'gt':
+            return isNumeric ? (numericVal as number) > (numericFilterVal as number) : val > filterVal;
+          case 'lt':
+            return isNumeric ? (numericVal as number) < (numericFilterVal as number) : val < filterVal;
+          case 'gte':
+            return isNumeric ? (numericVal as number) >= (numericFilterVal as number) : val >= filterVal;
+          case 'lte':
+            return isNumeric ? (numericVal as number) <= (numericFilterVal as number) : val <= filterVal;
+          case 'isEmpty':
+            return val === null || val === undefined || val === '';
+          case 'isNotEmpty':
+            return val !== null && val !== undefined && val !== '';
+          default:
+            return true;
+        }
       });
-    }
+
+      if (logicOperator === 'and') {
+        return results.every(r => r);
+      } else {
+        return results.some(r => r);
+      }
+    });
+  }
+
+  private applySort(rows: T[], sort: LgTableSortState<T>): T[] {
+    const { active, direction } = sort;
+    if (!active || !direction) return rows;
+
+    const dir = direction === 'asc' ? 1 : -1;
+    const prop = active as keyof T & string;
+    
+    return [...rows].sort((a, b) => {
+      const av = this.sortingDataAccessor(a, prop);
+      const bv = this.sortingDataAccessor(b, prop);
+      if (av < bv) return -1 * dir;
+      if (av > bv) return 1 * dir;
+      return 0;
+    });
+  }
+
+  private applyGrouping(rows: T[], groupBy: keyof T & string, expanded: Set<string>): (T | LgGroupRow<T>)[] {
+    const groups = new Map<any, T[]>();
+    
+    // Sort items by group first to ensure they appear together if not already sorted
+    const sorted = [...rows].sort((a, b) => {
+      const av = String(a[groupBy]);
+      const bv = String(b[groupBy]);
+      return av.localeCompare(bv);
+    });
+
+    sorted.forEach(row => {
+      const val = row[groupBy];
+      if (!groups.has(val)) groups.set(val, []);
+      groups.get(val)!.push(row);
+    });
+
+    const out: (T | LgGroupRow<T>)[] = [];
+    groups.forEach((items, value) => {
+      const id = String(value);
+      const isExpanded = expanded.has(id);
+      
+      out.push({
+        isGroup: true,
+        groupKey: groupBy,
+        groupValue: value,
+        items,
+        expanded: isExpanded,
+        totalCount: items.length,
+        aggregations: {} // Future expansion
+      });
+
+      if (isExpanded) {
+        out.push(...items);
+      }
+    });
+
     return out;
   }
 }

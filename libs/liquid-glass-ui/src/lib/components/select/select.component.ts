@@ -170,10 +170,13 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
       const currentVal = this.value();
       const opts = this.options();
       opts.forEach(opt => {
+        const optVal = opt.value();
+        if (optVal === undefined) return;
+        
         if (this.multiple() && Array.isArray(currentVal)) {
-          opt.selected.set(currentVal.includes(opt.value()));
+          opt.selected.set(currentVal.includes(optVal));
         } else {
-          opt.selected.set(currentVal === opt.value());
+          opt.selected.set(currentVal === optVal);
         }
       });
     });
@@ -233,9 +236,11 @@ export class SelectComponent implements ControlValueAccessor, AfterContentInit {
     const val = this.value();
     const opts = this.options();
     if (this.multiple() && Array.isArray(val)) {
-      return opts.filter(o => val.includes(o.value())).map(o => o.label() || o.getLabel?.() || '');
+      return opts
+        .filter(o => o.value() !== undefined && val.includes(o.value()))
+        .map(o => o.label() || o.getLabel?.() || '');
     }
-    const found = opts.find(o => o.value() === val);
+    const found = opts.find(o => o.value() !== undefined && o.value() === val);
     return found ? [found.label() || found.getLabel?.() || ''] : [];
   });
 

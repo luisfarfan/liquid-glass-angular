@@ -54,7 +54,7 @@ import { Subject, takeUntil, distinctUntilChanged } from 'rxjs';
 })
 export class LgVirtualDataTableComponent implements OnInit, OnDestroy {
   /** Height of each row in pixels. Essential for virtual scroll calculations. */
-  @Input() itemSize = 48;
+  @Input() itemSize = 64;
 
   /** Total height of the table viewport. */
   @Input() height = '400px';
