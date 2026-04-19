@@ -60,8 +60,8 @@
   --lg-t-text-main: #0f172a;    /* Slate 900 */
   --lg-t-text-muted: #64748b;   /* Slate 500 */
   
-  --lg-t-glass-bg: rgba(255, 255, 255, 0.5); /* Más translúcido */
-  --lg-t-glass-border: rgba(0, 0, 0, 0.06);
+  --lg-t-glass-bg: rgba(255, 255, 255, 0.7); /* Menos transparente para mejor legibilidad */
+  --lg-t-glass-border: rgba(0, 0, 0, 0.1);
 
   --lg-t-scrim: rgba(15, 23, 42, 0.42);
   
@@ -78,8 +78,8 @@
   --lg-t-info-rgb: 2, 132, 199;
 
   /* Component Specific */
-  --lg-t-input-bg: rgba(0, 0, 0, 0.03);
-  --lg-t-input-border: rgba(0, 0, 0, 0.06);
+  --lg-t-input-bg: rgba(0, 0, 0, 0.04);
+  --lg-t-input-border: rgba(0, 0, 0, 0.12);
 
   /* Skeleton Loader */
   --lg-t-skeleton-bg: rgba(0, 0, 0, 0.06);

@@ -6,17 +6,21 @@ import {
 } from './theme.models';
 
 /**
- * Servicio de Temas (Refactorizado)
- * Proporciona una arquitectura extensible para gestionar temas integrados y personalizados.
+ * Servicio de Temas (Optimizado para Alto Rendimiento)
+ * Gestiona temas mediante señales y manipulación del DOM optimizada.
  */
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private config = inject(LG_THEME_CONFIG);
+  private readonly config = inject(LG_THEME_CONFIG);
+
+  // Estado interno para evitar recalculaciones costosas y layout thrashing
+  private _lastThemeClass: string | null = null;
+  private _appliedVariableKeys: string[] = [];
 
   /**
-   * Colección de temas registrados (base + dinámicos).
+   * Colección de temas registrados.
    */
   private _themes = signal<LGThemeDefinition[]>([...this.config.themes]);
 
@@ -43,7 +47,7 @@ export class ThemeService {
   readonly availableThemes = this._themes.asReadonly();
 
   constructor() {
-    // Sincronizar cambios con el DOM y almacenamiento
+    // Sincronizar cambios con el DOM de forma eficiente
     effect(() => {
       const theme = this.currentThemeDefinition();
       this.applyTheme(theme);
@@ -54,9 +58,6 @@ export class ThemeService {
     });
   }
 
-  /**
-   * Registra un nuevo tema en tiempo de ejecución.
-   */
   registerTheme(theme: LGThemeDefinition) {
     this._themes.update(prev => {
       const exists = prev.findIndex(t => t.id === theme.id);
@@ -69,20 +70,16 @@ export class ThemeService {
     });
   }
 
-  /**
-   * Cicla a través de todos los temas registrados.
-   */
   toggleTheme() {
     const themes = this._themes();
     const currentIndex = themes.findIndex(t => t.id === this._currentThemeId());
     const nextIndex = (currentIndex + 1) % themes.length;
-    this._currentThemeId.set(themes[nextIndex].id);
+    this.setTheme(themes[nextIndex].id);
   }
 
-  /**
-   * Establece un tema específico por su ID.
-   */
   setTheme(themeId: string) {
+    if (this._currentThemeId() === themeId) return;
+    
     const exists = this._themes().some(t => t.id === themeId);
     if (!exists) {
       console.warn(`[ThemeService] Intento de establecer un tema no registrado: ${themeId}`);
@@ -91,9 +88,6 @@ export class ThemeService {
     this._currentThemeId.set(themeId);
   }
 
-  /**
-   * Determina el tema inicial basado en almacenamiento o preferencias del sistema.
-   */
   private getInitialThemeId(): string {
     if (typeof localStorage !== 'undefined') {
       const saved = localStorage.getItem(this.config.storageKey);
@@ -102,7 +96,6 @@ export class ThemeService {
       }
     }
 
-    // Opcional: Detección automática de preferencia de color si el default es 'dark' o 'light'
     if (typeof window !== 'undefined' && window.matchMedia) {
       const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
       if (isLightMode && this._themes().some(t => t.id === 'light')) {
@@ -114,50 +107,58 @@ export class ThemeService {
   }
 
   /**
-   * Lógica interna para manipular las clases y variables en el tag <html>.
+   * Aplica el tema al DOM optimizando las operaciones para evitar lag.
    */
   private applyTheme(theme: LGThemeDefinition) {
     if (typeof document === 'undefined') return;
 
     const html = document.documentElement;
 
-    // 1. Limpiar todas las posibles clases de temas registrados
-    const allThemeClasses = this._themes()
-      .map(t => t.class)
-      .filter((c): c is string => !!c);
-    
-    html.classList.remove(...allThemeClasses);
+    /**
+     * TRUCO DE RENDIMIENTO: Desactivar transiciones temporalmente.
+     * Esto evita que el navegador intente animar todos los elementos de la página
+     * simultáneamente al cambiar las variables CSS, lo cual causa el "lag" reportado.
+     */
+    html.classList.add('lg-no-transitions');
 
-    // 2. Aplicar clase del nuevo tema si existe
+    // 1. Manejo eficiente de clases (solo remover la anterior)
+    if (this._lastThemeClass) {
+      html.classList.remove(this._lastThemeClass);
+    }
+    
     if (theme.class) {
       html.classList.add(theme.class);
+      this._lastThemeClass = theme.class;
+    } else {
+      this._lastThemeClass = null;
     }
 
-    // 3. Gestionar variables dinámicas
-    this.clearDynamicVariables();
+    // 2. Gestión de variables dinámicas mediante caché (sin parseo de strings)
+    // Primero limpiamos las variables anteriores que ya no existen o han cambiado
+    this._appliedVariableKeys.forEach(key => {
+      if (!theme.variables?.[key]) {
+        html.style.removeProperty(key);
+      }
+    });
+
+    // Luego aplicamos las nuevas
+    const newKeys: string[] = [];
     if (theme.variables) {
       Object.entries(theme.variables).forEach(([key, value]) => {
         html.style.setProperty(key, value);
+        newKeys.push(key);
       });
     }
-  }
+    this._appliedVariableKeys = newKeys;
 
-  /**
-   * Limpia las variables CSS inyectadas anteriormente en el style inline del :root.
-   */
-  private clearDynamicVariables() {
-    if (typeof document === 'undefined') return;
+    /**
+     * Forzamos un pequeño reflow para que los cambios se asienten antes de reactivar transiciones.
+     * Luego reactivamos de forma asíncrona para que el frame de renderizado sea fluido.
+     */
+    void html.offsetHeight; // force reflow
     
-    // Solo removemos las variables que coinciden con nuestro prefijo de tokens
-    const html = document.documentElement;
-    const style = html.getAttribute('style');
-    if (!style) return;
-
-    // Buscamos todas las variables --lg-t-* en el atributo style para limpiarlas
-    const tokens = style.split(';').filter(s => s.trim().startsWith('--lg-t-'));
-    tokens.forEach(t => {
-      const key = t.split(':')[0].trim();
-      html.style.removeProperty(key);
+    requestAnimationFrame(() => {
+      html.classList.remove('lg-no-transitions');
     });
   }
 }

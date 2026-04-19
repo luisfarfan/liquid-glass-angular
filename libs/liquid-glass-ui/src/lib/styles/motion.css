@@ -42,3 +42,14 @@
 .lg-animate-fade-in {
   animation: lg-fade-in var(--lg-duration-base) var(--lg-ease-enter) forwards;
 }
+
+/* 4. Utilities */
+
+/* Desactiva todas las transiciones (útil para cambios de tema síncronos) */
+.lg-no-transitions,
+.lg-no-transitions *,
+.lg-no-transitions *::before,
+.lg-no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}

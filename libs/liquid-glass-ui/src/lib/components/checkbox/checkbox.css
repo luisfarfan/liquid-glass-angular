@@ -29,14 +29,19 @@ lg-checkbox.is-disabled {
   width: 1.25rem;
   height: 1.25rem;
   background: var(--lg-t-glass-bg);
-  border: 1px solid var(--lg-t-glass-border);
+  border: 1.5px solid var(--lg-t-glass-border); /* Borde ligeramente más grueso */
   border-radius: 6px;
   backdrop-filter: blur(8px);
-  transition: all 0.3s var(--lg-ease-out);
+  transition: all 0.25s var(--lg-ease-standard);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+:host:hover .lg-checkbox-box {
+  border-color: var(--lg-t-primary);
+  background: rgba(var(--lg-t-primary-rgb), 0.05);
 }
 
 /* SVG Icon */
