@@ -3,26 +3,37 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+/**
+ * Interface for components that can be registered as active items in the sidebar.
+ */
+export interface ILiquidSidebarItem {
+  getIndicatorAnchor(): HTMLElement | null;
+  isActive: boolean;
+}
+
 @Injectable()
 export class LiquidSidebarService {
   /** Global collapsed state of the sidebar */
-  isCollapsed = signal<boolean>(false);
+  readonly isCollapsed = signal<boolean>(false);
+
+  /**
+   * Current active component responsible for the indicator position.
+   */
+  readonly activeItem = signal<ILiquidSidebarItem | null>(null);
 
   /**
    * Active item Y position tracking.
-   * Centralized here so children can trigger updates easily.
    */
   private readonly _activeItemY = signal<number>(0);
-  activeItemY = this._activeItemY.asReadonly();
+  readonly activeItemY = this._activeItemY.asReadonly();
 
   /**
-   * Whether an active item is currently present in the sidebar
+   * Whether an active indicator should be visible
    */
-  hasActiveItem = signal<boolean>(false);
+  readonly hasActiveItem = signal<boolean>(false);
 
   /**
-   * Se incrementa en NavigationEnd y en eventos de layout (expand/collapse, primer paint)
-   * para que los ítems recalculen la cápsula sin depender solo del intervalo.
+   * Internal clock synchronized with animations and navigation
    */
   private readonly _layoutTick = signal(0);
   readonly layoutTick = this._layoutTick.asReadonly();
@@ -30,31 +41,40 @@ export class LiquidSidebarService {
   constructor() {
     const router = inject(Router);
     const destroyRef = inject(DestroyRef);
+    
     router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
         takeUntilDestroyed(destroyRef),
       )
-      .subscribe(() => this.notifyIndicatorLayout());
+      .subscribe(() => {
+        requestAnimationFrame(() => this.notifyIndicatorLayout());
+      });
   }
 
   /**
-   * Triggers a recalculation of the indicator position
+   * Registers which component is currently active.
    */
-  updateIndicator(y: number, active: boolean = true) {
-    this._activeItemY.set(y);
-    this.hasActiveItem.set(active);
+  setActiveItem(item: ILiquidSidebarItem | null) {
+    if (this.activeItem() !== item) {
+      this.activeItem.set(item);
+      this.notifyIndicatorLayout();
+    }
   }
 
-  /** Pide a los ítems que vuelvan a medir (navegación, submenú, etc.). */
+  updateIndicator(y: number, active: boolean = true) {
+    if (this._activeItemY() !== y) this._activeItemY.set(y);
+    if (this.hasActiveItem() !== active) this.hasActiveItem.set(active);
+  }
+
+  /** Pide a la arquitectura que se re-sincronice. */
   notifyIndicatorLayout(): void {
     this._layoutTick.update((n) => n + 1);
   }
 
-  /**
-   * Expand/Collapse toggle helper
-   */
+  /** Expand/Collapse toggle helper */
   toggle() {
     this.isCollapsed.update((v) => !v);
+    requestAnimationFrame(() => this.notifyIndicatorLayout());
   }
 }

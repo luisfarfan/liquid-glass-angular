@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   model,
   signal,
   computed,
@@ -9,15 +8,14 @@ import {
   ChangeDetectionStrategy,
   effect,
   afterNextRender,
+  Injector,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LiquidSidebarService } from './sidebar.service';
-import { LiquidSidebarItemComponent } from './sidebar-item.component';
 
 @Component({
   selector: 'lg-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   providers: [LiquidSidebarService],
   template: `
     <nav 
@@ -57,16 +55,17 @@ import { LiquidSidebarItemComponent } from './sidebar-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidSidebarComponent {
-  public service = inject(LiquidSidebarService);
+  public readonly service = inject(LiquidSidebarService);
+  private readonly injector = inject(Injector);
   
-  /** Two-way bindable expansion state */
-  isCollapsed = model<boolean>(false);
+  /** Two-way bindable expansion state. Syncs with service. */
+  public readonly isCollapsed = model(false);
   
   /** Mobile-only side drawer state */
-  isMobileOpen = signal<boolean>(false);
+  public readonly isMobileOpen = signal(false);
 
   /** Transform del indicador: centrado horizontal en rail colapsado */
-  activeTransform = computed(() => {
+  public readonly activeTransform = computed(() => {
     const yRem = this.service.activeItemY() / 16;
     if (this.service.isCollapsed()) {
       return `translateX(-50%) translateY(${yRem}rem)`;
@@ -75,18 +74,52 @@ export class LiquidSidebarComponent {
   });
 
   constructor() {
-    // Sync model with service
+    // Sync external model with internal service state
     effect(() => {
-      this.service.isCollapsed.set(this.isCollapsed());
-    }, { allowSignalWrites: true });
+      const val = this.isCollapsed();
+      if (this.service.isCollapsed() !== val) {
+        this.service.isCollapsed.set(val);
+      }
+    });
 
     effect(() => {
-      this.isCollapsed.set(this.service.isCollapsed());
-    }, { allowSignalWrites: true });
+      const val = this.service.isCollapsed();
+      if (this.isCollapsed() !== val) {
+        this.isCollapsed.set(val);
+      }
+    });
 
-    // Primera pintura + URL inicial: RouterLinkActive aún no ha pintado is-active en el mismo frame.
-    afterNextRender(() => {
-      this.service.notifyIndicatorLayout();
+    // --- CENTRALIZED INDICATOR LOGIC ---
+    effect(() => {
+      const activeItem = this.service.activeItem();
+      this.service.layoutTick(); // Reactive dependency
+
+      if (!activeItem) {
+        this.service.updateIndicator(0, false);
+        return;
+      }
+
+      // We need to wait for the DOM to settle (animations, routerLinkActive classes)
+      afterNextRender(() => {
+        const anchor = activeItem.getIndicatorAnchor();
+        if (!anchor) {
+          this.service.updateIndicator(0, false);
+          return;
+        }
+
+        const rect = anchor.getBoundingClientRect();
+        const content = anchor.closest('.lg-sidebar-content') as HTMLElement | null;
+        
+        if (!content || rect.height === 0) {
+          this.service.updateIndicator(0, false);
+          return;
+        }
+
+        const contentRect = content.getBoundingClientRect();
+        const y = rect.top - contentRect.top + content.scrollTop;
+        
+        this.service.updateIndicator(y, true);
+      }, { injector: this.injector });
     });
   }
 

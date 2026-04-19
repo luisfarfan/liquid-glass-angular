@@ -152,11 +152,30 @@ lg-sidebar-item {
   align-items: center;
 }
 
-/* --- Hierarchy (Clean Indentation) --- */
+/* hierarchy (Clean Indentation) */
 .lg-sidebar-nested-container {
+  display: grid;
+  grid-template-rows: 0fr;
   overflow: hidden;
   background: transparent;
   position: relative;
+  transition: 
+    grid-template-rows 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 300ms ease,
+    visibility 300ms ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.lg-sidebar-nested-container.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Internal wrapper to make grid-rows animation work */
+.lg-sidebar-nested-wrapper {
+  min-height: 0;
 }
 
 /* Glass Guide Line for nested items */
@@ -207,14 +226,10 @@ lg-sidebar-item {
   display: none;
 }
 
-/* Rail colapsado: solo ítems de primer nivel; evita columna larga de hijos y desalinea el indicador */
+/* Rail colapsado: evita que los submenús ocupen espacio si se abren por error */
 .lg-sidebar.is-collapsed .lg-sidebar-nested-container {
-  display: none !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+  grid-template-rows: 0fr !important;
+  opacity: 0 !important;
   visibility: hidden !important;
 }
 
