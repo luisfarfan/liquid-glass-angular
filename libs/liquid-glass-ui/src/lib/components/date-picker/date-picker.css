@@ -29,9 +29,11 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
-.lg-date-picker-trigger.is-focused {
+.lg-date-picker-trigger.is-focused,
+.lg-date-picker-trigger:focus-within {
   border-color: var(--lg-t-primary);
   box-shadow: 0 0 0 2px var(--lg-t-bg), 0 0 20px rgba(var(--lg-t-primary-rgb), 0.4);
+  outline: none;
 }
 
 .lg-date-picker-icon {
@@ -182,10 +184,15 @@ lg-calendar {
 
 /* Grid */
 .lg-calendar-grid {
+  display: block; /* Rows are grids */
+  animation: lg-calendar-grid-appear 0.4s var(--lg-ease-out);
+  outline: none;
+}
+
+.lg-calendar-row, .lg-calendar-weekday-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 2px;
-  animation: lg-calendar-grid-appear 0.4s var(--lg-ease-out);
 }
 
 @keyframes lg-calendar-grid-appear {
@@ -214,10 +221,17 @@ lg-calendar {
   transition: all 0.2s var(--lg-ease-out);
   position: relative;
   z-index: 1;
+  outline: none; /* We use custom focus */
 }
 
 .lg-calendar-day:hover:not(.is-empty) {
   background: rgba(255, 255, 255, 0.05);
+}
+
+.lg-calendar-day.is-focused,
+.lg-calendar-day:focus-visible {
+  background: rgba(var(--lg-t-primary-rgb), 0.15);
+  box-shadow: 0 0 0 2px var(--lg-t-primary) inset, 0 0 15px rgba(var(--lg-t-primary-rgb), 0.3);
 }
 
 .lg-calendar-day.is-today {

@@ -7,7 +7,10 @@ import {
   signal, 
   computed, 
   OnInit,
-  model
+  model,
+  ElementRef,
+  viewChildren,
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,6 +19,9 @@ export interface LGCalendarDay {
   isCurrentMonth: boolean;
   isToday: boolean;
   isSelected: boolean;
+  isFocused: boolean;
+  tabIndex: number;
+  ariaLabel: string;
   isInRange?: boolean;
   isRangeStart?: boolean;
   isRangeEnd?: boolean;
@@ -41,7 +47,6 @@ export interface LGCalendarDay {
         </div>
       </div>
     } @else {
-      <!-- Empty header placeholder for consistent top alignment -->
       <div class="lg-calendar-header-simple">
         <div class="lg-calendar-view-title text-center w-full">
           {{ viewTitle() }}
@@ -49,26 +54,50 @@ export interface LGCalendarDay {
       </div>
     }
 
-    <div class="lg-calendar-grid" (mouseleave)="onMouseLeave()">
+    <div 
+      #calendarGrid
+      class="lg-calendar-grid" 
+      role="grid" 
+      tabindex="0"
+      [attr.aria-label]="'Calendario de ' + viewTitle()"
+      (mouseleave)="onMouseLeave()"
+      (keydown)="onKeyDown($event)"
+    >
       <!-- Weekdays -->
-      @for (day of weekDays(); track day) {
-        <div class="lg-calendar-weekday">{{ day }}</div>
-      }
+      <div role="row" class="lg-calendar-weekday-row">
+        @for (day of weekDays(); track day) {
+          <div role="columnheader" class="lg-calendar-weekday" [attr.aria-label]="day">
+            {{ day }}
+          </div>
+        }
+      </div>
 
-      <!-- Days -->
-      @for (day of calendarDays(); track day.date.getTime()) {
-        <div 
-          class="lg-calendar-day"
-          [class.is-other-month]="!day.isCurrentMonth"
-          [class.is-today]="day.isToday"
-          [class.is-selected]="day.isSelected"
-          [class.is-range-start]="day.isRangeStart"
-          [class.is-range-end]="day.isRangeEnd"
-          [class.is-in-range]="day.isInRange"
-          (click)="selectDay(day)"
-          (mouseenter)="onMouseEnter(day)"
-        >
-          <span class="lg-calendar-day-content">{{ day.date.getDate() }}</span>
+      <!-- Days Grid partitioned into rows -->
+      @for (row of dayRows(); track $index) {
+        <div role="row" class="lg-calendar-row">
+          @for (day of row; track day.date.getTime()) {
+            <div 
+              #dayElement
+              role="gridcell"
+              class="lg-calendar-day"
+              [id]="uid + '-day-' + day.date.getTime()"
+              [class.is-other-month]="!day.isCurrentMonth"
+              [class.is-today]="day.isToday"
+              [class.is-selected]="day.isSelected"
+              [class.is-focused]="day.isFocused"
+              [class.is-range-start]="day.isRangeStart"
+              [class.is-range-end]="day.isRangeEnd"
+              [class.is-in-range]="day.isInRange"
+              [attr.tabindex]="day.tabIndex"
+              [attr.aria-label]="day.ariaLabel"
+              [attr.aria-selected]="day.isSelected"
+              [attr.aria-current]="day.isToday ? 'date' : null"
+              (click)="selectDay(day)"
+              (mouseenter)="onMouseEnter(day)"
+            >
+              <span class="lg-calendar-day-content">{{ day.date.getDate() }}</span>
+            </div>
+          }
         </div>
       }
     </div>
@@ -99,22 +128,26 @@ export class CalendarComponent implements OnInit {
   dateSelected = output<Date>();
 
   // State
+  readonly uid = `lg-calendar-${Math.random().toString(36).substring(2, 9)}`;
   readonly viewDate = model(new Date());
+  focusedDate = signal<Date | null>(null);
   private readonly _hoverDate = signal<Date | null>(null);
+
+  // View Children for focus management
+  dayElements = viewChildren<ElementRef>('dayElement');
+  private elementRef = inject(ElementRef);
   
   // Computed
   readonly viewTitle = computed(() => {
     const date = this.viewDate();
     const options: Intl.DateTimeFormatOptions = { month: 'long', year: 'numeric' };
-    if (this.useUTC()) {
-      options.timeZone = 'UTC';
-    }
+    if (this.useUTC()) options.timeZone = 'UTC';
     return new Intl.DateTimeFormat(this.locale(), options).format(date);
   });
 
   readonly weekDays = computed(() => {
     const days = [];
-    const baseDate = new Date(Date.UTC(2024, 0, 1)); // A Monday UTC
+    const baseDate = new Date(Date.UTC(2024, 0, 1)); // A Monday
     for (let i = 0; i < 7; i++) {
       const d = new Date(baseDate);
       d.setUTCDate(baseDate.getUTCDate() + i);
@@ -131,98 +164,189 @@ export class CalendarComponent implements OnInit {
     const mode = this.selectionMode();
     const selected = this.selectedDate();
     const hover = this._hoverDate();
+    const focused = this.focusedDate();
     
     const year = useUTC ? viewDate.getUTCFullYear() : viewDate.getFullYear();
     const month = useUTC ? viewDate.getUTCMonth() : viewDate.getMonth();
     
     const now = new Date();
-    const today = useUTC 
+    const todayNum = useUTC 
       ? Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())
       : new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    // Pre-calculate normalized times for faster comparison in loop
     const normalizedSelected = Array.isArray(selected)
       ? selected.map(s => s ? this.normalize(s, useUTC).getTime() : null)
       : (selected ? this.normalize(selected, useUTC).getTime() : null);
     
     const normalizedHover = hover ? this.normalize(hover, useUTC).getTime() : null;
+    const normalizedFocused = focused ? this.normalize(focused, useUTC).getTime() : null;
 
-    const firstDayOfMonth = useUTC 
-      ? new Date(Date.UTC(year, month, 1))
-      : new Date(year, month, 1);
-    
+    const firstDayOfMonth = useUTC ? new Date(Date.UTC(year, month, 1)) : new Date(year, month, 1);
     let startDayIdx = useUTC ? firstDayOfMonth.getUTCDay() : firstDayOfMonth.getDay(); 
     startDayIdx = startDayIdx === 0 ? 6 : startDayIdx - 1;
 
     const days: LGCalendarDay[] = [];
-    
-    // Previous month padding
-    const prevMonthPaddingDate = useUTC ? new Date(Date.UTC(year, month, 0)) : new Date(year, month, 0);
-    const prevMonthLastDayNum = useUTC ? prevMonthPaddingDate.getUTCDate() : prevMonthPaddingDate.getDate();
-    
+    const create = (d: Date, cur: boolean) => this.createDay(d, cur, normalizedSelected, todayNum, normalizedHover, normalizedFocused, mode);
+
+    // Padding previous
+    const prevMonthEnd = useUTC ? new Date(Date.UTC(year, month, 0)) : new Date(year, month, 0);
+    const lastDayPrev = useUTC ? prevMonthEnd.getUTCDate() : prevMonthEnd.getDate();
     for (let i = startDayIdx; i > 0; i--) {
-      const d = useUTC 
-        ? new Date(Date.UTC(year, month - 1, prevMonthLastDayNum - i + 1))
-        : new Date(year, month - 1, prevMonthLastDayNum - i + 1);
-      days.push(this.createDayOptimized(d, false, normalizedSelected, today, normalizedHover, mode));
+      days.push(create(useUTC ? new Date(Date.UTC(year, month - 1, lastDayPrev - i + 1)) : new Date(year, month - 1, lastDayPrev - i + 1), false));
     }
 
-    // Current month days
-    const lastDayOfMonth = useUTC ? new Date(Date.UTC(year, month + 1, 0)) : new Date(year, month + 1, 0);
-    const totalDays = useUTC ? lastDayOfMonth.getUTCDate() : lastDayOfMonth.getDate();
-    for (let i = 1; i <= totalDays; i++) {
-      const d = useUTC ? new Date(Date.UTC(year, month, i)) : new Date(year, month, i);
-      days.push(this.createDayOptimized(d, true, normalizedSelected, today, normalizedHover, mode));
+    // Current month
+    const curMonthEnd = useUTC ? new Date(Date.UTC(year, month + 1, 0)) : new Date(year, month + 1, 0);
+    const total = useUTC ? curMonthEnd.getUTCDate() : curMonthEnd.getDate();
+    for (let i = 1; i <= total; i++) {
+      days.push(create(useUTC ? new Date(Date.UTC(year, month, i)) : new Date(year, month, i), true));
     }
 
-    // Next month padding to fill 42 cells
-    const remainingDays = 42 - days.length;
-    for (let i = 1; i <= remainingDays; i++) {
-      const d = useUTC ? new Date(Date.UTC(year, month + 1, i)) : new Date(year, month + 1, i);
-      days.push(this.createDayOptimized(d, false, normalizedSelected, today, normalizedHover, mode));
+    // Padding next (42 cells total)
+    const nextLimit = 42 - days.length;
+    for (let i = 1; i <= nextLimit; i++) {
+      days.push(create(useUTC ? new Date(Date.UTC(year, month + 1, i)) : new Date(year, month + 1, i), false));
     }
 
     return days;
   });
 
+  readonly dayRows = computed(() => {
+    const days = this.calendarDays();
+    const rows: LGCalendarDay[][] = [];
+    for (let i = 0; i < days.length; i += 7) {
+      rows.push(days.slice(i, i + 7));
+    }
+    return rows;
+  });
+
   ngOnInit() {
     const selected = this.selectedDate();
-    if (selected) {
-      const dateToView = Array.isArray(selected) ? selected[0] : selected;
-      if (dateToView) {
-        this.viewDate.set(new Date(dateToView));
-      }
+    const dateToView = Array.isArray(selected) ? (selected[0] || new Date()) : (selected || new Date());
+    const normalized = this.normalize(new Date(dateToView), this.useUTC());
+    
+    this.viewDate.set(normalized);
+    this.focusedDate.set(normalized);
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    const useUTC = this.useUTC();
+    const focused = this.focusedDate() || this.normalize(new Date(), useUTC);
+    let next: Date | null = null;
+
+    const move = (days: number) => {
+      const d = new Date(focused);
+      if (useUTC) d.setUTCDate(d.getUTCDate() + days);
+      else d.setDate(d.getDate() + days);
+      return d;
+    };
+
+    const moveMonth = (months: number) => {
+      const d = new Date(focused);
+      if (useUTC) d.setUTCMonth(d.getUTCMonth() + months, 1);
+      else d.setMonth(d.getMonth() + months, 1);
+      return d;
+    };
+
+    const navKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
+    if (navKeys.includes(event.key)) {
+      event.preventDefault(); // Stop page scroll immediately
     }
+
+    switch (event.key) {
+      case 'ArrowLeft': next = move(-1); break;
+      case 'ArrowRight': next = move(1); break;
+      case 'ArrowUp': next = move(-7); break;
+      case 'ArrowDown': next = move(7); break;
+      case 'PageUp': next = moveMonth(-1); break;
+      case 'PageDown': next = moveMonth(1); break;
+      case 'Home': {
+        const d = new Date(focused);
+        const day = useUTC ? d.getUTCDay() : d.getDay();
+        const diff = day === 0 ? -6 : 1 - day;
+        next = move(diff);
+        break;
+      }
+      case 'End': {
+        const d = new Date(focused);
+        const day = useUTC ? d.getUTCDay() : d.getDay();
+        const diff = day === 0 ? 0 : 7 - day;
+        next = move(diff);
+        break;
+      }
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.selectDay({ date: focused } as any);
+        return;
+      case 'Tab':
+        return; // Standard tab
+      default:
+        return;
+    }
+
+    if (next) {
+      this.setFocusedDate(next);
+      if (navigator.vibrate) navigator.vibrate(5);
+    }
+  }
+
+  setFocusedDate(date: Date) {
+    const useUTC = this.useUTC();
+    const normalized = this.normalize(date, useUTC);
+    const current = this.viewDate();
+    
+    const sameMonth = useUTC 
+      ? normalized.getUTCMonth() === current.getUTCMonth() && normalized.getUTCFullYear() === current.getUTCFullYear()
+      : normalized.getMonth() === current.getMonth() && normalized.getFullYear() === current.getFullYear();
+
+    if (!sameMonth) {
+      this.viewDate.set(new Date(normalized));
+    }
+    this.focusedDate.set(normalized);
+
+    // Focus DOM element after Signal update
+    setTimeout(() => {
+      const el = this.elementRef.nativeElement.querySelector(`#${this.uid}-day-${normalized.getTime()}`);
+      if (el) {
+        el.focus();
+      } else {
+        // Fallback to grid
+        const grid = this.elementRef.nativeElement.querySelector('.lg-calendar-grid') as HTMLElement;
+        grid?.focus();
+      }
+    });
   }
 
   prevMonth() {
     this.viewDate.update(d => {
-      return this.useUTC() 
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 1, 1))
-        : new Date(d.getFullYear(), d.getMonth() - 1, 1);
+      const n = new Date(d);
+      if (this.useUTC()) n.setUTCMonth(n.getUTCMonth() - 1, 1);
+      else n.setMonth(n.getMonth() - 1, 1);
+      return this.normalize(n, this.useUTC());
     });
   }
 
   nextMonth() {
     this.viewDate.update(d => {
-      return this.useUTC()
-        ? new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1))
-        : new Date(d.getFullYear(), d.getMonth() + 1, 1);
+      const n = new Date(d);
+      if (this.useUTC()) n.setUTCMonth(n.getUTCMonth() + 1, 1);
+      else n.setMonth(n.getMonth() + 1, 1);
+      return this.normalize(n, this.useUTC());
     });
   }
 
   goToToday() {
-    const now = new Date();
-    const today = this.useUTC()
-      ? new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
-      : new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    
+    const today = this.normalize(new Date(), this.useUTC());
     this.viewDate.set(today);
+    this.setFocusedDate(today);
     this.dateSelected.emit(today);
   }
 
   selectDay(day: LGCalendarDay) {
-    this.dateSelected.emit(day.date);
+    const normalized = this.normalize(day.date, this.useUTC());
+    this.focusedDate.set(normalized);
+    this.dateSelected.emit(normalized);
   }
 
   onMouseEnter(day: LGCalendarDay) {
@@ -235,62 +359,48 @@ export class CalendarComponent implements OnInit {
     this._hoverDate.set(null);
   }
 
-  private createDayOptimized(
-    date: Date, 
-    isCurrentMonth: boolean, 
-    selectedTimes: number | (number | null)[] | null, 
-    todayTime: number,
-    hoverTime: number | null,
-    mode: 'single' | 'range'
+  private createDay(
+    date: Date, cur: boolean, sel: any, today: number, hover: number | null, foc: number | null, mode: string
   ): LGCalendarDay {
     const t = date.getTime();
-    let isSelected = false;
-    let isRangeStart = false;
-    let isRangeEnd = false;
-    let isInRange = false;
+    let isSelected = false, isRangeStart = false, isRangeEnd = false, isInRange = false;
 
     if (mode === 'single') {
-      isSelected = typeof selectedTimes === 'number' && t === selectedTimes;
-    } else if (mode === 'range' && Array.isArray(selectedTimes)) {
-      const start = selectedTimes[0];
-      const end = selectedTimes[1];
-
-      if (start && t === start) {
-        isRangeStart = true;
-        isSelected = true;
-      }
-      if (end && t === end) {
-        isRangeEnd = true;
-        isSelected = true;
-      }
-      
-      if (start && end) {
-        isInRange = t > start && t < end;
-      } else if (start && hoverTime) {
-        const min = Math.min(start, hoverTime);
-        const max = Math.max(start, hoverTime);
+      isSelected = typeof sel === 'number' && t === sel;
+    } else if (Array.isArray(sel)) {
+      const start = sel[0], end = sel[1];
+      if (start && t === start) { isRangeStart = isSelected = true; }
+      if (end && t === end) { isRangeEnd = isSelected = true; }
+      if (start && end) { isInRange = t > start && t < end; }
+      else if (start && hover) {
+        const min = Math.min(start, hover), max = Math.max(start, hover);
         isInRange = t > min && t < max;
       }
     }
 
+    const isFocused = t === foc;
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    if (this.useUTC()) options.timeZone = 'UTC';
+    const ariaLabel = new Intl.DateTimeFormat(this.locale(), options).format(date);
+
     return {
       date,
-      isCurrentMonth,
-      isToday: t === todayTime,
+      isCurrentMonth: cur,
+      isToday: t === today,
       isSelected,
+      isFocused,
       isRangeStart,
       isRangeEnd,
-      isInRange
+      isInRange,
+      tabIndex: isFocused ? 0 : -1,
+      ariaLabel
     };
   }
 
   private normalize(date: Date, useUTC: boolean): Date {
     const d = new Date(date);
-    if (useUTC) {
-      d.setUTCHours(0, 0, 0, 0);
-    } else {
-      d.setHours(0, 0, 0, 0);
-    }
+    if (useUTC) d.setUTCHours(0, 0, 0, 0);
+    else d.setHours(0, 0, 0, 0);
     return d;
   }
 }

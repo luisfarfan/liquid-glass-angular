@@ -19,6 +19,7 @@ import {
   ReactiveFormsModule 
 } from '@angular/forms';
 import { OverlayModule, ConnectedPosition } from '@angular/cdk/overlay';
+import { A11yModule } from '@angular/cdk/a11y';
 import { CalendarComponent } from './calendar.component';
 import { TimePickerComponent } from './time-picker.component';
 
@@ -30,7 +31,7 @@ import { TimePickerComponent } from './time-picker.component';
 @Component({
   selector: 'lg-date-picker',
   standalone: true,
-  imports: [CommonModule, OverlayModule, FormsModule, ReactiveFormsModule, CalendarComponent, TimePickerComponent],
+  imports: [CommonModule, OverlayModule, A11yModule, FormsModule, ReactiveFormsModule, CalendarComponent, TimePickerComponent],
   template: `
     <div class="lg-input-group flex flex-col w-full" [class.has-error]="error()">
       <!-- Label -->
@@ -42,11 +43,19 @@ import { TimePickerComponent } from './time-picker.component';
 
       <div 
         #trigger
+        [id]="uid + '-trigger'"
         class="lg-date-picker-trigger group" 
         [class.is-focused]="isOpen()"
         [class.is-disabled]="disabled()"
         [class.has-error]="error()"
         (click)="toggle()"
+        (keydown)="onKeyDown($event)"
+        tabindex="0"
+        role="combobox"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-haspopup]="'dialog'"
+        [attr.aria-controls]="isOpen() ? uid + '-panel' : null"
+        [attr.aria-labelledby]="label() ? uid + '-label' : null"
       >
         <div class="lg-date-picker-icon">
            <i class="ri-calendar-line"></i>
@@ -56,6 +65,7 @@ import { TimePickerComponent } from './time-picker.component';
           #inputElement
           [id]="uid"
           readonly
+          tabindex="-1"
           [placeholder]="placeholder()"
           [disabled]="disabled()"
           [value]="displayValue()"
@@ -78,11 +88,18 @@ import { TimePickerComponent } from './time-picker.component';
       [cdkConnectedOverlayOpen]="isOpen()"
       [cdkConnectedOverlayPositions]="positions"
       (backdropClick)="close()"
-      (detach)="close()"
+      (detach)="onDetachOverlay()"
+      (attach)="onAttach()"
       [cdkConnectedOverlayHasBackdrop]="true"
       [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
     >
-      <div class="lg-calendar-overlay lg-glass-deep" [class.is-range-layout]="selectionMode() === 'range'">
+      <div 
+        [id]="uid + '-panel'"
+        class="lg-calendar-overlay lg-glass-deep" 
+        [class.is-range-layout]="selectionMode() === 'range'"
+        cdkTrapFocus
+        [cdkTrapFocusAutoCapture]="true"
+      >
         <div class="flex flex-col">
           
           <!-- Unified Header (Range Mode Only) -->
@@ -104,6 +121,7 @@ import { TimePickerComponent } from './time-picker.component';
             <div class="flex gap-4 p-4 flex-wrap md:flex-nowrap">
               <!-- Calendar 1 -->
               <lg-calendar 
+                #cal1
                 class="flex-1"
                 [selectedDate]="value()" 
                 [selectionMode]="selectionMode()"
@@ -172,6 +190,7 @@ import { TimePickerComponent } from './time-picker.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class DatePickerComponent implements ControlValueAccessor {
+  @ViewChild('cal1') cal1!: CalendarComponent;
   // Inputs
   label = input<string | null>(null);
   placeholder = input<string>('Seleccionar fecha...');
@@ -251,15 +270,53 @@ export class DatePickerComponent implements ControlValueAccessor {
 
   toggle() {
     if (this.disabled()) return;
+    
+    // Haptic interaction (liquid glass standard 10ms)
+    if (navigator.vibrate) navigator.vibrate(10);
+    
     this.isOpen.update(v => !v);
     if (this.isOpen()) {
        this.syncViewDates();
     }
   }
 
+  onAttach() {
+    // Small delay to ensure overlay DOM is ready
+    setTimeout(() => {
+      if (this.cal1) {
+        // Hand off focus to the calendar
+        this.cal1.setFocusedDate(this.cal1.selectedDate() ? (Array.isArray(this.cal1.selectedDate()) ? (this.cal1.selectedDate() as any)[0] : this.cal1.selectedDate() as any) : new Date());
+      }
+    }, 100);
+  }
+
+  onDetachOverlay() {
+    this.close();
+    // Return focus to trigger
+    setTimeout(() => {
+      const triggerEl = document.getElementById(`${this.uid}-trigger`);
+      triggerEl?.focus();
+    }, 0);
+  }
+
   close() {
     this.isOpen.set(false);
     this.onTouched();
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (this.disabled()) return;
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.toggle();
+      event.preventDefault();
+    } else if (event.key === 'ArrowDown' && !this.isOpen()) {
+      this.toggle();
+      event.preventDefault();
+    } else if (event.key === 'Escape' && this.isOpen()) {
+      this.close();
+      event.preventDefault();
+    }
   }
 
   nextMonth() {
@@ -286,6 +343,9 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   onDateSelected(date: Date) {
+    // Haptic feedback on selection (15ms confirmation)
+    if (navigator.vibrate) navigator.vibrate(15);
+    
     const mode = this.selectionMode();
     if (mode === 'single') {
       this.value.set(date);
