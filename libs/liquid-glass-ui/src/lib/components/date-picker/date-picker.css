@@ -72,40 +72,92 @@
 /* Calendar Overlay */
 .lg-calendar-overlay {
   background: var(--lg-t-glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--lg-t-input-border);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-  padding: 1.25rem;
-  width: 320px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  padding: 0;
+  width: max-content;
+  min-width: 280px;
+  max-width: 95vw;
+  max-height: 90vh; /* Critical for mobile */
   color: var(--lg-t-text-main);
-  animation: lg-calendar-fade-in 0.3s var(--lg-ease-out);
-  overflow: hidden;
+  animation: lg-calendar-fade-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden; /* We will use internal scroll */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+}
+
+.lg-calendar-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.lg-calendar-content-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lg-calendar-content-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+lg-calendar {
+  display: block;
+  flex: 1;
+  min-width: 280px;
+  transition: opacity 0.2s ease-in-out;
 }
 
 @keyframes lg-calendar-fade-in {
-  from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+  from { opacity: 0; transform: scale(0.98) translateY(-8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes lg-calendar-grid-appear {
+  from { opacity: 0; filter: blur(4px); transform: translateY(2px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
 
 /* Calendar Header */
 .lg-calendar-header {
+  flex-shrink: 0; /* Sticky header */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 1.25rem 1.25rem 0.5rem;
+  z-index: 10;
+}
+
+.lg-calendar-header.unified {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0;
+}
+
+.lg-calendar-header-simple {
+  padding: 1rem 1.25rem 0;
+  display: flex;
+  align-items: center;
 }
 
 .lg-calendar-view-title {
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   letter-spacing: 0.02em;
+  text-transform: capitalize;
 }
 
 .lg-calendar-nav {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .lg-calendar-nav-btn {
@@ -133,6 +185,12 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 2px;
+  animation: lg-calendar-grid-appear 0.4s var(--lg-ease-out);
+}
+
+@keyframes lg-calendar-grid-appear {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .lg-calendar-weekday {
@@ -192,25 +250,128 @@
   cursor: default;
 }
 
-/* Range Styles (Future proofing) */
-.lg-calendar-day.is-range-start,
+/* Range Selection Styles */
+.lg-calendar-day.is-range-start {
+  background: var(--lg-t-primary) !important;
+  color: white !important;
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+
 .lg-calendar-day.is-range-end {
-  background: var(--lg-t-primary);
-  color: white;
+  background: var(--lg-t-primary) !important;
+  color: white !important;
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+}
+
+.lg-calendar-day.is-range-start.is-range-end {
+  border-radius: 0.75rem !important;
 }
 
 .lg-calendar-day.is-in-range {
-  background: rgba(var(--lg-t-primary-rgb), 0.1);
-  border-radius: 0;
+  background: rgba(var(--lg-t-primary-rgb), 0.15) !important;
+  border-radius: 0 !important;
+  color: var(--lg-t-primary);
+}
+
+.lg-calendar-day-content {
+  position: relative;
+  z-index: 10;
+}
+
+/* Time Picker Styles */
+.lg-time-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.lg-time-column {
+  position: relative;
+  height: 120px;
+  width: 40px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Hide scrollbar */
+  -ms-overflow-style: none;
+  scroll-snap-type: y mandatory;
+  padding: 40px 0; /* Padding for centering */
+}
+
+.lg-time-column::-webkit-scrollbar {
+  display: none;
+}
+
+.lg-time-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.3;
+  transition: all 0.3s;
+  scroll-snap-align: center;
+  cursor: pointer;
+}
+
+.lg-time-item.is-active {
+  opacity: 1;
+  color: var(--lg-t-primary);
+  font-size: 1.25rem;
+  transform: scale(1.1);
+}
+
+.lg-time-separator {
+  font-size: 1.25rem;
+  font-weight: 700;
+  opacity: 0.5;
+  margin-top: -2px;
 }
 
 /* Footer / Actions */
 .lg-calendar-footer {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.25rem 1.25rem;
   display: flex;
   justify-content: center;
+}
+
+.lg-calendar-overlay-footer {
+  flex-shrink: 0; /* Sticky footer */
+  display: flex;
+  align-items: center;
+  padding: 1.1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.lg-calendar-confirm-btn {
+  background: var(--lg-t-primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s var(--lg-ease-out);
+  box-shadow: 0 4px 15px rgba(var(--lg-t-primary-rgb), 0.4);
+}
+
+.lg-calendar-confirm-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(var(--lg-t-primary-rgb), 0.4);
+  filter: brightness(1.1);
+}
+
+.lg-calendar-confirm-btn:active {
+  transform: translateY(0);
 }
 
 .lg-calendar-today-link {
@@ -225,4 +386,32 @@
 .lg-calendar-today-link:hover {
   opacity: 1;
   text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .lg-calendar-overlay {
+    border-radius: 1.25rem;
+  }
+
+  .lg-calendar-content-scroll .flex {
+    padding: 0.75rem !important;
+    gap: 0.75rem !important;
+  }
+
+  lg-calendar {
+    min-width: 100%;
+  }
+
+  .lg-calendar-header.unified {
+    padding: 1rem;
+  }
+  
+  .lg-calendar-view-title {
+    font-size: 0.85rem;
+  }
+
+  .lg-calendar-overlay-footer {
+    padding: 1rem;
+  }
 }

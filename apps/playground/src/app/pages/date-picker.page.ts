@@ -184,6 +184,63 @@ import {
              </p>
           </div>
         </lg-glass-card>
+
+        <!-- Range & Time Selection Section -->
+        <lg-glass-card class="!p-8">
+          <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+               <i class="ri-timer-flash-line"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold">Range & Time Selection</h3>
+              <p class="text-xs opacity-50 uppercase tracking-tighter">Premium Enterprise Features</p>
+            </div>
+          </div>
+
+          <lg-form-layout [cols]="2" gap="lg">
+            <!-- Date Range Example -->
+            <div class="space-y-4">
+              <lg-date-picker 
+                label="Date Range (Dual Calendar)" 
+                selectionMode="range"
+                placeholder="Select date range..."
+                (ngModelChange)="rangeDate.set($event)"
+                [ngModel]="rangeDate()"
+              ></lg-date-picker>
+              
+              <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-[10px] space-y-1">
+                <p class="opacity-40 uppercase font-bold">Range Output:</p>
+                <code class="text-blue-400 block">Start: {{ rangeDate()?.[0] | date:'mediumDate' }}</code>
+                <code class="text-blue-400 block">End: {{ rangeDate()?.[1] | date:'mediumDate' }}</code>
+              </div>
+            </div>
+
+            <!-- Date + Time Example -->
+            <div class="space-y-4">
+              <lg-date-picker 
+                label="Date + Time Selection" 
+                [showTime]="true"
+                placeholder="Select date and time..."
+                (ngModelChange)="dateTime.set($event)"
+                [ngModel]="dateTime()"
+              ></lg-date-picker>
+
+              <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-[10px] space-y-1">
+                <p class="opacity-40 uppercase font-bold">DateTime Output:</p>
+                <code class="text-purple-400">{{ dateTime() | date:'medium' }}</code>
+              </div>
+            </div>
+          </lg-form-layout>
+
+          <div class="mt-8 p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 text-xs">
+             <h5 class="font-bold text-blue-400 mb-2">Technical Highlight: Dual Calendar Sync</h5>
+             <p class="opacity-60 leading-relaxed">
+               En el modo rango, el componente despliega automáticamente dos calendarios sincronizados. 
+               La lógica interna maneja la selección de "puente" visual y la navegación de meses coordinada, 
+               ofreciendo una experiencia fluida típica de aplicaciones de reserva de vuelos o gestión de eventos.
+             </p>
+          </div>
+        </lg-glass-card>
       </div>
 
       <!-- Information Panel -->
@@ -238,6 +295,8 @@ export class DatePickerPage {
   selectedDate = signal<Date | null>(null);
   localDate = signal<Date | null>(null);
   utcDate = signal<Date | null>(null);
+  rangeDate = signal<Date[] | null>(null);
+  dateTime = signal<Date | null>(null);
 
   dateForm = this.fb.group({
     eventDate: new FormControl<Date | null>(null, { nonNullable: false })
