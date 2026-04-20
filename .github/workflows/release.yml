@@ -43,20 +43,33 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run release (version & changelog)
-        run: npm run release
+        id: release
+        run: |
+          BEFORE=$(node -p "require('./libs/glassng/package.json').version")
+          npm run release
+          AFTER=$(node -p "require('./libs/glassng/package.json').version")
+          if [ "$BEFORE" = "$AFTER" ]; then
+            echo "bumped=false" >> $GITHUB_OUTPUT
+            echo "No version bump — skipping publish"
+          else
+            echo "bumped=true" >> $GITHUB_OUTPUT
+            echo "Bumped $BEFORE → $AFTER"
+          fi
 
       - name: Push release commit and tags
+        if: steps.release.outputs.bumped == 'true'
         run: git push --follow-tags origin HEAD:main
 
       - name: Verify build artifacts
+        if: steps.release.outputs.bumped == 'true'
         run: ls -R dist/libs/glassng
 
       - name: Publish to npm (alpha dist-tag)
-        if: env.NODE_AUTH_TOKEN != ''
+        if: steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
         run: npm run release:publish -- --tag=alpha
 
       - name: Promote alpha to latest
-        if: env.NODE_AUTH_TOKEN != ''
+        if: steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
         run: |
           VERSION=$(node -p "require('./libs/glassng/package.json').version")
           npm dist-tag add glassng@$VERSION latest

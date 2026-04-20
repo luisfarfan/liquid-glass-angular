@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ci:release:verify": "npx nx run-many -t build --projects=glassng --skip-nx-cache",
-    "release": "npx nx release --projects=glassng --first-release --skip-publish",
-    "release:publish": "npx nx release publish --projects=glassng --first-release --verbose"
+    "release": "npx nx release --projects=glassng --skip-publish",
+    "release:publish": "npx nx release publish --projects=glassng --verbose"
   },
   "private": true,
   "dependencies": {
