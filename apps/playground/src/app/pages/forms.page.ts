@@ -89,7 +89,7 @@ import {
           </div>
 
           <div class="space-y-4">
-            <gng-input label="Simplified Label" placeholder="Direct input usage"></gng-input>
+            <gng-input label="Simplified Label" placeholder="Direct input usage" error="This field is required"></gng-input>
             <gng-checkbox label="Direct Checkbox usage"></gng-checkbox>
           </div>
         </gng-glass-card>

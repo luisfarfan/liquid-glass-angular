@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
       reportsDirectory: '../../coverage/libs/glassng',
       provider: 'v8',
       reporter: ['text', 'html', 'json'],
-      include: ['src/lib/components/button/**/*']
+      include: ['src/lib/components/**/*']
     },
   },
   define: {
