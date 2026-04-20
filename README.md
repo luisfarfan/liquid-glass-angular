@@ -243,7 +243,7 @@ npx nx run playground-e2e:e2e
 
 ## Author
 
-**Lucho Farfán**
+**Luis Eduardo Farfan Melgar**
 - GitHub: [@lucho-farfan](https://github.com/lucho-farfan)
 - Email: lucho.farfan9@gmail.com
 
@@ -253,6 +253,6 @@ Built with dedication for the Angular community.
 
 ## License
 
-MIT © Lucho Farfán
+MIT © Luis Eduardo Farfan Melgar
 
 *Crafted for Angular developers who refuse to ship boring interfaces.*
