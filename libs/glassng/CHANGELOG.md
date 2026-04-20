@@ -1,3 +1,14 @@
+## 0.1.6 (2026-04-20)
+
+### 🩹 Fixes
+
+- **publish:** copy root README to library before npm publish ([1e1b25c](https://github.com/luisfarfan/liquid-glass-angular/commit/1e1b25c))
+
+### ❤️ Thank You
+
+- Claude Sonnet 4.6
+- Lucho @luisfarfan
+
 ## 0.1.5 (2026-04-20)
 
 ### 🩹 Fixes
