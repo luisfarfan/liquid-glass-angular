@@ -1,7 +1,4 @@
-# liquid-glass-ui
+# glassng
 
-This library was generated with [Nx](https://nx.dev).
-
-## Running unit tests
-
-Run `nx test liquid-glass-ui` to execute the unit tests.
+> This file is replaced by the root README.md during CI publish.
+> See the root README.md for full documentation.
