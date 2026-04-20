@@ -49,7 +49,7 @@ jobs:
         run: git push --follow-tags origin HEAD:main
 
       - name: Verify build artifacts
-        run: ls -R dist/libs/liquid-glass-ui
+        run: ls -R dist/libs/glassng
 
       - name: Publish to npm (next dist-tag)
         if: env.NODE_AUTH_TOKEN != ''
