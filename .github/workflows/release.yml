@@ -53,7 +53,7 @@ jobs:
 
       - name: Publish to npm (next dist-tag)
         if: env.NODE_AUTH_TOKEN != ''
-        run: npm run release:publish -- --tag=next
+        run: npm run release:publish -- --tag=alpha
 
       - name: Create GitHub release from latest tag
         env:
