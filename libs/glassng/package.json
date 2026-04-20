@@ -12,6 +12,7 @@
     "accessibility"
   ],
   "author": "Luis Eduardo Farfan Melgar <lucho.farfan9@gmail.com>",
+  "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
