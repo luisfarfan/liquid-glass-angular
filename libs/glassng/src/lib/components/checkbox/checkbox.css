@@ -1,0 +1,106 @@
+/* Checkbox Component Specific Styles */
+
+gng-checkbox {
+  display: inline-flex !important;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  gap: 0.75rem;
+  transition: opacity 0.2s var(--gng-ease-out);
+}
+
+gng-checkbox.label-before {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+gng-checkbox.label-after {
+  flex-direction: row;
+}
+
+gng-checkbox.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Box Track */
+.gng-checkbox-box {
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--gng-t-glass-bg);
+  border: 1.5px solid var(--gng-t-glass-border); /* Borde ligeramente más grueso */
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s var(--gng-ease-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+:host:hover .gng-checkbox-box {
+  border-color: var(--gng-t-primary);
+  background: rgba(var(--gng-t-primary-rgb), 0.05);
+}
+
+/* SVG Icon */
+.gng-checkbox-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: none;
+  stroke: var(--gng-t-text-main);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.2s var(--gng-ease-out);
+}
+
+/* Checked State */
+.gng-checkbox-box.is-checked {
+  background: var(--gng-t-primary);
+  border-color: var(--gng-t-primary);
+  box-shadow: 0 0 15px rgba(var(--gng-t-primary-rgb), 0.4);
+}
+
+.gng-checkbox-box.is-checked .gng-checkbox-icon {
+  stroke: white;
+}
+
+/* Indeterminate State */
+.gng-checkbox-box.is-indeterminate {
+  border-color: var(--gng-t-primary);
+}
+
+.gng-checkbox-box.is-indeterminate .gng-checkbox-icon {
+  stroke: var(--gng-t-primary);
+}
+
+/* Area Target (Fitts's Law) */
+.gng-checkbox-target {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  z-index: 0;
+}
+
+/* Label Styling */
+.gng-checkbox-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gng-t-text-main);
+  opacity: 0.8;
+  transition: opacity 0.2s var(--gng-ease-out);
+}
+
+:host:hover .gng-checkbox-label {
+  opacity: 1;
+}
+
+/* Focus State */
+:host(:focus-visible) .gng-checkbox-box {
+  box-shadow: 0 0 0 3px rgba(var(--gng-t-primary-rgb), 0.3);
+  border-color: var(--gng-t-primary);
+}

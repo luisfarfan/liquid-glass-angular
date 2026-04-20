@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RadioGroupComponent, RadioButtonComponent } from 'glassng';
+import { GngRadioGroup, GngRadioButton } from 'glassng';
 
 @Component({
   selector: 'pg-radio-page',
   standalone: true,
-  imports: [CommonModule, RadioGroupComponent, RadioButtonComponent],
+  imports: [CommonModule, GngRadioGroup, GngRadioButton],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -37,14 +37,14 @@ import { RadioGroupComponent, RadioButtonComponent } from 'glassng';
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <div class="p-6 rounded-2xl bg-glass border border-glass-border space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Standard Mode</p>
-          <lg-radio-group [value]="'opt1'">
+          <gng-radio-group [value]="'opt1'">
             <div class="flex flex-col gap-3">
-              <lg-radio-button value="opt1">Option One (Primary)</lg-radio-button>
-              <lg-radio-button value="opt2" color="#f43f5e">Option Two (Rose)</lg-radio-button>
-              <lg-radio-button value="opt3" color="#10b981" labelPosition="before">Option Three (Emerald)</lg-radio-button>
-              <lg-radio-button value="opt4" [disabled]="true">Option Four (Disabled)</lg-radio-button>
+              <gng-radio-button value="opt1">Option One (Primary)</gng-radio-button>
+              <gng-radio-button value="opt2" color="#f43f5e">Option Two (Rose)</gng-radio-button>
+              <gng-radio-button value="opt3" color="#10b981" labelPosition="before">Option Three (Emerald)</gng-radio-button>
+              <gng-radio-button value="opt4" [disabled]="true">Option Four (Disabled)</gng-radio-button>
             </div>
-          </lg-radio-group>
+          </gng-radio-group>
         </div>
       </div>
     </section>

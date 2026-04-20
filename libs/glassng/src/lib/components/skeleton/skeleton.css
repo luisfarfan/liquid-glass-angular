@@ -1,0 +1,67 @@
+/**
+ * Gng Glass Skeleton Styles
+ * Basado en SDD-14
+ */
+
+.gng-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--gng-t-skeleton-bg);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--gng-t-skeleton-border);
+  display: block;
+  width: var(--gng-skeleton-width, 100%);
+  height: var(--gng-skeleton-height, 1rem);
+}
+
+/* Shapes */
+.gng-skeleton-rect {
+  border-radius: 0.75rem;
+}
+
+.gng-skeleton-circle {
+  border-radius: 9999px;
+}
+
+.gng-skeleton-text {
+  border-radius: 0.25rem;
+  height: 0.8em;
+  margin: 0.1em 0;
+}
+
+/* The Light Leak (Shimmer) */
+.gng-skeleton-animated::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gng-t-skeleton-shimmer) 50%,
+    transparent 100%
+  );
+  filter: blur(15px);
+  animation: gng-skeleton-light-leak 2.2s infinite ease-in-out;
+  will-change: transform;
+}
+
+@keyframes gng-skeleton-light-leak {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* Accessibility: Support reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gng-skeleton-animated::after {
+    animation: none !important;
+    left: 20%;
+    opacity: 0.3;
+  }
+}

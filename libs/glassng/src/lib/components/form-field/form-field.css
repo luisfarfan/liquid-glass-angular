@@ -1,0 +1,59 @@
+.gng-form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.gng-form-field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+.gng-form-field-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gng-t-text-muted);
+  transition: color 0.2s ease;
+}
+
+.gng-form-field.has-error .gng-form-field-label {
+  color: var(--gng-t-destructive);
+}
+
+.gng-form-field-control {
+  position: relative;
+  width: 100%;
+}
+
+.gng-form-field-footer {
+  min-height: 1.25rem;
+  margin-top: 0.35rem;
+  padding: 0 0.25rem;
+}
+
+.gng-form-field-error {
+  display: flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gng-t-destructive);
+  animation: gng-fade-in 0.2s ease-out;
+}
+
+.gng-form-field-hint {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--gng-t-text-muted);
+  opacity: 0.6;
+}
+
+@keyframes gng-fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

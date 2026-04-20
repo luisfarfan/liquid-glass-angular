@@ -1,15 +1,15 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  GlassCardComponent,
-  BreadcrumbsComponent,
-  type LgBreadcrumbItem,
+  GngGlassCard,
+  GngBreadcrumbs,
+  type GngBreadcrumbItem,
 } from 'glassng';
 
 @Component({
   selector: 'pg-breadcrumbs-page',
   standalone: true,
-  imports: [CommonModule, GlassCardComponent, BreadcrumbsComponent],
+  imports: [CommonModule, GngGlassCard, GngBreadcrumbs],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -18,14 +18,14 @@ import {
     </header>
 
     <section class="space-y-8 max-w-3xl">
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-4">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-4">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Rutas del playground</p>
-        <lg-breadcrumbs [items]="demoItems()" ariaLabel="Migas de demostración" />
-      </lg-glass-card>
+        <gng-breadcrumbs [items]="demoItems()" ariaLabel="Migas de demostración" />
+      </gng-glass-card>
 
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-4">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-4">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Separador › y texto largo</p>
-        <lg-breadcrumbs [items]="longItems()" separator="›" ariaLabel="Ejemplo con separador chevron" />
+        <gng-breadcrumbs [items]="longItems()" separator="›" ariaLabel="Ejemplo con separador chevron" />
         <button
           type="button"
           class="mt-3 text-xs text-primary underline-offset-2 hover:underline"
@@ -33,18 +33,18 @@ import {
         >
           Alternar etiqueta larga
         </button>
-      </lg-glass-card>
+      </gng-glass-card>
     </section>
   `,
 })
 export class BreadcrumbsPage {
-  readonly demoItems = signal<LgBreadcrumbItem[]>([
+  readonly demoItems = signal<GngBreadcrumbItem[]>([
     { label: 'Inicio', link: '/dashboard', icon: 'ri-home-4-line' },
     { label: 'Componentes', link: '/demos/buttons' },
     { label: 'Breadcrumbs' },
   ]);
 
-  readonly longItems = signal<LgBreadcrumbItem[]>([
+  readonly longItems = signal<GngBreadcrumbItem[]>([
     { label: 'Catálogo', link: '/dashboard' },
     {
       label:

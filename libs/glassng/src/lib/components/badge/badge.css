@@ -1,0 +1,66 @@
+.gng-badge-wrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.gng-badge-indicator {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  
+  /* Glass Indicator Aesthetic */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  transform: translate(50%, -50%);
+  transition: all 0.2s var(--gng-ease-out);
+}
+
+/* Positioning based on overlap */
+.gng-badge-indicator.overlap-rectangle {
+  top: 0;
+  right: 0;
+}
+
+.gng-badge-indicator.overlap-circle {
+  top: 14%;
+  right: 14%;
+}
+
+/* Variants */
+.gng-badge-indicator.is-error   { background: var(--gng-t-destructive, #ef4444); box-shadow: 0 0 12px rgba(239, 68, 68, 0.4); }
+.gng-badge-indicator.is-success { background: var(--gng-t-success, #10b981); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
+.gng-badge-indicator.is-warning { background: var(--gng-t-warning, #f59e0b); box-shadow: 0 0 12px rgba(245, 158, 11, 0.4); }
+.gng-badge-indicator.is-info    { background: var(--gng-t-info, #3b82f6); box-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
+.gng-badge-indicator.is-primary { background: var(--gng-t-primary); box-shadow: 0 0 12px rgba(var(--gng-t-primary-rgb), 0.4); }
+
+/* Dot specific styling */
+.gng-badge-wrapper.is-dot .gng-badge-indicator {
+  min-width: 0.75rem;
+  height: 0.75rem;
+  padding: 0;
+}
+
+/* Motion: Pop-in animation */
+@keyframes gng-badge-pop {
+  0% { transform: translate(50%, -50%) scale(0); opacity: 0; }
+  70% { transform: translate(50%, -50%) scale(1.1); opacity: 1; }
+  100% { transform: translate(50%, -50%) scale(1); opacity: 1; }
+}
+
+.gng-badge-indicator {
+  animation: gng-badge-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}

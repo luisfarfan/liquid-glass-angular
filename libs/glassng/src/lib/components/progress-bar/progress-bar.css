@@ -1,0 +1,159 @@
+/**
+ * Gng Glass Progress Bar Styles
+ * Based on SDD-09
+ */
+
+.gng-progress-container {
+  width: 100%;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: block;
+}
+
+/* Base fill style */
+.gng-progress-fill {
+  height: 100%;
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+}
+
+/* Color Schemes */
+.gng-progress-container[data-color="primary"] .gng-progress-fill {
+  background: linear-gradient(90deg, var(--gng-t-primary), #60a5fa);
+  box-shadow: 0 0 15px rgba(var(--gng-t-primary-rgb), 0.3);
+}
+
+.gng-progress-container[data-color="accent"] .gng-progress-fill {
+  background: linear-gradient(90deg, #10b981, #34d399); /* Emerald/Teal */
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.gng-progress-container[data-color="warn"] .gng-progress-fill {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Buffer Layer */
+.gng-progress-buffer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: width 0.3s ease;
+}
+
+/* Refraction / Specular Highlight Effect */
+.gng-progress-refraction {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient( 
+    to bottom,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  overflow: hidden;
+}
+
+.gng-progress-refraction::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: gng-gng-refraction-loop 3s infinite linear;
+}
+
+/* Leading Edge Glow */
+.gng-progress-glow {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  filter: blur(4px);
+  opacity: 0.8;
+}
+
+/* Indeterminate Mode */
+.gng-progress-container[data-mode="indeterminate"] .gng-progress-fill {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+}
+
+.gng-progress-indeterminate-bar {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--gng-t-primary), transparent);
+  animation: gng-indeterminate-flow 1.5s infinite ease-in-out;
+}
+
+.gng-progress-indeterminate-bar.is-query {
+  animation: gng-query-flow 1.5s infinite ease-in-out;
+  background: linear-gradient(90deg, transparent, var(--gng-t-primary), transparent);
+}
+
+/* Success Pulse & Color Transition */
+.is-complete .gng-progress-fill {
+  background: linear-gradient(90deg, #10b981, #34d399) !important;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.5) !important;
+  animation: gng-success-pulse 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Animations */
+@keyframes gng-gng-refraction-loop {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes gng-indeterminate-flow {
+  0% { left: -100%; width: 30%; }
+  50% { width: 70%; }
+  100% { left: 100%; width: 30%; }
+}
+
+@keyframes gng-query-flow {
+  0% { right: -100%; width: 30%; left: auto; }
+  50% { width: 70%; right: 20%; left: auto; }
+  100% { right: 100%; width: 30%; left: auto; }
+}
+
+@keyframes gng-success-pulse {
+  0% { transform: scaleY(1); filter: brightness(1); }
+  20% { transform: scaleY(1.3); filter: brightness(1.8); }
+  100% { transform: scaleY(1); filter: brightness(1); }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .gng-progress-fill {
+    transition: width 0.1s linear;
+  }
+  .gng-progress-refraction::after,
+  .gng-progress-indeterminate-bar {
+    animation: none;
+  }
+}

@@ -1,0 +1,157 @@
+/**
+ * LG Layout & Structure Architecture
+ * Basado en SDD-05: Layout & Structure Architecture
+ */
+
+@import '../components/scrollbar/scrollbar.css';
+
+/* 1. App Shell Base */
+.gng-shell {
+  min-height: 100dvh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  /* Safe Area Awareness */
+  padding-top: env(safe-area-inset-top, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+/* 2. Bento Grid Utilities */
+.gng-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem; /* SDD-05 standard: 24px */
+}
+
+@media (min-width: 1024px) {
+  .gng-bento-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* 3. Selection & Scrollbars (Premium Polish) */
+
+/* Neon Selection */
+::selection {
+  background-color: rgba(6, 182, 212, 0.3); /* Primary with opacity */
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+}
+
+/* Neon Focus Ring (A11y) */
+.gng-focus-ring:focus-visible {
+  outline: 2px solid var(--gng-t-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+  transition: box-shadow var(--gng-duration-fast) var(--gng-ease-enter);
+}
+
+/* Glass Ripple Animations */
+@keyframes gng-ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.gng-ripple-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gng-glass-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor; /* Adaptive color! */
+  opacity: 0.15;
+  pointer-events: none;
+  animation: gng-ripple-expand 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Neon Button Base */
+.gng-btn-neon {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.gng-btn-primary {
+  background: var(--gng-t-primary);
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+}
+
+.gng-btn-primary:hover {
+  background: var(--gng-t-primary-hover);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.5);
+}
+
+/* Glassy Scrollbars (global fallback; prefer .gng-glass-scroll on containers — spec 21) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.4);
+  border-color: rgba(6, 182, 212, 0.2);
+}
+
+/* 4. Layout Layering Classes (Reference) */
+.z-base    { z-index: var(--gng-z-base); }
+.z-sticky  { z-index: var(--gng-z-sticky); }
+.z-nav     { z-index: var(--gng-z-nav); }
+.z-popover { z-index: var(--gng-z-popover); }
+.z-overlay { z-index: var(--gng-z-overlay); }
+.z-modal   { z-index: var(--gng-z-modal); }
+.z-toast   { z-index: var(--gng-z-toast); }
+
+/* Feedback Animations */
+@keyframes gng-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.gng-loading-spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: gng-spin 0.8s linear infinite;
+}
+
+/* 5. Accessibility Utilities */
+.gng-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

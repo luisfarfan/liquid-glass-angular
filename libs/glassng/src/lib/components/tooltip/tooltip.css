@@ -1,0 +1,78 @@
+/**
+ * Gng Glass Tooltip Styles
+ * Basado en SDD-12
+ */
+
+.gng-tooltip-container {
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.gng-tooltip-bubble {
+  position: relative;
+  padding: 0.5rem 0.875rem;
+  background: rgba(var(--gng-t-bg-rgb, 15, 15, 20), 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  color: var(--gng-t-text-main, #ffffff);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  
+  /* Physics */
+  transform-origin: center;
+  animation: 
+    gng-tooltip-entrance 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    gng-tooltip-levitate 4s ease-in-out infinite alternate;
+  will-change: transform, opacity, filter;
+}
+
+/* --- VARIANTS --- */
+
+.gng-tooltip-primary {
+  border-color: rgba(var(--gng-t-primary-rgb), 0.4);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(var(--gng-t-primary-rgb), 0.1);
+}
+
+.gng-tooltip-accent {
+  border-color: rgba(var(--gng-t-accent-rgb), 0.4);
+}
+
+/* --- KEYFRAMES --- */
+
+@keyframes gng-tooltip-entrance {
+  from { 
+    opacity: 0; 
+    transform: scale(0.6) translateY(5px); 
+    filter: blur(8px);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+    filter: blur(0);
+  }
+}
+
+@keyframes gng-tooltip-levitate {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+/* Accessibility: Support reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gng-tooltip-bubble {
+    animation: gng-tooltip-fade 0.2s ease-out forwards !important;
+  }
+}
+
+@keyframes gng-tooltip-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,0 +1,114 @@
+/* Glass Pagination — molecule (spec 19) */
+
+.gng-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  padding: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--gng-t-border, rgba(255, 255, 255, 0.08)) 80%, transparent);
+  background: color-mix(in srgb, var(--gng-t-surface-elevated, rgba(9, 9, 11, 0.35)) 65%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.gng-pagination-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-inline-end: auto;
+}
+
+.gng-pagination-range {
+  font-size: 0.75rem;
+  line-height: 1.25;
+  font-weight: 500;
+  color: var(--gng-t-text-muted, rgb(161 161 170));
+}
+
+.gng-pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.gng-pagination-select {
+  min-width: 7.5rem;
+}
+
+.gng-pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.gng-pagination-page-btn {
+  min-width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  font-weight: 500;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--gng-t-text, inherit);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.gng-pagination-page-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--gng-t-text, #fff) 6%, transparent);
+}
+
+.gng-pagination-page-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--gng-t-primary, #6366f1) 70%, transparent);
+  outline-offset: 2px;
+}
+
+.gng-pagination-page-btn.is-active {
+  background: color-mix(in srgb, var(--gng-t-primary, #6366f1) 18%, transparent);
+  color: var(--gng-t-primary, #6366f1);
+  border-color: color-mix(in srgb, var(--gng-t-primary, #6366f1) 28%, transparent);
+}
+
+.gng-pagination-page-btn:not(.is-active) {
+  animation: gng-pagination-page-in 0.22s ease-out;
+}
+
+@keyframes gng-pagination-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gng-pagination-page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.gng-pagination-ellipsis {
+  min-width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--gng-t-text-muted, rgb(161 161 170));
+  user-select: none;
+}

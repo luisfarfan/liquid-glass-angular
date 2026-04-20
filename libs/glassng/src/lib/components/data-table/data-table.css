@@ -1,0 +1,386 @@
+/**
+ * Gng Glass Data Table Styles (Prism Refined)
+ * Focused on theme-adaptive vibrancy, light-leak headers, and premium data visualization.
+ */
+
+.gng-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  color: var(--gng-t-foreground);
+  font-size: 0.875rem;
+}
+
+/* Headers: Gng Prism Style (No more "black/sad" headers) */
+.gng-header-row {
+  height: 4.5rem;
+}
+
+.gng-header-cell {
+  text-align: left;
+  padding: 0 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  
+  /* Vibrant Theme-Adaptive Glass */
+  color: var(--gng-t-text-main);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--gng-p-primary-rgb), 0.15) 0%,
+    var(--gng-t-glass-bg) 100%
+  );
+  
+  /* Beveled Prism Edge (Light Leak) */
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 0 rgba(var(--gng-p-primary-rgb), 0.2);
+    
+  backdrop-filter: blur(24px) saturate(250%) contrast(110%);
+  border-bottom: 2px solid rgba(var(--gng-p-primary-rgb), 0.3);
+  
+  white-space: nowrap;
+  transition: all 0.4s var(--gng-ease-standard);
+}
+
+/* Header Text Glow */
+.gng-header-cell {
+  text-shadow: 0 0 10px rgba(var(--gng-p-primary-rgb), 0.3);
+}
+
+/* Sorting Interaction - Enhanced Glow */
+.gng-header-cell.is-sortable {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.gng-header-cell.is-sortable:hover {
+  color: var(--gng-t-primary);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--gng-p-primary-rgb), 0.25) 0%,
+    rgba(var(--gng-p-primary-rgb), 0.1) 100%
+  );
+  text-shadow: 0 0 15px rgba(var(--gng-p-primary-rgb), 0.4);
+}
+
+/* Glass Shine Effect on Hover */
+.gng-header-cell.is-sortable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s;
+}
+
+.gng-header-cell.is-sortable:hover::after {
+  left: 150%;
+}
+
+/* Sort Header Component Layout */
+.gng-sort-header-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gng-sort-header-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  transition: all 0.3s var(--gng-ease-standard);
+  font-size: 1rem;
+}
+
+.gng-sort-header-arrow.is-active {
+  opacity: 1;
+  color: var(--gng-t-primary);
+  filter: drop-shadow(0 0 5px var(--gng-t-primary));
+}
+
+.gng-header-cell.is-sort-active {
+  color: var(--gng-t-primary);
+  border-bottom: 2px solid var(--gng-t-primary);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--gng-p-primary-rgb), 0.1) 0%,
+    rgba(var(--gng-p-primary-rgb), 0.05) 100%
+  );
+}
+
+/* Data Rows */
+.gng-row {
+  height: 4rem;
+  transition: background 0.2s var(--gng-ease-standard), 
+              border-color 0.2s var(--gng-ease-standard), 
+              box-shadow 0.2s var(--gng-ease-standard);
+  border-left: 2px solid transparent;
+}
+
+.gng-row:hover {
+  background: rgba(var(--gng-p-primary-rgb), 0.06);
+  backdrop-filter: brightness(1.1);
+}
+
+.gng-row-selected {
+  background: rgba(var(--gng-p-primary-rgb), 0.12) !important;
+  border-left: 3px solid var(--gng-t-primary);
+  box-shadow: inset 4px 0 12px -4px rgba(var(--gng-p-primary-rgb), 0.4);
+}
+
+.gng-row-selected td {
+  color: var(--gng-t-text-main);
+  text-shadow: 0 0 10px rgba(var(--gng-p-primary-rgb), 0.2);
+}
+
+/* Cells */
+.gng-cell {
+  padding: 0 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.2s ease, opacity 0.2s ease, color 0.1s ease;
+}
+
+/* Sticky Column Behavior - Prism Integration */
+.cdk-table-sticky {
+  z-index: 20;
+  background: var(--gng-t-bg-card) !important;
+  backdrop-filter: blur(32px) saturate(200%);
+}
+
+/* Adaptive Sticky Header */
+th.cdk-table-sticky {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--gng-p-primary-rgb), 0.2),
+    var(--gng-t-bg-card)
+  ) !important;
+}
+
+/* Glow Effect for Pinned Columns */
+.gng-table th.cdk-table-sticky:not([stickyEnd="true"]),
+.gng-table td.cdk-table-sticky:not([stickyEnd="true"]) {
+  border-right: 1px solid rgba(var(--gng-p-primary-rgb), 0.2);
+  box-shadow: 15px 0 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+.gng-table th.cdk-table-sticky[stickyEnd="true"],
+.gng-table td.cdk-table-sticky[stickyEnd="true"] {
+  border-left: 1px solid rgba(var(--gng-p-primary-rgb), 0.2);
+  box-shadow: -15px 0 30px -15px rgba(0, 0, 0, 0.6);
+}
+
+/* Multi-line Cell Helpers (Premium SaaS Look) */
+.gng-cell-primary {
+  display: block;
+  font-weight: 700;
+  color: var(--gng-t-text-main);
+  letter-spacing: -0.01em;
+}
+
+.gng-cell-secondary {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--gng-t-text-muted);
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+
+/* Icon / Avatar Cell */
+.gng-cell-avatar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gng-avatar-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px; /* Slightly squircle for modern look */
+  background: linear-gradient(135deg, rgba(var(--gng-p-primary-rgb), 0.2), rgba(var(--gng-p-primary-rgb), 0.05));
+  border: 1px solid rgba(var(--gng-p-primary-rgb), 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--gng-t-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Search Bar Overlay */
+.gng-table-filter-bar {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(var(--gng-p-primary-rgb), 0.15);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* Virtual Scrolling & High Performance */
+.gng-virtual-table-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.gng-virtual-viewport {
+  width: 100%;
+  will-change: transform;
+}
+
+.gng-virtual-table-header-wrapper {
+  background: var(--gng-header-bg);
+  border-bottom: 1px solid var(--gng-t-glass-border);
+  z-index: 10;
+}
+
+/* Flex-base table for virtualization compatibility */
+.gng-table-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.gng-table-flex .gng-header-row,
+.gng-table-flex .gng-row {
+  display: flex;
+  width: 100%;
+}
+
+.gng-table-flex .gng-header-cell,
+.gng-table-flex .gng-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gng-virtual-table-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  z-index: 20;
+}
+
+.gng-glass-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid rgba(var(--gng-p-primary-rgb), 0.1);
+  border-top-color: var(--gng-t-primary);
+  border-radius: 50%;
+  animation: gng-spin 0.8s linear infinite;
+}
+
+@keyframes gng-spin {
+  to { transform: rotate(360deg); }
+}
+
+/** Row Grouping Premium Styles */
+.gng-group-row {
+  height: 3.5rem;
+  background: rgba(var(--gng-p-primary-rgb), 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(var(--gng-p-primary-rgb), 0.2);
+  z-index: 15; /* Above data rows, below main headers */
+  cursor: pointer;
+  transition: all 0.3s var(--gng-ease-standard);
+}
+
+.gng-group-row:hover {
+  background: rgba(var(--gng-p-primary-rgb), 0.15);
+  box-shadow: inset 0 0 20px rgba(var(--gng-p-primary-rgb), 0.1);
+}
+
+.gng-group-row.cdk-table-sticky {
+  top: 4.5rem; /* Sticky below the main table header */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.gng-group-content {
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+.gng-group-toggle {
+  font-size: 1.25rem;
+  color: var(--gng-t-primary);
+  transition: transform 0.4s var(--gng-ease-spring);
+  text-shadow: 0 0 10px rgba(var(--gng-p-primary-rgb), 0.4);
+}
+
+.gng-group-toggle.is-expanded {
+  transform: rotate(90deg);
+}
+
+.gng-group-title {
+  font-weight: 700;
+  color: var(--gng-t-text-main);
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.gng-group-aggregate {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--gng-t-text-muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gng-group-badge {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(var(--gng-p-primary-rgb), 0.15);
+  color: var(--gng-t-primary);
+  border: 1px solid rgba(var(--gng-p-primary-rgb), 0.3);
+  font-weight: 800;
+  font-size: 0.7rem;
+}
+
+/** Realtime Data Animations */
+.gng-cell-flash-up {
+  animation: gng-flash-green 1s var(--gng-ease-standard);
+}
+
+.gng-cell-flash-down {
+  animation: gng-flash-red 1s var(--gng-ease-standard);
+}
+
+@keyframes gng-flash-green {
+  0% { background: rgba(16, 185, 129, 0.2); }
+  50% { background: rgba(16, 185, 129, 0.4); box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.3); }
+  100% { background: transparent; }
+}
+
+@keyframes gng-flash-red {
+  0% { background: rgba(239, 68, 68, 0.2); }
+  50% { background: rgba(239, 68, 68, 0.4); box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.3); }
+  100% { background: transparent; }
+}

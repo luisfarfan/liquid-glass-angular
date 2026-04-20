@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
-  LIQUID_MODAL_DATA, 
-  LiquidModalRef, 
-  LiquidModalService, 
-  ButtonComponent, 
-  InputComponent, 
-  FormFieldComponent,
-  LgModalHeader,
-  LgModalContent,
-  LgModalFooter
+  GNG_MODAL_DATA, 
+  GngModalRef, 
+  GngModalService, 
+  GngButton, 
+  GngInput, 
+  GngFormField,
+  GngModalHeader,
+  GngModalContent,
+  GngModalFooter
 } from 'glassng';
 
 @Component({
@@ -17,19 +17,19 @@ import {
   standalone: true,
   imports: [
     CommonModule, 
-    ButtonComponent, 
-    InputComponent, 
-    FormFieldComponent,
-    LgModalHeader,
-    LgModalContent,
-    LgModalFooter
+    GngButton, 
+    GngInput, 
+    GngFormField,
+    GngModalHeader,
+    GngModalContent,
+    GngModalFooter
   ],
   template: `
-    <lg-modal-header>
+    <gng-modal-header>
       {{ data?.title || 'Configuración Avanzada' }}
-    </lg-modal-header>
+    </gng-modal-header>
 
-    <lg-modal-content>
+    <gng-modal-content>
       <div class="space-y-6">
         <p class="text-body-sm">
           Este es un ejemplo de la nueva estructura declarativa. El contenido se adapta 
@@ -39,27 +39,27 @@ import {
         <section class="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
           <p class="text-[10px] font-bold uppercase tracking-widest text-primary">Prueba Multi-Stack</p>
           <p class="text-[12px] opacity-70">Puedes abrir múltiples modales uno sobre otro. La jerarquía visual se mantiene mediante el oscurecimiento dinámico.</p>
-          <button lg-button variant="ghost" size="sm" (click)="openNested()">
+          <button gng-button variant="ghost" size="sm" (click)="openNested()">
             Abrir Modal Anidado
           </button>
         </section>
 
-        <lg-form-field label="Etiqueta de Workstation" hint="Nombre único para identificar este recurso.">
-          <lg-input placeholder="Ej: Nebula-Node-01"></lg-input>
-        </lg-form-field>
+        <gng-form-field label="Etiqueta de Workstation" hint="Nombre único para identificar este recurso.">
+          <gng-input placeholder="Ej: Nebula-Node-01"></gng-input>
+        </gng-form-field>
       </div>
-    </lg-modal-content>
+    </gng-modal-content>
 
-    <lg-modal-footer>
-      <button lg-button variant="ghost" (click)="modalRef.close()">Descartar</button>
-      <button lg-button variant="primary" (click)="modalRef.close(true)">Guardar Perfil</button>
-    </lg-modal-footer>
+    <gng-modal-footer>
+      <button gng-button variant="ghost" (click)="modalRef.close()">Descartar</button>
+      <button gng-button variant="primary" (click)="modalRef.close(true)">Guardar Perfil</button>
+    </gng-modal-footer>
   `
 })
 export class DemoModalComponent {
-  public modalRef = inject(LiquidModalRef) as any;
-  public data = inject(LIQUID_MODAL_DATA);
-  private modalService = inject(LiquidModalService);
+  public modalRef = inject(GngModalRef) as any;
+  public data = inject(GNG_MODAL_DATA) as any;
+  private modalService = inject(GngModalService);
 
   openNested() {
     this.modalService.open(DemoModalComponent, {

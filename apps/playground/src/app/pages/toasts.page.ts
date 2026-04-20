@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LiquidToastService } from 'glassng';
+import { GngButton, GngToastService } from 'glassng';
 
 @Component({
   selector: 'pg-toasts-page',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, GngButton],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -15,29 +15,29 @@ import { ButtonComponent, LiquidToastService } from 'glassng';
 
     <section class="space-y-6">
       <div class="flex items-center gap-2 px-2 mb-4">
-        <i class="ri-notification-3-line text-[var(--lg-t-primary)]"></i>
+        <i class="ri-notification-3-line text-[var(--gng-t-primary)]"></i>
         <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Global Notifications (Glass Toast)</h3>
       </div>
 
-      <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+      <div class="p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border space-y-6">
         <div class="space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Semantic Variants (Neon Progress)</p>
           <div class="flex flex-wrap gap-3">
-            <button lg-button variant="primary" size="sm" (click)="showToast('success')">Show Success</button>
-            <button lg-button variant="destructive" size="sm" (click)="showToast('error')">Show Error</button>
-            <button lg-button variant="secondary" size="sm" (click)="showToast('info')">Show Info</button>
-            <button lg-button variant="ghost" size="sm" (click)="showToast('custom')">Custom (Long Duration)</button>
+            <button gng-button variant="primary" size="sm" (click)="showToast('success')">Show Success</button>
+            <button gng-button variant="destructive" size="sm" (click)="showToast('error')">Show Error</button>
+            <button gng-button variant="secondary" size="sm" (click)="showToast('info')">Show Info</button>
+            <button gng-button variant="ghost" size="sm" (click)="showToast('custom')">Custom (Long Duration)</button>
           </div>
         </div>
 
         <div class="pt-4 border-t border-glass-border/30 space-y-4 text-center sm:text-left">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest text-left">Positioning System</p>
           <div class="grid grid-cols-3 gap-2 w-full max-w-[280px] mx-auto sm:mx-0">
-            <button lg-button variant="ghost" size="sm" (click)="showToast('pos', { v: 'top', h: 'left' })" title="Top Left">
+            <button gng-button variant="ghost" size="sm" (click)="showToast('pos', { v: 'top', h: 'left' })" title="Top Left">
               <i class="ri-arrow-left-up-line"></i>
             </button>
             <button
-              lg-button
+              gng-button
               variant="secondary"
               size="sm"
               (click)="showToast('pos', { v: 'top', h: 'center' })"
@@ -45,12 +45,12 @@ import { ButtonComponent, LiquidToastService } from 'glassng';
             >
               <i class="ri-arrow-up-line"></i>
             </button>
-            <button lg-button variant="ghost" size="sm" (click)="showToast('pos', { v: 'top', h: 'right' })" title="Top Right">
+            <button gng-button variant="ghost" size="sm" (click)="showToast('pos', { v: 'top', h: 'right' })" title="Top Right">
               <i class="ri-arrow-right-up-line"></i>
             </button>
             <div class="col-span-3 h-4"></div>
             <button
-              lg-button
+              gng-button
               variant="ghost"
               size="sm"
               (click)="showToast('pos', { v: 'bottom', h: 'left' })"
@@ -59,7 +59,7 @@ import { ButtonComponent, LiquidToastService } from 'glassng';
               <i class="ri-arrow-left-down-line"></i>
             </button>
             <button
-              lg-button
+              gng-button
               variant="secondary"
               size="sm"
               (click)="showToast('pos', { v: 'bottom', h: 'center' })"
@@ -68,7 +68,7 @@ import { ButtonComponent, LiquidToastService } from 'glassng';
               <i class="ri-arrow-down-line"></i>
             </button>
             <button
-              lg-button
+              gng-button
               variant="ghost"
               size="sm"
               (click)="showToast('pos', { v: 'bottom', h: 'right' })"
@@ -87,7 +87,7 @@ import { ButtonComponent, LiquidToastService } from 'glassng';
   `,
 })
 export class ToastsPage {
-  private readonly toastService = inject(LiquidToastService);
+  private readonly toastService = inject(GngToastService);
 
   showToast(type: string, posOptions?: { v: string; h: string }): void {
     if (type === 'pos' && posOptions) {

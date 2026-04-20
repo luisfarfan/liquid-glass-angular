@@ -1,19 +1,19 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, ThemeService } from 'glassng';
+import { GngGlassCard, GngThemeService } from 'glassng';
 
 @Component({
   selector: 'pg-dashboard-page',
   standalone: true,
-  imports: [CommonModule, GlassCardComponent],
+  imports: [CommonModule, GngGlassCard],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <lg-glass-card class="max-w-2xl w-full mb-8">
+    <gng-glass-card class="max-w-2xl w-full mb-8">
       <div class="flex flex-col gap-8">
         <header class="flex justify-between items-start">
           <div>
             <h1 class="text-h1 font-display font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              Liquid Glass UI
+              Gng Glass UI
             </h1>
             <p class="text-body-sm text-zinc-400 mt-1">
               Playground: cada componente vive en su propia ruta; usa el menú lateral para navegar.
@@ -57,10 +57,10 @@ import { GlassCardComponent, ThemeService } from 'glassng';
           </div>
         </footer>
       </div>
-    </lg-glass-card>
+    </gng-glass-card>
 
-    <div class="mt-12 lg-bento-grid max-w-4xl w-full">
-      <div class="lg:col-span-8 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in">
+    <div class="mt-12 gng-bento-grid max-w-4xl w-full">
+      <div class="lg:col-span-8 p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border gng-animate-fade-in">
         <h3 class="text-h3 font-display mb-2">Bento Grid Architecture</h3>
         <p class="text-body-sm leading-relaxed text-zinc-400">
           Utilizamos un sistema de compartimentos basado en un grid de 12 columnas. Este layout es responsivo y se adapta
@@ -68,21 +68,21 @@ import { GlassCardComponent, ThemeService } from 'glassng';
         </p>
       </div>
       <div
-        class="lg:col-span-4 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in"
+        class="lg:col-span-4 p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border gng-animate-fade-in"
         style="animation-delay: 100ms"
       >
         <h3 class="text-h3 font-display mb-2">Safe Area</h3>
         <p class="text-body-sm text-zinc-400">Contenedores inteligentes que respetan el Notch.</p>
       </div>
       <div
-        class="lg:col-span-4 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in"
+        class="lg:col-span-4 p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border gng-animate-fade-in"
         style="animation-delay: 200ms"
       >
         <h3 class="text-h3 font-display mb-2">Z-Index Stack</h3>
         <p class="text-body-sm text-zinc-400">7 capas estandarizadas para evitar colisiones visuales.</p>
       </div>
       <div
-        class="lg:col-span-8 p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border lg-animate-fade-in"
+        class="lg:col-span-8 p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border gng-animate-fade-in"
         style="animation-delay: 300ms"
       >
         <h3 class="text-h3 font-display mb-2">Premium Polish</h3>
@@ -92,5 +92,5 @@ import { GlassCardComponent, ThemeService } from 'glassng';
   `,
 })
 export class DashboardPage {
-  readonly themeService = inject(ThemeService);
+  readonly themeService = inject(GngThemeService);
 }

@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, AvatarComponent, ButtonComponent } from 'glassng';
+import { GngGlassCard, GngAvatar, GngButton } from 'glassng';
 
 @Component({
   selector: 'pg-avatar-page',
   standalone: true,
-  imports: [CommonModule, GlassCardComponent, AvatarComponent, ButtonComponent],
+  imports: [CommonModule, GngGlassCard, GngAvatar, GngButton],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -14,39 +14,39 @@ import { GlassCardComponent, AvatarComponent, ButtonComponent } from 'glassng';
     </header>
 
     <section class="space-y-8 max-w-4xl">
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-6">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-6">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Tamaños</p>
         <div class="flex flex-wrap items-end gap-6">
-          <lg-avatar name="S M" size="sm" />
-          <lg-avatar name="Medio" size="md" />
-          <lg-avatar name="Large" size="lg" />
-          <lg-avatar name="Extra" size="xl" />
+          <gng-avatar name="S M" size="sm" />
+          <gng-avatar name="Medio" size="md" />
+          <gng-avatar name="Large" size="lg" />
+          <gng-avatar name="Extra" size="xl" />
         </div>
-      </lg-glass-card>
+      </gng-glass-card>
 
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-6">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-6">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Imagen e iniciales</p>
         <div class="flex flex-wrap items-center gap-6">
-          <lg-avatar
+          <gng-avatar
             [src]="'https://i.pravatar.cc/128?img=12'"
             name="María García"
             size="lg"
             [status]="'online'"
           />
-          <lg-avatar name="Alex Rivera" size="lg" [status]="'busy'" />
-          <lg-avatar name="Equipo" size="lg" [status]="'offline'" />
+          <gng-avatar name="Alex Rivera" size="lg" [status]="'busy'" />
+          <gng-avatar name="Equipo" size="lg" [status]="'offline'" />
         </div>
-      </lg-glass-card>
+      </gng-glass-card>
 
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-4">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-4">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Carga (skeleton)</p>
         <div class="flex items-center gap-6">
-          <lg-avatar name="Cargando demo" size="xl" [isLoading]="loading()" />
-          <button lg-button variant="secondary" size="sm" type="button" (click)="loading.set(!loading())">
+          <gng-avatar name="Cargando demo" size="xl" [isLoading]="loading()" />
+          <button gng-button variant="secondary" size="sm" type="button" (click)="loading.set(!loading())">
             Toggle loading
           </button>
         </div>
-      </lg-glass-card>
+      </gng-glass-card>
     </section>
   `,
 })

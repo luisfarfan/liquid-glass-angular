@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, SearchInputComponent } from 'glassng';
+import { GngGlassCard, GngSearchInput } from 'glassng';
 
 @Component({
   selector: 'pg-search-input-page',
   standalone: true,
-  imports: [CommonModule, GlassCardComponent, SearchInputComponent],
+  imports: [CommonModule, GngGlassCard, GngSearchInput],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -14,9 +14,9 @@ import { GlassCardComponent, SearchInputComponent } from 'glassng';
     </header>
 
     <section class="space-y-8 max-w-3xl">
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-4">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-4">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Básico</p>
-        <lg-search-input
+        <gng-search-input
           [(value)]="q1"
           [debounceTime]="400"
           ariaLabel="Buscar en el demo"
@@ -25,13 +25,13 @@ import { GlassCardComponent, SearchInputComponent } from 'glassng';
         <p class="text-xs text-zinc-500">
           Última emisión (debounced): <code class="text-primary">{{ lastSearch() || '—' }}</code>
         </p>
-      </lg-glass-card>
+      </gng-glass-card>
 
-      <lg-glass-card class="!p-6 border-none shadow-none space-y-4">
+      <gng-glass-card class="!p-6 border-none shadow-none space-y-4">
         <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Expansión al foco + atajo</p>
         <p class="text-body-sm text-zinc-500">Probá <kbd class="px-1 rounded bg-white/10">⌘</kbd>+<kbd class="px-1 rounded bg-white/10">K</kbd> o
           <kbd class="px-1 rounded bg-white/10">Ctrl</kbd>+<kbd class="px-1 rounded bg-white/10">K</kbd> para enfocar.</p>
-        <lg-search-input
+        <gng-search-input
           [(value)]="q2"
           [expandOnFocus]="true"
           [shortcutEnabled]="true"
@@ -42,7 +42,7 @@ import { GlassCardComponent, SearchInputComponent } from 'glassng';
           (search)="shortcutLog.set($event)"
         />
         <p class="text-xs text-zinc-500">Emitido: <code class="text-primary">{{ shortcutLog() || '—' }}</code></p>
-      </lg-glass-card>
+      </gng-glass-card>
     </section>
   `,
 })

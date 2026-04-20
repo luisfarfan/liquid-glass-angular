@@ -1,0 +1,189 @@
+.gng-file-upload-container {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  border: 2px dashed var(--gng-t-glass-border);
+  background: var(--gng-t-glass-bg);
+  backdrop-filter: blur(var(--gng-t-glass-blur));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s var(--gng-ease-standard);
+}
+
+.gng-file-upload-container:hover,
+.gng-file-upload-container.is-dragging {
+  background: rgba(var(--gng-t-primary-rgb), 0.05);
+  border-color: rgba(var(--gng-t-primary-rgb), 0.5);
+  box-shadow: 0 0 30px rgba(var(--gng-t-primary-rgb), 0.15);
+}
+
+.gng-file-upload-container.is-dragging {
+  transform: scale(1.01);
+  border-style: solid;
+}
+
+.gng-file-input-hidden {
+  display: none;
+}
+
+.gng-file-upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.gng-file-upload-icon-wrapper {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--gng-t-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s var(--gng-ease-standard);
+}
+
+.gng-file-upload-container:hover .gng-file-upload-icon-wrapper,
+.gng-file-upload-container.is-dragging .gng-file-upload-icon-wrapper {
+  color: #fff;
+  background: var(--gng-t-primary);
+  box-shadow: 0 0 20px rgba(var(--gng-t-primary-rgb), 0.5);
+  transform: translateY(-4px);
+}
+
+.gng-file-upload-label {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--gng-t-text-main);
+}
+
+.gng-file-upload-hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: var(--gng-t-text-muted);
+}
+
+/* Previews */
+.gng-file-preview-list {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-cols: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.gng-file-preview-card {
+  position: relative;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  background: var(--gng-t-bg-card);
+  backdrop-filter: blur(var(--gng-t-glass-blur));
+  border: 1px solid var(--gng-t-glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s var(--gng-ease-standard);
+}
+
+.gng-file-preview-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.gng-file-preview-thumb {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gng-file-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gng-file-preview-thumb i {
+  font-size: 1.25rem;
+  color: var(--gng-t-primary);
+}
+
+.gng-file-preview-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.gng-file-preview-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--gng-t-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gng-file-preview-size {
+  font-size: 0.75rem;
+  color: var(--gng-t-text-muted);
+}
+
+.gng-file-preview-remove {
+  background: none;
+  border: none;
+  color: var(--gng-t-text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.gng-file-preview-remove:hover {
+  background: rgba(var(--gng-t-destructive-rgb), 0.1);
+  color: var(--gng-t-destructive);
+}
+
+/* Glow Decoration */
+.gng-file-upload-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle, 
+    rgba(var(--gng-t-primary-rgb), 0.1) 0%, 
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--gng-ease-standard);
+}
+
+.gng-file-upload-container:hover .gng-file-upload-glow,
+.gng-file-upload-container.is-dragging .gng-file-upload-glow {
+  opacity: 1;
+}

@@ -1,13 +1,13 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  GlassCardComponent,
-  InputComponent,
-  FormFieldComponent,
-  FormLayoutComponent,
-  TextareaComponent,
-  CheckboxComponent,
-  ButtonComponent
+  GngGlassCard,
+  GngInput,
+  GngFormField,
+  GngFormLayout,
+  GngTextarea,
+  GngCheckbox,
+  GngButton
 } from 'glassng';
 
 @Component({
@@ -15,13 +15,13 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    GlassCardComponent,
-    InputComponent,
-    FormFieldComponent,
-    FormLayoutComponent,
-    TextareaComponent,
-    CheckboxComponent,
-    ButtonComponent
+    GngGlassCard,
+    GngInput,
+    GngFormField,
+    GngFormLayout,
+    GngTextarea,
+    GngCheckbox,
+    GngButton
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -33,7 +33,7 @@ import {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <!-- Demo: Compositional Architecture -->
       <section class="lg:col-span-8 space-y-8">
-        <lg-glass-card class="!p-8">
+        <gng-glass-card class="!p-8">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
                <i class="ri-ruler-2-line"></i>
@@ -44,40 +44,40 @@ import {
             </div>
           </div>
 
-          <lg-form-layout [cols]="2" gap="md">
-            <lg-form-field label="First Name" hint="As it appears on ID" [required]="true">
-              <lg-input placeholder="Enter first name"></lg-input>
-            </lg-form-field>
+          <gng-form-layout [cols]="2" gap="md">
+            <gng-form-field label="First Name" hint="As it appears on ID" [required]="true">
+              <gng-input placeholder="Enter first name"></gng-input>
+            </gng-form-field>
 
-            <lg-form-field label="Last Name">
-              <lg-input placeholder="Enter last name"></lg-input>
-            </lg-form-field>
-          </lg-form-layout>
+            <gng-form-field label="Last Name">
+              <gng-input placeholder="Enter last name"></gng-input>
+            </gng-form-field>
+          </gng-form-layout>
 
-          <lg-form-layout [cols]="1" class="mt-4">
-             <lg-form-field label="Support Message" error="Message cannot be empty">
-              <lg-textarea placeholder="How can we help you?" [autosize]="true"></lg-textarea>
-            </lg-form-field>
-          </lg-form-layout>
+          <gng-form-layout [cols]="1" class="mt-4">
+             <gng-form-field label="Support Message" error="Message cannot be empty">
+              <gng-textarea placeholder="How can we help you?" [autosize]="true"></gng-textarea>
+            </gng-form-field>
+          </gng-form-layout>
 
-          <lg-form-layout [cols]="2" class="mt-4">
-            <lg-form-field label="Privacy Settings" hint="Visibility in discovery">
-              <lg-checkbox label="Make profile public"></lg-checkbox>
-            </lg-form-field>
+          <gng-form-layout [cols]="2" class="mt-4">
+            <gng-form-field label="Privacy Settings" hint="Visibility in discovery">
+              <gng-checkbox label="Make profile public"></gng-checkbox>
+            </gng-form-field>
 
-            <lg-form-field label="Communications" [required]="true">
-              <lg-checkbox label="Receive marketing emails"></lg-checkbox>
-            </lg-form-field>
-          </lg-form-layout>
+            <gng-form-field label="Communications" [required]="true">
+              <gng-checkbox label="Receive marketing emails"></gng-checkbox>
+            </gng-form-field>
+          </gng-form-layout>
 
           <div class="mt-8 pt-6 border-t border-white/5 flex justify-end gap-3">
-             <button lg-button variant="outlined">Discard Changes</button>
-             <button lg-button>Save Information</button>
+             <button gng-button variant="outlined">Discard Changes</button>
+             <button gng-button>Save Information</button>
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <!-- Demo: Legacy / Integrated Mode -->
-        <lg-glass-card class="!p-8 opacity-80">
+        <gng-glass-card class="!p-8 opacity-80">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-zinc-500/20 flex items-center justify-center">
                <i class="ri-history-line"></i>
@@ -89,31 +89,31 @@ import {
           </div>
 
           <div class="space-y-4">
-            <lg-input label="Simplified Label" placeholder="Direct input usage"></lg-input>
-            <lg-checkbox label="Direct Checkbox usage"></lg-checkbox>
+            <gng-input label="Simplified Label" placeholder="Direct input usage"></gng-input>
+            <gng-checkbox label="Direct Checkbox usage"></gng-checkbox>
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
       </section>
 
       <!-- Sidebar: Information -->
       <aside class="lg:col-span-4 space-y-6">
-        <lg-glass-card class="!p-6 bg-primary/5 border-primary/20">
+        <gng-glass-card class="!p-6 bg-primary/5 border-primary/20">
           <h4 class="text-sm font-bold text-primary mb-3">Form Architecture</h4>
           <ul class="space-y-4 text-xs">
             <li class="flex gap-2">
               <i class="ri-checkbox-circle-fill text-primary"></i>
-              <span><strong>lg-form-layout</strong> manages grid positioning (1-4 columns).</span>
+              <span><strong>gng-form-layout</strong> manages grid positioning (1-4 columns).</span>
             </li>
             <li class="flex gap-2">
               <i class="ri-checkbox-circle-fill text-primary"></i>
-              <span><strong>lg-form-field</strong> orchestrates labels, hints, and error states.</span>
+              <span><strong>gng-form-field</strong> orchestrates labels, hints, and error states.</span>
             </li>
              <li class="flex gap-2">
               <i class="ri-checkbox-circle-fill text-primary"></i>
               <span>Works with <strong>Template Driven</strong> and <strong>Reactive Forms</strong>.</span>
             </li>
           </ul>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <section class="space-y-4 px-2">
           <h4 class="text-[10px] font-bold uppercase tracking-widest opacity-40">Layout Preview</h4>

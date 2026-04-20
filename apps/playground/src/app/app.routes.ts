@@ -74,7 +74,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'demos/data-table',
-    loadComponent: () => import('./pages/data-table.page').then((m) => m.DataTablePage),
+    loadComponent: () => import('./pages/data-table.page').then((m) => m.GngDataTablePage),
     data: { title: 'Data table' },
   },
   {

@@ -1,0 +1,32 @@
+/**
+ * LG Typography System
+ * Basado en SDD-03: Responsive Typography System
+ */
+
+:root {
+  /* Fluid Scaling with clamp() */
+  --gng-font-display-1: clamp(2.5rem, 5vw, 4.5rem);
+  --gng-font-h1: clamp(2rem, 4vw, 3rem);
+  --gng-font-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --gng-font-h3: clamp(1.25rem, 2.5vw, 1.75rem);
+  
+  --gng-font-body-lg: 1.125rem;
+  --gng-font-body-md: 1rem;
+  --gng-font-body-sm: 0.875rem;
+  --gng-font-xs: 0.75rem;
+
+  /* Line Heights */
+  --gng-leading-tight: 1.2;
+  --gng-leading-normal: 1.5;
+  --gng-leading-relaxed: 1.75;
+}
+
+/* Helper classes for easy usage in playground if needed */
+.text-display-1 { font-size: var(--gng-font-display-1); line-height: var(--gng-leading-tight); }
+.text-h1 { font-size: var(--gng-font-h1); line-height: var(--gng-leading-tight); }
+.text-h2 { font-size: var(--gng-font-h2); line-height: var(--gng-leading-tight); }
+.text-h3 { font-size: var(--gng-font-h3); line-height: var(--gng-leading-tight); }
+.text-body-lg { font-size: var(--gng-font-body-lg); line-height: var(--gng-leading-normal); }
+.text-body-md { font-size: var(--gng-font-body-md); line-height: var(--gng-leading-normal); }
+.text-body-sm { font-size: var(--gng-font-body-sm); line-height: var(--gng-leading-normal); }
+.text-xs { font-size: var(--gng-font-xs); line-height: var(--gng-leading-normal); }

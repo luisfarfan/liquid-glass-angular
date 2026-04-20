@@ -1,0 +1,183 @@
+/* Glass Modal Global & Container Styles */
+
+.gng-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(0px) saturate(100%);
+  z-index: 1000;
+  animation: gng-modal-backdrop-standard 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Profile: Deep Void Backdrop */
+.gng-modal-backdrop-void {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(0px) saturate(40%) brightness(0.4);
+  animation: gng-modal-backdrop-deep-void 1.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.gng-modal-backdrop:not(:last-of-type) {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(40px) saturate(50%) !important;
+}
+
+.gng-modal-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  pointer-events: none;
+  padding: 1.5rem;
+}
+
+.gng-modal-container {
+  pointer-events: auto;
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2.5rem;
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  opacity: 0; /* Hidden initially to allow animation class to kick in */
+  will-change: transform, opacity, filter;
+}
+
+/* --- ANIMATION PROFILES --- */
+
+/* Profile: Cinema (Legacy Refined) - Elastic zoom with inertia */
+.gng-modal-anim-cinema {
+  animation: gng-modal-glass-inflate 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Profile: Glass (Crystallization) - Deep focal entry */
+.gng-modal-anim-glass {
+  animation: gng-modal-glass-crystallize 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Profile: Zoom (Precision focus) */
+.gng-modal-anim-zoom {
+  animation: gng-modal-glass-zoom 0.6s cubic-bezier(0.25, 1, 1, 1) forwards;
+}
+
+/* Profile: Void (Ethereal) - Fade from nothingness */
+.gng-modal-anim-void {
+  animation: gng-modal-glass-void 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Profile: Slide (Minimalist) - Weighted slide with tilt */
+.gng-modal-anim-slide {
+  animation: gng-modal-glass-slide 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Profile: None (Standard/Instant entry) */
+.gng-modal-anim-none {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* --- BACKDROP MODIFIERS --- */
+
+.gng-modal-backdrop-none {
+  opacity: 1 !important;
+  animation: none !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Structural Components Styling */
+gng-modal-header { display: block; padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+.gng-modal-header-content { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+.gng-modal-title { font-family: var(--gng-font-display); font-size: 1.5rem; font-weight: 700; color: white; margin: 0; letter-spacing: -0.02em; }
+.gng-modal-close-btn { 
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); 
+  width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+  cursor: pointer; transition: all 0.3s var(--gng-ease-out); font-size: 1.25rem; 
+}
+.gng-modal-close-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; transform: rotate(90deg); box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
+gng-modal-content { display: block; }
+.gng-modal-content-inner { padding: 1.5rem 2.5rem 2.5rem; max-height: 70vh; overflow-y: auto; color: rgba(255, 255, 255, 0.7); line-height: 1.6; }
+gng-modal-footer { display: block; background: rgba(0, 0, 0, 0.2); border-top: 1px solid rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); }
+.gng-modal-footer-inner { padding: 1.5rem 2.5rem; display: flex; justify-content: flex-end; align-items: center; gap: 1rem; }
+
+/* Glass Levels Overrides */
+.gng-modal-container.el-1 { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(16px); }
+.gng-modal-container.el-2 { background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(32px); }
+.gng-modal-container.el-3 { background: rgba(255, 255, 255, 0.10); backdrop-filter: blur(48px); }
+
+/* Mobile Bottom-Sheet */
+@media (max-width: 767px) {
+  .gng-modal-wrapper { align-items: flex-end; padding: 0; }
+  .gng-modal-container { 
+    border-radius: 2.5rem 2.5rem 0 0; max-width: 100%; 
+    animation: gng-modal-sheet-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards !important; 
+  }
+}
+
+/* --- KEYFRAMES --- */
+
+@keyframes gng-modal-backdrop-standard {
+  from { opacity: 0; backdrop-filter: blur(0px) saturate(100%); background: rgba(0, 0, 0, 0); }
+  to { opacity: 1; backdrop-filter: blur(24px) saturate(180%); background: rgba(0, 0, 0, 0.6); }
+}
+
+@keyframes gng-modal-backdrop-deep-void {
+  from { opacity: 0; backdrop-filter: blur(0px) brightness(1); background: rgba(0, 0, 0, 0); }
+  to { opacity: 1; backdrop-filter: blur(48px) brightness(0.25); background: rgba(0, 0, 0, 0.9); }
+}
+
+@keyframes gng-modal-glass-inflate {
+  0% { opacity: 0; transform: scale(0.8) translateY(60px) rotateX(-12deg); filter: blur(20px) brightness(1.6); }
+  100% { opacity: 1; transform: scale(1) translateY(0) rotateX(0deg); filter: blur(0px) brightness(1); }
+}
+
+@keyframes gng-modal-glass-crystallize {
+  0% { opacity: 0; backdrop-filter: blur(100px) saturate(0%); transform: scale(1.1); filter: contrast(0.8); }
+  100% { opacity: 1; backdrop-filter: blur(32px) saturate(180%); transform: scale(1); filter: contrast(1); }
+}
+
+@keyframes gng-modal-glass-zoom {
+  0% { opacity: 0; transform: scale(0.6) translateZ(-250px); filter: brightness(2.5); }
+  100% { opacity: 1; transform: scale(1) translateZ(0); filter: brightness(1); }
+}
+
+@keyframes gng-modal-glass-void {
+  0% { opacity: 0; transform: scale(0.96) translateY(-15px); filter: blur(15px) brightness(0.1); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+}
+
+@keyframes gng-modal-glass-slide {
+  from { opacity: 0; transform: translateY(140px) skewY(3deg); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0) skewY(0deg); filter: blur(0px); }
+}
+
+@keyframes gng-modal-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* --- ACCESSIBILITY: REDUCED MOTION --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .gng-modal-container {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  
+  .gng-modal-backdrop,
+  .gng-modal-backdrop-void {
+    animation: none !important;
+    opacity: 1 !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+  }
+}

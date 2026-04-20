@@ -2,11 +2,11 @@ import { Component, ViewEncapsulation, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, FormControl } from '@angular/forms';
 import {
-  GlassCardComponent,
-  DatePickerComponent,
-  FormFieldComponent,
-  FormLayoutComponent,
-  ButtonComponent
+  GngGlassCard,
+  GngDatePicker,
+  GngFormField,
+  GngFormLayout,
+  GngButton
 } from 'glassng';
 
 @Component({
@@ -16,11 +16,11 @@ import {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    GlassCardComponent,
-    DatePickerComponent,
-    FormFieldComponent,
-    FormLayoutComponent,
-    ButtonComponent
+    GngGlassCard,
+    GngDatePicker,
+    GngFormField,
+    GngFormLayout,
+    GngButton
   ],
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -34,7 +34,7 @@ import {
       <div class="lg:col-span-8 space-y-8 min-w-0">
         
         <!-- Standard Example -->
-        <lg-glass-card class="!p-8">
+        <gng-glass-card class="!p-8">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
                <i class="ri-calendar-event-line"></i>
@@ -45,23 +45,23 @@ import {
             </div>
           </div>
 
-          <lg-form-layout [cols]="2" gap="md">
-            <lg-form-field label="Arrival Date" hint="Starting of the period">
-              <lg-date-picker 
+          <gng-form-layout [cols]="2" gap="md">
+            <gng-form-field label="Arrival Date" hint="Starting of the period">
+              <gng-date-picker 
                 [(ngModel)]="selectedDate" 
                 placeholder="Choose arrival date"
-              ></lg-date-picker>
-            </lg-form-field>
+              ></gng-date-picker>
+            </gng-form-field>
 
             <div class="flex flex-col justify-end pb-1 text-sm overflow-hidden">
               <span class="opacity-50">Value selected:</span>
               <span class="font-mono text-primary truncate">{{ selectedDate() || 'None' }}</span>
             </div>
-          </lg-form-layout>
-        </lg-glass-card>
+          </gng-form-layout>
+        </gng-glass-card>
 
         <!-- Reactive Forms Example -->
-        <lg-glass-card class="!p-8">
+        <gng-glass-card class="!p-8">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
                <i class="ri-code-s-slash-line"></i>
@@ -73,34 +73,34 @@ import {
           </div>
 
           <form [formGroup]="dateForm" class="space-y-4">
-             <lg-form-layout [cols]="2" gap="md">
-                <lg-form-field label="Event Date" [required]="true" [error]="dateForm.controls.eventDate.invalid ? 'Date is required' : null">
-                  <lg-date-picker formControlName="eventDate" placeholder="Pick a date"></lg-date-picker>
-                </lg-form-field>
+             <gng-form-layout [cols]="2" gap="md">
+                <gng-form-field label="Event Date" [required]="true" [error]="dateForm.controls.eventDate.invalid ? 'Date is required' : null">
+                  <gng-date-picker formControlName="eventDate" placeholder="Pick a date"></gng-date-picker>
+                </gng-form-field>
                 
                 <div class="flex flex-col justify-end pb-1 gap-2">
                   <span class="text-xs opacity-40">Status: {{ dateForm.controls.eventDate.status }}</span>
-                  <button lg-button size="sm" variant="outlined" (click)="dateForm.reset()">Reset Form</button>
+                  <button gng-button size="sm" variant="outlined" (click)="dateForm.reset()">Reset Form</button>
                 </div>
-             </lg-form-layout>
+             </gng-form-layout>
           </form>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <!-- Variants Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <lg-glass-card class="!p-6">
+          <gng-glass-card class="!p-6">
             <h4 class="text-xs font-bold uppercase tracking-widest opacity-40 mb-4">Error State</h4>
-            <lg-date-picker label="Expiration Date" error="This date is required" placeholder="Cannot be empty"></lg-date-picker>
-          </lg-glass-card>
+            <gng-date-picker label="Expiration Date" error="This date is required" placeholder="Cannot be empty"></gng-date-picker>
+          </gng-glass-card>
 
-          <lg-glass-card class="!p-6">
+          <gng-glass-card class="!p-6">
             <h4 class="text-xs font-bold uppercase tracking-widest opacity-40 mb-4">Disabled State</h4>
-            <lg-date-picker label="Locked Date" [disabled]="true" placeholder="Field is locked"></lg-date-picker>
-          </lg-glass-card>
+            <gng-date-picker label="Locked Date" [disabled]="true" placeholder="Field is locked"></gng-date-picker>
+          </gng-glass-card>
         </div>
 
         <!-- UTC vs Local Comparison -->
-        <lg-glass-card class="!p-8 bg-indigo-500/5">
+        <gng-glass-card class="!p-8 bg-indigo-500/5">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
                <i class="ri-globe-line"></i>
@@ -111,11 +111,11 @@ import {
             </div>
           </div>
 
-          <lg-form-layout [cols]="2" gap="lg">
+          <gng-form-layout [cols]="2" gap="lg">
             <div class="space-y-4">
-              <lg-form-field label="Local Mode (Default)" hint="Uses browser timezone">
-                <lg-date-picker [(ngModel)]="localDate" placeholder="Select local date"></lg-date-picker>
-              </lg-form-field>
+              <gng-form-field label="Local Mode (Default)" hint="Uses browser timezone">
+                <gng-date-picker [(ngModel)]="localDate" placeholder="Select local date"></gng-date-picker>
+              </gng-form-field>
               <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-[10px] font-mono leading-tight">
                 <span class="opacity-40 block mb-1 uppercase tracking-widest">ISO Output (UTC):</span>
                 <span class="text-indigo-300">{{ localDate()?.toISOString() || 'Select a date' }}</span>
@@ -123,25 +123,25 @@ import {
             </div>
 
             <div class="space-y-4">
-              <lg-form-field label="UTC Mode" hint="Normalized to 00:00:00Z">
-                <lg-date-picker [(ngModel)]="utcDate" [useUTC]="true" placeholder="Select global date"></lg-date-picker>
-              </lg-form-field>
+              <gng-form-field label="UTC Mode" hint="Normalized to 00:00:00Z">
+                <gng-date-picker [(ngModel)]="utcDate" [useUTC]="true" placeholder="Select global date"></gng-date-picker>
+              </gng-form-field>
               <div class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-mono leading-tight">
                 <span class="text-indigo-400 block mb-1 uppercase tracking-widest">ISO Output (Normalizado):</span>
                 <span class="text-white font-bold">{{ utcDate()?.toISOString() || 'Select a date' }}</span>
               </div>
             </div>
-          </lg-form-layout>
+          </gng-form-layout>
 
           <div class="mt-6 p-4 rounded-xl bg-black/20 border border-white/5 text-xs opacity-60 leading-relaxed">
             <i class="ri-information-line mr-1 text-primary"></i>
             <strong>Modo UTC</strong> asegura que la fecha seleccionada siempre se represente como la medianoche del día elegido en tiempo universal, 
             eliminando errores de "día anterior" cuando se envían datos a través de diferentes zonas horarias.
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <!-- i18n & Localization Section -->
-        <lg-glass-card class="!p-8">
+        <gng-glass-card class="!p-8">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400">
                <i class="ri-translate"></i>
@@ -152,29 +152,29 @@ import {
             </div>
           </div>
 
-          <lg-form-layout [cols]="2" gap="lg">
+          <gng-form-layout [cols]="2" gap="lg">
             <!-- English Example -->
             <div class="space-y-2">
-              <lg-date-picker 
+              <gng-date-picker 
                 label="English (US)" 
                 locale="en-US" 
                 todayLabel="Today"
                 placeholder="Select date..."
-              ></lg-date-picker>
+              ></gng-date-picker>
               <p class="text-[10px] opacity-40 px-2 italic">Format: MM/DD/YYYY (Automatic)</p>
             </div>
 
             <!-- French Example -->
             <div class="space-y-2">
-              <lg-date-picker 
+              <gng-date-picker 
                 label="Français (FR)" 
                 locale="fr-FR" 
                 todayLabel="Aujourd'hui"
                 placeholder="Sélectionner..."
-              ></lg-date-picker>
+              ></gng-date-picker>
               <p class="text-[10px] opacity-40 px-2 italic">Format: DD/MM/YYYY (Automatic)</p>
             </div>
-          </lg-form-layout>
+          </gng-form-layout>
 
           <div class="mt-8 p-4 rounded-xl bg-orange-500/5 border border-orange-500/10 text-xs">
              <h5 class="font-bold text-orange-400 mb-2">Zero Dictionary Logic</h5>
@@ -183,10 +183,10 @@ import {
                Pasando el <code>locale</code>, el navegador traduce automáticamente los meses y días de la semana. Solo necesitas traducir el label del botón (opcional).
              </p>
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <!-- Range & Time Selection Section -->
-        <lg-glass-card class="!p-8">
+        <gng-glass-card class="!p-8">
           <div class="flex items-center gap-2 mb-6">
             <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
                <i class="ri-timer-flash-line"></i>
@@ -197,16 +197,16 @@ import {
             </div>
           </div>
 
-          <lg-form-layout [cols]="2" gap="lg">
+          <gng-form-layout [cols]="2" gap="lg">
             <!-- Date Range Example -->
             <div class="space-y-4">
-              <lg-date-picker 
+              <gng-date-picker 
                 label="Date Range (Dual Calendar)" 
                 selectionMode="range"
                 placeholder="Select date range..."
                 (ngModelChange)="rangeDate.set($event)"
                 [ngModel]="rangeDate()"
-              ></lg-date-picker>
+              ></gng-date-picker>
               
               <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-[10px] space-y-1">
                 <p class="opacity-40 uppercase font-bold">Range Output:</p>
@@ -217,20 +217,20 @@ import {
 
             <!-- Date + Time Example -->
             <div class="space-y-4">
-              <lg-date-picker 
+              <gng-date-picker 
                 label="Date + Time Selection" 
                 [showTime]="true"
                 placeholder="Select date and time..."
                 (ngModelChange)="dateTime.set($event)"
                 [ngModel]="dateTime()"
-              ></lg-date-picker>
+              ></gng-date-picker>
 
               <div class="p-3 rounded-lg bg-white/5 border border-white/10 text-[10px] space-y-1">
                 <p class="opacity-40 uppercase font-bold">DateTime Output:</p>
                 <code class="text-purple-400">{{ dateTime() | date:'medium' }}</code>
               </div>
             </div>
-          </lg-form-layout>
+          </gng-form-layout>
 
           <div class="mt-8 p-4 rounded-xl bg-blue-500/5 border border-blue-500/10 text-xs">
              <h5 class="font-bold text-blue-400 mb-2">Technical Highlight: Dual Calendar Sync</h5>
@@ -240,12 +240,12 @@ import {
                ofreciendo una experiencia fluida típica de aplicaciones de reserva de vuelos o gestión de eventos.
              </p>
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
       </div>
 
       <!-- Information Panel -->
       <aside class="lg:col-span-4 space-y-6 min-w-0">
-        <lg-glass-card class="!p-6 bg-primary/5 border-primary/20">
+        <gng-glass-card class="!p-6 bg-primary/5 border-primary/20">
           <h4 class="text-sm font-bold text-primary mb-3">Core Features</h4>
           <ul class="space-y-4 text-[11px] leading-tight">
             <li class="flex gap-2">
@@ -261,29 +261,29 @@ import {
               <span><strong>Signals Everywhere</strong>: Built on top of the latest Angular reactivity patterns.</span>
             </li>
           </ul>
-        </lg-glass-card>
+        </gng-glass-card>
 
         <section class="space-y-4 px-2">
            <h4 class="text-[10px] font-bold uppercase tracking-widest opacity-40">Localization Example</h4>
-           <lg-glass-card class="!p-4 border-dashed border-white/10 bg-transparent shadow-none">
-              <lg-date-picker label="Fecha (es-ES)" placeholder="Seleccionar..."></lg-date-picker>
+           <gng-glass-card class="!p-4 border-dashed border-white/10 bg-transparent shadow-none">
+              <gng-date-picker label="Fecha (es-ES)" placeholder="Seleccionar..."></gng-date-picker>
               <p class="mt-4 text-[10px] opacity-40 italic">
-                Soporta localización dinámica mediante la propiedad locale del CalendarComponent.
+                Soporta localización dinámica mediante la propiedad locale del GngCalendar.
               </p>
-           </lg-glass-card>
+           </gng-glass-card>
         </section>
 
-        <lg-glass-card class="!p-6">
+        <gng-glass-card class="!p-6">
           <h4 class="text-xs font-bold uppercase tracking-widest opacity-40 mb-3">Theming</h4>
           <p class="text-xs opacity-60 leading-relaxed mb-4">
-            Reacts instantly to <strong>ThemeService</strong> changes.
+            Reacts instantly to <strong>GngThemeService</strong> changes.
           </p>
           <div class="flex gap-2">
              <div class="w-6 h-6 rounded-full bg-primary shadow-lg shadow-primary/30"></div>
              <div class="w-6 h-6 rounded-full bg-emerald-500/30 border border-emerald-500/50"></div>
              <div class="w-6 h-6 rounded-full bg-indigo-500/30 border border-indigo-500/50"></div>
           </div>
-        </lg-glass-card>
+        </gng-glass-card>
       </aside>
     </div>
   `,

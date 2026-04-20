@@ -1,0 +1,158 @@
+/**
+ * LG Theme Tokens (--gng-t-*)
+ * Basado en SDD-01: Arquitectura de Tokens
+ */
+
+/* Dark Theme (Default) */
+:root {
+  --gng-t-primary: #06b6d4;      /* Cyan 500 */
+  --gng-t-primary-rgb: 6, 182, 212;
+  --gng-t-primary-hover: #22d3ee;
+  
+  --gng-t-bg-app: #09090b;       /* Zinc 950 */
+  --gng-t-bg-app-rgb: 9, 9, 11;
+  --gng-t-bg-card: #18181b;      /* Zinc 900 */
+  --gng-t-bg-card-rgb: 24, 24, 27;
+  
+  --gng-t-text-main: #fafafa;
+  --gng-t-text-muted: #a1a1aa;
+  
+  --gng-t-glass-bg: rgba(255, 255, 255, 0.05);
+  --gng-t-glass-border: rgba(255, 255, 255, 0.1);
+  --gng-t-glass-blur: 1.5rem;    /* 24px blur */
+
+  /* Overlay / scrim (shell móvil, modales) */
+  --gng-t-scrim: rgba(0, 0, 0, 0.45);
+  
+  --gng-t-neon-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+
+  /* Semantic Colors */
+  --gng-t-destructive: #ef4444;  /* Red 500 */
+  --gng-t-destructive-rgb: 239, 68, 68;
+  --gng-t-success: #10b981;      /* Emerald 500 */
+  --gng-t-success-rgb: 16, 185, 129;
+  --gng-t-warning: #f59e0b;      /* Amber 500 */
+  --gng-t-warning-rgb: 245, 158, 11;
+  --gng-t-info: #0ea5e9;         /* Sky 500 */
+  --gng-t-info-rgb: 14, 165, 233;
+
+  /* Component Specific */
+  --gng-t-input-bg: rgba(0, 0, 0, 0.3);
+  --gng-t-input-border: rgba(255, 255, 255, 0.05);
+
+  /* Skeleton Loader */
+  --gng-t-skeleton-bg: rgba(255, 255, 255, 0.04);
+  --gng-t-skeleton-border: rgba(255, 255, 255, 0.05);
+  --gng-t-skeleton-shimmer: rgba(255, 255, 255, 0.08);
+}
+
+/* Light Theme (Mejorado) */
+.light-theme {
+  --gng-t-primary: #0891b2;      /* Cyan 600 */
+  --gng-t-primary-rgb: 8, 145, 178;
+  --gng-t-primary-hover: #0e7490;
+  
+  --gng-t-bg-app: #f8fafc;       /* Slate 50 */
+  --gng-t-bg-app-rgb: 248, 250, 252;
+  --gng-t-bg-card: #ffffff;
+  --gng-t-bg-card-rgb: 255, 255, 255;
+  
+  --gng-t-text-main: #0f172a;    /* Slate 900 */
+  --gng-t-text-muted: #64748b;   /* Slate 500 */
+  
+  --gng-t-glass-bg: rgba(255, 255, 255, 0.7); /* Menos transparente para mejor legibilidad */
+  --gng-t-glass-border: rgba(0, 0, 0, 0.1);
+
+  --gng-t-scrim: rgba(15, 23, 42, 0.42);
+  
+  --gng-t-neon-shadow: 0 4px 20px rgba(8, 145, 178, 0.1);
+
+  /* Semantic Colors */
+  --gng-t-destructive: #dc2626;  /* Red 600 */
+  --gng-t-destructive-rgb: 220, 38, 38;
+  --gng-t-success: #059669;      /* Emerald 600 */
+  --gng-t-success-rgb: 5, 150, 105;
+  --gng-t-warning: #d97706;      /* Amber 600 */
+  --gng-t-warning-rgb: 217, 119, 6;
+  --gng-t-info: #0284c7;         /* Sky 600 */
+  --gng-t-info-rgb: 2, 132, 199;
+
+  /* Component Specific */
+  --gng-t-input-bg: rgba(0, 0, 0, 0.04);
+  --gng-t-input-border: rgba(0, 0, 0, 0.12);
+
+  /* Skeleton Loader */
+  --gng-t-skeleton-bg: rgba(0, 0, 0, 0.06);
+  --gng-t-skeleton-border: rgba(0, 0, 0, 0.02);
+  --gng-t-skeleton-shimmer: rgba(255, 255, 255, 0.6);
+}
+
+/* Cyberpunk Theme (High Contrast Dark) */
+.cyberpunk-theme {
+  --gng-t-primary: #f0abfc;      /* Fuchsia 300 */
+  --gng-t-primary-rgb: 240, 171, 252;
+  --gng-t-primary-hover: #e879f9;
+  
+  --gng-t-bg-app: #020617;       /* Slate 950 */
+  --gng-t-bg-app-rgb: 2, 6, 23;
+  --gng-t-bg-card: #0f172a;
+  --gng-t-bg-card-rgb: 15, 23, 42;
+  
+  --gng-t-text-main: #fdf4ff;
+  --gng-t-text-muted: #d8b4fe;
+  
+  --gng-t-glass-bg: rgba(240, 171, 252, 0.05);
+  --gng-t-glass-border: rgba(240, 171, 252, 0.2);
+
+  --gng-t-scrim: rgba(0, 0, 0, 0.55);
+  
+  --gng-t-neon-shadow: 0 0 20px rgba(232, 121, 249, 0.5), 0 0 40px rgba(232, 121, 249, 0.2);
+
+  /* Semantic Colors */
+  --gng-t-destructive: #f87171;  /* Red 400 */
+  --gng-t-destructive-rgb: 248, 113, 113;
+
+  /* Component Specific */
+  --gng-t-input-bg: rgba(0, 0, 0, 0.3);
+  --gng-t-input-border: rgba(240, 171, 251, 0.1);
+
+  /* Skeleton Loader */
+  --gng-t-skeleton-bg: rgba(240, 171, 252, 0.06);
+  --gng-t-skeleton-border: rgba(240, 171, 252, 0.1);
+  --gng-t-skeleton-shimmer: rgba(240, 171, 252, 0.15);
+}
+
+/* Emerald Theme (Organic Premium) */
+.emerald-theme {
+  --gng-t-primary: #34d399;      /* Emerald 400 */
+  --gng-t-primary-rgb: 52, 211, 153;
+  --gng-t-primary-hover: #10b981;
+  
+  --gng-t-bg-app: #064e3b;       /* Emerald 900 base */
+  --gng-t-bg-app-rgb: 6, 78, 59;
+  --gng-t-bg-card: #065f46;
+  --gng-t-bg-card-rgb: 6, 95, 70;
+  
+  --gng-t-text-main: #ecfdf5;
+  --gng-t-text-muted: #a7f3d0;
+  
+  --gng-t-glass-bg: rgba(255, 255, 255, 0.05);
+  --gng-t-glass-border: rgba(52, 211, 153, 0.2);
+
+  --gng-t-scrim: rgba(0, 0, 0, 0.5);
+  
+  --gng-t-neon-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+
+  /* Semantic Colors */
+  --gng-t-destructive: #fca5a5;  /* Red 300 (Soft contrast for emerald) */
+  --gng-t-destructive-rgb: 252, 165, 165;
+
+  /* Component Specific */
+  --gng-t-input-bg: rgba(0, 0, 0, 0.2);
+  --gng-t-input-border: rgba(52, 211, 153, 0.1);
+
+  /* Skeleton Loader */
+  --gng-t-skeleton-bg: rgba(52, 211, 153, 0.06);
+  --gng-t-skeleton-border: rgba(52, 211, 153, 0.1);
+  --gng-t-skeleton-shimmer: rgba(52, 211, 153, 0.15);
+}

@@ -1,0 +1,286 @@
+/**
+ * Gng Glass Sidebar Styles
+ * Basado en SDD-13
+ */
+
+.gng-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100dvh;
+  /* Fuente única de anchos (alinear con shell-layout.constants / gng-shell-layout). */
+  --gng-sidebar-width-expanded: 17.5rem;
+  --gng-sidebar-width-collapsed: 5rem;
+  background: rgba(var(--gng-t-bg-app-rgb), 0.7);
+  backdrop-filter: blur(2rem) saturate(200%);
+  border-right: 0.0625rem solid var(--gng-t-glass-border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 20; /* z-nav */
+  overflow: hidden;
+}
+
+.gng-sidebar.is-collapsed {
+  width: var(--gng-sidebar-width-collapsed);
+}
+
+.gng-sidebar:not(.is-collapsed) {
+  width: var(--gng-sidebar-width-expanded);
+}
+
+/* --- Navigation Content --- */
+.gng-sidebar-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4rem;
+}
+
+.gng-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  position: relative; /* Para el indicador líquido */
+}
+
+.gng-sidebar-footer {
+  padding: 1.5rem;
+  border-top: 0.0625rem solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Gng Active Indicator (Glass Capsule V2.1 - Ultra Glass) --- */
+.gng-active-indicator {
+  position: absolute;
+  top: 0; /* Punto de partida absoluto */
+  left: 0.75rem;
+  width: calc(100% - 1.50rem);
+  height: 3rem; 
+  background: rgba(var(--gng-t-primary-rgb), 0.05);
+  border-radius: 0.75rem;
+  border: 0.0625rem solid rgba(var(--gng-t-primary-rgb), 0.1);
+  box-shadow: 
+    0 0.5rem 2rem -0.625rem rgba(0, 0, 0, 0.3),
+    inset 0 0 0.9375rem rgba(var(--gng-t-primary-rgb), 0.02);
+  pointer-events: none;
+  transition: 
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+  z-index: 0;
+}
+
+/* Neon Blade (Minimalist) */
+.gng-active-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 0.125rem;
+  background: var(--gng-t-primary);
+  border-radius: 0 0.125rem 0.125rem 0;
+  box-shadow: 0 0 0.625rem var(--gng-t-primary);
+}
+
+/* --- Sidebar Item --- */
+gng-sidebar-item {
+  display: block;
+  /* Eliminamos márgenes verticales que rompen el cálculo de offset */
+}
+
+.gng-sidebar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  height: 3rem; /* Altura de celda fija */
+  margin: 0 0.75rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  color: var(--gng-t-text-muted);
+  text-decoration: none; /* Eliminar subrayado de <a> */
+  transition: all 0.25s var(--gng-ease-standard);
+  user-select: none;
+  border: none;
+  background: transparent;
+  outline: none;
+  z-index: 1;
+  overflow: hidden;
+  width: calc(100% - 1.5rem);
+  box-sizing: border-box;
+}
+
+/* Hover Aura Effect (La sombra que sí está bien) */
+.gng-sidebar-item:hover {
+  color: var(--gng-t-text-main);
+  background: radial-gradient(circle at center, rgba(var(--gng-t-primary-rgb), 0.08) 0%, transparent 70%);
+}
+
+.gng-sidebar-item.is-active {
+  color: var(--gng-t-primary);
+}
+
+.gng-sidebar-item-icon {
+  flex-shrink: 0;
+  width: 1.5rem; /* 24px */
+  height: 1.5rem; /* 24px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.3s var(--gng-ease-enter);
+  margin-left: 0.25rem;
+}
+
+.gng-sidebar-item:hover .gng-sidebar-item-icon {
+  transform: scale(1.1);
+  color: var(--gng-t-primary);
+}
+
+.gng-sidebar-item-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2; /* Darle aire para que no colapse arriba */
+  white-space: nowrap;
+  flex: 1;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* hierarchy (Clean Indentation) */
+.gng-sidebar-nested-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+  transition: 
+    grid-template-rows 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 300ms ease,
+    visibility 300ms ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gng-sidebar-nested-container.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Internal wrapper to make grid-rows animation work */
+.gng-sidebar-nested-wrapper {
+  min-height: 0;
+}
+
+/* Glass Guide Line for nested items */
+.gng-sidebar-nested-container::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  bottom: 0;
+  width: 0.0625rem;
+  background: linear-gradient(to bottom, transparent, var(--gng-t-glass-border), transparent);
+}
+
+.gng-sidebar-item.is-nested {
+  margin: 0 0.75rem;
+  padding-left: 2rem;
+  font-size: 0.8rem;
+  height: 2.5rem; 
+}
+
+.gng-sidebar-expand-icon {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  opacity: 0.4;
+}
+
+.gng-sidebar-expand-icon.is-expanded {
+  transform: rotate(90deg);
+  opacity: 0.8;
+  color: var(--gng-t-primary);
+}
+
+/* --- Collapsed States (Unified & Clean) --- */
+.gng-sidebar.is-collapsed .gng-sidebar-item {
+  width: 3rem;
+  padding: 0;
+  margin: 0.25rem auto;
+  justify-content: center;
+  gap: 0; /* Eliminar espacio fantasma para centrado real */
+}
+
+.gng-sidebar.is-collapsed .gng-sidebar-item-icon {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.gng-sidebar.is-collapsed .gng-sidebar-nested-container::before {
+  display: none;
+}
+
+/* Rail colapsado: evita que los submenús ocupen espacio si se abren por error */
+.gng-sidebar.is-collapsed .gng-sidebar-nested-container {
+  grid-template-rows: 0fr !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Resalta el grupo padre cuando la ruta activa es un hijo (sin is-active en el padre) */
+.gng-sidebar.is-collapsed
+  gng-sidebar-item:has(.gng-sidebar-nested-container .gng-sidebar-item.is-active)
+  > a.gng-sidebar-item {
+  color: var(--gng-t-primary);
+}
+
+.gng-sidebar.is-collapsed .gng-active-indicator {
+  left: 50%;
+  width: 3rem;
+}
+
+.gng-sidebar.is-collapsed .gng-sidebar-item-label,
+.gng-sidebar.is-collapsed .gng-sidebar-expand-icon,
+.gng-sidebar.is-collapsed .gng-sidebar-badge {
+  opacity: 0;
+  transform: translateX(-0.625rem);
+  max-width: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.gng-sidebar.is-collapsed .gng-sidebar-header,
+.gng-sidebar.is-collapsed .gng-sidebar-footer {
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* Scrollbar Customization */
+.gng-sidebar-content::-webkit-scrollbar {
+  width: 0.25rem;
+}
+.gng-sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.625rem;
+}
+
+/* --- Mobile Drawer Pattern --- */
+@media (max-width: 48rem) {
+  .gng-sidebar {
+    transform: translateX(-100%);
+    width: var(--gng-sidebar-width-expanded) !important;
+  }
+  
+  .gng-sidebar.is-mobile-open {
+    transform: translateX(0);
+    box-shadow: 1.25rem 0 3.125rem rgba(0, 0, 0, 0.5);
+    /* Por encima del backdrop del shell (p. ej. playground z-28), por debajo del topbar (z-40). */
+    z-index: 32;
+  }
+}

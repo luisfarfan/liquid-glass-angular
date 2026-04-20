@@ -1,0 +1,140 @@
+/* Glass Textarea Component Styles */
+
+.gng-textarea {
+  display: block;
+  width: 100%;
+}
+
+.gng-textarea-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gng-textarea-label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 0.25rem;
+}
+
+.gng-textarea-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gng-t-text-muted);
+  transition: all 0.3s var(--gng-ease-out);
+}
+
+.gng-textarea-label.is-focused {
+  color: var(--gng-t-primary);
+  text-shadow: 0 0 8px var(--gng-t-primary);
+}
+
+/* Character Counter */
+.gng-textarea-counter {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gng-t-text-muted);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+  transition: color 0.3s var(--gng-ease-out);
+}
+
+.gng-textarea-counter.is-warning {
+  color: #fbbf24; /* Warning Yellow */
+  text-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+}
+
+.gng-textarea-counter.is-error {
+  color: #ef4444; /* Error Red */
+  text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+  animation: gng-counter-shake 0.3s var(--gng-ease-out);
+}
+
+@keyframes gng-counter-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Control Container (Glass) */
+.gng-textarea-wrapper {
+  position: relative;
+  width: 100%;
+  background: var(--gng-t-input-bg);
+  border: 1px solid var(--gng-t-input-border);
+  border-radius: var(--gng-g-radius-input, 0.5rem); /* Usando el radio estándar de inputs */
+  transition: all 0.3s var(--gng-ease-out);
+  backdrop-filter: blur(12px); /* Unificado con gng-input */
+  overflow: hidden;
+}
+
+.gng-textarea-wrapper:focus-within {
+  background: var(--gng-t-glass-bg); /* Efecto de cristal al enfocar */
+  border-color: var(--gng-t-primary);
+  box-shadow: 0 0 15px rgba(var(--gng-t-primary-rgb), 0.15); /* Sombra exterior estándar */
+}
+
+.gng-textarea-wrapper.is-error {
+  border-color: var(--gng-t-destructive);
+  box-shadow: 0 0 15px rgba(var(--gng-t-destructive-rgb), 0.15);
+}
+
+/* The actual Textarea element */
+.gng-textarea-control {
+  width: 100%;
+  min-height: 4.5rem; /* ~ 3 rows */
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--gng-t-text-main);
+  outline: none;
+  resize: vertical;
+  transition: all 0.25s var(--gng-ease-out);
+}
+
+.gng-textarea-control::placeholder {
+  color: var(--gng-t-text-muted);
+  opacity: 0.5;
+}
+
+.gng-textarea-control:focus {
+  /* Glass-Magnify effect */
+  letter-spacing: 0.02em;
+}
+
+/* Scrollbar styling for glassy look if not autosized */
+.gng-textarea-control::-webkit-scrollbar {
+  width: 5px;
+}
+
+.gng-textarea-wrapper.is-disabled {
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+.gng-textarea-control:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Error Message */
+.gng-textarea-error-msg {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #ef4444;
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+  animation: gng-fade-in 0.3s var(--gng-ease-out);
+}
+
+@keyframes gng-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

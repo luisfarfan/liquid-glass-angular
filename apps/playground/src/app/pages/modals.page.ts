@@ -1,12 +1,12 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LiquidModalService } from 'glassng';
+import { GngButton, GngModalService } from 'glassng';
 import { DemoModalComponent } from '../components/demo-modal.component';
 
 @Component({
   selector: 'pg-modals-page',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, GngButton],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -16,26 +16,26 @@ import { DemoModalComponent } from '../components/demo-modal.component';
 
     <section class="space-y-6">
       <div class="flex items-center gap-2 px-2 mb-4">
-        <i class="ri-window-line text-[var(--lg-t-primary)]"></i>
+        <i class="ri-window-line text-[var(--gng-t-primary)]"></i>
         <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Cinematic Dialogs &amp; Animations</h3>
       </div>
 
-      <div class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border border-glass-border space-y-6">
+      <div class="p-6 rounded-[var(--gng-g-radius-card)] bg-glass border border-glass-border space-y-6">
         <div class="space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Select Animation Profile</p>
           <div class="flex flex-wrap gap-3">
-            <button lg-button variant="primary" size="sm" (click)="openModal('cinema')">Cinema (Default)</button>
-            <button lg-button variant="secondary" size="sm" (click)="openModal('glass')">Glass Crystallize</button>
-            <button lg-button variant="ghost" size="sm" (click)="openModal('zoom')">Zoom Focus</button>
-            <button lg-button variant="ghost" size="sm" (click)="openModal('void')">Void Appear</button>
-            <button lg-button variant="ghost" size="sm" (click)="openModal('slide')">Minimal Slide</button>
+            <button gng-button variant="primary" size="sm" (click)="openModal('cinema')">Cinema (Default)</button>
+            <button gng-button variant="secondary" size="sm" (click)="openModal('glass')">Glass Crystallize</button>
+            <button gng-button variant="ghost" size="sm" (click)="openModal('zoom')">Zoom Focus</button>
+            <button gng-button variant="ghost" size="sm" (click)="openModal('void')">Void Appear</button>
+            <button gng-button variant="ghost" size="sm" (click)="openModal('slide')">Minimal Slide</button>
           </div>
         </div>
 
         <div class="p-4 rounded-xl bg-glass border border-glass-border/30 space-y-4">
           <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">Structural Composition</p>
-          <p class="text-xs opacity-60">Usa lg-modal-header, lg-modal-content y lg-modal-footer para una estructura impecable.</p>
-          <button lg-button variant="primary" size="sm" class="w-full" (click)="openModal('cinema', true)">
+          <p class="text-xs opacity-60">Usa gng-modal-header, gng-modal-content y gng-modal-footer para una estructura impecable.</p>
+          <button gng-button variant="primary" size="sm" class="w-full" (click)="openModal('cinema', true)">
             Abrir Workstation Config (Stacked)
           </button>
         </div>
@@ -48,7 +48,7 @@ import { DemoModalComponent } from '../components/demo-modal.component';
   `,
 })
 export class ModalsPage {
-  private readonly modalService = inject(LiquidModalService);
+  private readonly modalService = inject(GngModalService);
 
   openModal(animation: string = 'cinema', enableParallax = true): void {
     this.modalService.open(DemoModalComponent, {

@@ -1,0 +1,81 @@
+/* Glass Tag Component Styles */
+
+.gng-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--gng-g-radius-pill, 9999px);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: all 0.3s var(--gng-ease-out);
+  gap: 0.375rem;
+}
+
+/* Variant Definitions */
+:root {
+  --gng-tag-success: var(--gng-t-success, #10b981);
+  --gng-tag-warning: var(--gng-t-warning, #f59e0b);
+  --gng-tag-error: var(--gng-t-destructive, #ef4444);
+  --gng-tag-info: var(--gng-t-info, #3b82f6);
+  --gng-tag-primary: var(--gng-t-primary);
+  --gng-tag-neutral: #94a3b8;
+}
+
+/* Style: Glass (Subtle & Translucent) */
+.gng-tag-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gng-tag-glass.is-success { border-color: rgba(16, 185, 129, 0.3); color: var(--gng-tag-success); }
+.gng-tag-glass.is-warning { border-color: rgba(245, 158, 11, 0.3); color: var(--gng-tag-warning); }
+.gng-tag-glass.is-error   { border-color: rgba(239, 68, 68, 0.3); color: var(--gng-tag-error); }
+.gng-tag-glass.is-info    { border-color: rgba(59, 130, 246, 0.3); color: var(--gng-tag-info); }
+.gng-tag-glass.is-primary { border-color: rgba(var(--gng-t-primary-rgb), 0.3); color: var(--gng-tag-primary); }
+.gng-tag-glass.is-neutral { border-color: rgba(148, 163, 184, 0.3); color: var(--gng-tag-neutral); }
+
+/* Style: Solid (High Contrast) */
+.gng-tag-solid {
+  border: 1px solid transparent;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.gng-tag-solid.is-success { background: var(--gng-tag-success); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+.gng-tag-solid.is-warning { background: var(--gng-tag-warning); box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
+.gng-tag-solid.is-error   { background: var(--gng-tag-error); box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+.gng-tag-solid.is-info    { background: var(--gng-tag-info); box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
+.gng-tag-solid.is-primary { background: var(--gng-tag-primary); box-shadow: 0 0 10px rgba(var(--gng-t-primary-rgb), 0.2); }
+.gng-tag-solid.is-neutral { background: var(--gng-tag-neutral); box-shadow: 0 0 10px rgba(148, 163, 184, 0.2); }
+
+/* Status Dot */
+.gng-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 5px currentColor;
+}
+
+/* Pulsating Animation */
+.gng-tag-dot.is-pulsating {
+  animation: gng-tag-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes gng-tag-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+    box-shadow: 0 0 12px currentColor;
+  }
+}

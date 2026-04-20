@@ -1,63 +1,63 @@
 @import "tailwindcss";
 
-/* 1. Import Liquid Glass Core Styles */
-@import "../../../libs/liquid-glass-ui/src/lib/styles/tokens.css";
-@import "../../../libs/liquid-glass-ui/src/lib/styles/theme.css";
-@import "../../../libs/liquid-glass-ui/src/lib/styles/typography.css";
-@import "../../../libs/liquid-glass-ui/src/lib/styles/motion.css";
-@import "../../../libs/liquid-glass-ui/src/lib/styles/layout.css";
+/* 1. Import Gng Glass Core Styles */
+@import "../../../libs/glassng/src/lib/styles/tokens.css";
+@import "../../../libs/glassng/src/lib/styles/theme.css";
+@import "../../../libs/glassng/src/lib/styles/typography.css";
+@import "../../../libs/glassng/src/lib/styles/motion.css";
+@import "../../../libs/glassng/src/lib/styles/layout.css";
 
 /* 2. Tailwind v4 @theme Configuration */
 @theme {
   /* Colors mapping to CSS Variables */
-  --color-primary: var(--lg-t-primary);
-  --color-primary-hover: var(--lg-t-primary-hover);
-  --color-bg-app: var(--lg-t-bg-app);
-  --color-bg-card: var(--lg-t-bg-card);
-  --color-glass: var(--lg-t-glass-bg);
-  --color-glass-border: var(--lg-t-glass-border);
+  --color-primary: var(--gng-t-primary);
+  --color-primary-hover: var(--gng-t-primary-hover);
+  --color-bg-app: var(--gng-t-bg-app);
+  --color-bg-card: var(--gng-t-bg-card);
+  --color-glass: var(--gng-t-glass-bg);
+  --color-glass-border: var(--gng-t-glass-border);
   
   /* Typography Scale mapping */
   --font-display: "Outfit", ui-sans-serif, system-ui;
   --font-sans: "Inter", ui-sans-serif, system-ui;
   
   /* Custom Utilities from Variables */
-  --blur-glass: var(--lg-t-glass-blur);
-  --radius-lg-card: var(--lg-g-radius-card);
-  --radius-lg-btn: var(--lg-g-radius-btn);
-  --radius-lg-input: var(--lg-g-radius-input);
+  --blur-glass: var(--gng-t-glass-blur);
+  --radius-gng-glass-card: var(--gng-g-radius-card);
+  --radius-gng-btn: var(--gng-g-radius-btn);
+  --radius-gng-input: var(--gng-g-radius-input);
   
   /* Motion tokens mapping */
-  --ease-lg-enter: var(--lg-ease-enter);
-  --ease-lg-exit: var(--lg-ease-exit);
-  --ease-lg-standard: var(--lg-ease-standard);
-  --ease-lg-drawer: var(--lg-ease-drawer);
+  --ease-gng-enter: var(--gng-ease-enter);
+  --ease-gng-exit: var(--gng-ease-exit);
+  --ease-gng-standard: var(--gng-ease-standard);
+  --ease-gng-drawer: var(--gng-ease-drawer);
   
-  --duration-lg-instant: var(--lg-duration-instant);
-  --duration-lg-fast: var(--lg-duration-fast);
-  --duration-lg-base: var(--lg-duration-base);
-  --duration-lg-slow: var(--lg-duration-slow);
+  --duration-gng-instant: var(--gng-duration-instant);
+  --duration-gng-fast: var(--gng-duration-fast);
+  --duration-gng-base: var(--gng-duration-base);
+  --duration-gng-slow: var(--gng-duration-slow);
   
   /* Layout tokens mapping */
-  --z-lg-base: var(--lg-z-base);
-  --z-lg-sticky: var(--lg-z-sticky);
-  --z-lg-nav: var(--lg-z-nav);
-  --z-lg-popover: var(--lg-z-popover);
-  --z-lg-overlay: var(--lg-z-overlay);
-  --z-lg-modal: var(--lg-z-modal);
-  --z-lg-toast: var(--lg-z-toast);
+  --z-gng-base: var(--gng-z-base);
+  --z-gng-sticky: var(--gng-z-sticky);
+  --z-gng-nav: var(--gng-z-nav);
+  --z-gng-popover: var(--gng-z-popover);
+  --z-gng-overlay: var(--gng-z-overlay);
+  --z-gng-modal: var(--gng-z-modal);
+  --z-gng-toast: var(--gng-z-toast);
   
-  --spacing-sidebar: var(--lg-layout-sidebar-width);
-  --spacing-topbar: var(--lg-layout-topbar-height);
+  --spacing-sidebar: var(--gng-layout-sidebar-width);
+  --spacing-topbar: var(--gng-layout-topbar-height);
 }
 
 /* 3. Global Styles */
 body {
-  @apply bg-bg-app text-[var(--lg-t-text-main)] font-sans antialiased;
+  @apply bg-bg-app text-[var(--gng-t-text-main)] font-sans antialiased;
   min-height: 100vh;
   margin: 0;
 }
 
 /* Base explicit scaneo for Tailwind v4 in Nx */
 @source "./app/**/*.{html,ts}";
-@source "../../../libs/liquid-glass-ui/src/**/*.{html,ts}";
+@source "../../../libs/glassng/src/**/*.{html,ts}";

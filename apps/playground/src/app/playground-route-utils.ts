@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
-import type { LgBreadcrumbItem } from 'glassng';
+import type { GngBreadcrumbItem } from 'glassng';
 
 export function readDeepestRouteData(snapshot: ActivatedRouteSnapshot): Record<string, unknown> {
   let r = snapshot;
@@ -10,7 +10,7 @@ export function readDeepestRouteData(snapshot: ActivatedRouteSnapshot): Record<s
 }
 
 /** Migas globales del shell: Inicio → (Componentes) → título de ruta. */
-export function buildPlaygroundBreadcrumbs(url: string, pageTitle: string): LgBreadcrumbItem[] {
+export function buildPlaygroundBreadcrumbs(url: string, pageTitle: string): GngBreadcrumbItem[] {
   const path = url.split('?')[0];
   const title = pageTitle.trim().length > 0 ? pageTitle : 'Playground';
 

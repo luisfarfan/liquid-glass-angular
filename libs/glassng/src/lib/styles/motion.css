@@ -1,0 +1,55 @@
+/**
+ * LG Motion & Motion Physics System
+ * Basado en SDD-04: Motion System
+ */
+
+/* 1. Accessibility: Respetar configuración del sistema */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 2. Micro-interacciones Globales */
+
+/* Efecto de presión (Active Feedback) */
+.gng-active-scale {
+  transition: transform var(--gng-duration-instant) var(--gng-ease-enter);
+}
+.gng-active-scale:active {
+  transform: scale(0.97);
+}
+
+/* Transiciones optimizadas para Glass */
+.gng-transition-glass {
+  transition: 
+    background-color var(--gng-duration-base) var(--gng-ease-standard),
+    backdrop-filter var(--gng-duration-base) var(--gng-ease-standard),
+    border-color var(--gng-duration-base) var(--gng-ease-standard),
+    box-shadow var(--gng-duration-base) var(--gng-ease-standard),
+    transform var(--gng-duration-base) var(--gng-ease-standard);
+}
+
+/* 3. Animaciones Base */
+@keyframes gng-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gng-animate-fade-in {
+  animation: gng-fade-in var(--gng-duration-base) var(--gng-ease-enter) forwards;
+}
+
+/* 4. Utilities */
+
+/* Desactiva todas las transiciones (útil para cambios de tema síncronos) */
+.gng-no-transitions,
+.gng-no-transitions *,
+.gng-no-transitions *::before,
+.gng-no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}

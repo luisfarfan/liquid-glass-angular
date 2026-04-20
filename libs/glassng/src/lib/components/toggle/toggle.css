@@ -1,0 +1,112 @@
+/* Toggle Component Specific Styles */
+
+gng-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  gap: 0.75rem;
+  transition: opacity 0.2s var(--gng-ease-out);
+}
+
+gng-toggle.label-before {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+gng-toggle.label-after {
+  flex-direction: row;
+}
+
+gng-toggle.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Track Base */
+.gng-toggle-track {
+  position: relative;
+  width: 2.75rem; /* ~44px */
+  height: 1.5rem;  /* ~24px */
+  background: var(--gng-t-glass-bg);
+  border: 1px solid var(--gng-t-glass-border);
+  border-radius: 99px;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s var(--gng-ease-out);
+  flex-shrink: 0;
+}
+
+/* Thumb (The Moving Part) */
+.gng-toggle-thumb {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: var(--gng-t-text-main);
+  border-radius: 50%;
+  /* Transform base: centrado vertical y posición inicial */
+  transform: translateY(-50%) translateX(0) scale(1);
+  transition: 
+    transform var(--gng-duration-base) var(--gng-ease-standard),
+    background var(--gng-duration-base) var(--gng-ease-standard),
+    box-shadow var(--gng-duration-base) var(--gng-ease-standard);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Checked State Styles */
+.gng-toggle-track.is-checked {
+  background: rgba(var(--gng-t-primary-rgb), 0.2);
+  border-color: rgba(var(--gng-t-primary-rgb), 0.4);
+  box-shadow: 0 0 15px rgba(var(--gng-t-primary-rgb), 0.1);
+}
+
+.gng-toggle-track.is-checked .gng-toggle-thumb {
+  transform: translateY(-50%) translateX(1.25rem) scale(1); /* Mover al final */
+  background: var(--gng-t-primary);
+  box-shadow: 0 0 10px var(--gng-t-primary);
+}
+
+/* Mechanical Stretch Animation (Hardware Accelerated) */
+.gng-toggle-track:active .gng-toggle-thumb {
+  transform: translateY(-50%) translateX(0) scaleX(1.4);
+}
+
+.gng-toggle-track.is-checked:active .gng-toggle-thumb {
+  transform: translateY(-50%) translateX(1.25rem) scaleX(1.4);
+}
+
+/* Label Styling */
+.gng-toggle-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gng-t-text-main);
+  opacity: 0.8;
+  transition: opacity 0.2s var(--gng-ease-out);
+}
+
+:host:hover .gng-toggle-label {
+  opacity: 1;
+}
+
+/* Size Variants */
+:host(.size-sm) .gng-toggle-track {
+  width: 2.25rem;
+  height: 1.2rem;
+}
+
+:host(.size-sm) .gng-toggle-thumb {
+  width: 0.9rem;
+  height: 0.9rem;
+  left: 2px;
+}
+
+:host(.size-sm) .gng-toggle-track.is-checked .gng-toggle-thumb {
+  transform: translateY(-50%) translateX(1.05rem) scale(1);
+}
+
+:host(.size-sm) .gng-toggle-track.is-checked:active .gng-toggle-thumb {
+  transform: translateY(-50%) translateX(1.05rem) scaleX(1.4);
+}

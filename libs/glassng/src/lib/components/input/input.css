@@ -1,0 +1,94 @@
+/* Glass Input Specific Styles */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.gng-input-wrapper {
+  position: relative;
+  width: 100%;
+  transition: all 0.3s var(--gng-ease-out);
+}
+
+.gng-input-field {
+  width: 100%;
+  background: var(--gng-t-input-bg);
+  border: 1px solid var(--gng-t-input-border);
+  color: var(--gng-t-text-main);
+  backdrop-filter: blur(12px);
+  outline: none;
+  transition: all 0.25s var(--gng-ease-out);
+  letter-spacing: 0;
+}
+
+.gng-input-field::placeholder {
+  color: var(--gng-t-text-muted);
+  opacity: 0.6;
+}
+
+/* Glass-Magnify Effect on Focus */
+.gng-input-field:focus {
+  background: var(--gng-t-glass-bg);
+  letter-spacing: 0.02em;
+  border-color: var(--gng-t-primary);
+  box-shadow: 0 0 15px rgba(var(--gng-t-primary-rgb), 0.15);
+}
+
+/* Error State */
+.gng-input-wrapper.has-error .gng-input-field {
+  border-color: var(--gng-t-destructive);
+  box-shadow: 0 0 15px rgba(var(--gng-t-destructive-rgb), 0.15);
+}
+
+/* WebKit Autofill Resilience (Shield) */
+.gng-input-field:-webkit-autofill,
+.gng-input-field:-webkit-autofill:hover,
+.gng-input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--gng-t-text-main) !important;
+  box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.8) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(10, 10, 10, 0.8) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Label Styling */
+.gng-input-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+  color: var(--gng-t-text-main);
+  opacity: 0.5;
+  transition: all 0.25s var(--gng-ease-out);
+}
+
+.gng-input-wrapper:focus-within .gng-input-label {
+  opacity: 1;
+  color: var(--gng-t-primary);
+}
+
+.gng-input-group.has-error .gng-input-label {
+  opacity: 1;
+  color: var(--gng-t-destructive);
+}
+
+.gng-input-group.has-error .gng-icon-left,
+.gng-input-group.has-error .gng-icon-right {
+  color: var(--gng-t-destructive);
+  opacity: 1;
+}
+
+.gng-input-error-msg {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--gng-t-destructive);
+  margin-top: 0.4rem;
+  animation: gng-fade-in 0.2s ease-out;
+}
+
+@keyframes gng-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

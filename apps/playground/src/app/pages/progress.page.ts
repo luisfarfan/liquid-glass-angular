@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation, inject, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProgressBarComponent } from 'glassng';
+import { GngProgressBar } from 'glassng';
 
 @Component({
   selector: 'pg-progress-page',
   standalone: true,
-  imports: [CommonModule, ProgressBarComponent],
+  imports: [CommonModule, GngProgressBar],
   encapsulation: ViewEncapsulation.None,
   template: `
     <header class="mb-8">
@@ -18,11 +18,11 @@ import { ProgressBarComponent } from 'glassng';
         <span class="p-1 rounded bg-primary/20 text-primary">
           <i class="ri-loader-4-line animate-spin-slow"></i>
         </span>
-        <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Status Feedback: Liquid Progress</h3>
+        <h3 class="text-xs font-bold tracking-widest uppercase opacity-60">Status Feedback: Gng Progress</h3>
       </div>
 
       <div
-        class="p-6 rounded-[var(--lg-g-radius-card)] bg-glass border-2 border-primary/30 shadow-[0_0_20px_rgba(var(--lg-t-primary-rgb),0.2)] space-y-8"
+        class="p-6 rounded-[var(--gng-g-radius-card)] bg-glass border-2 border-primary/30 shadow-[0_0_20px_rgba(var(--gng-t-primary-rgb),0.2)] space-y-8"
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="space-y-2">
@@ -30,14 +30,14 @@ import { ProgressBarComponent } from 'glassng';
               <span>1. Determinate (Standard)</span>
               <span>{{ demoProgress() | number: '1.0-0' }}%</span>
             </div>
-            <lg-progress-bar [value]="demoProgress()" color="primary" thickness="0.5rem"></lg-progress-bar>
+            <gng-progress-bar [value]="demoProgress()" color="primary" thickness="0.5rem"></gng-progress-bar>
           </div>
 
           <div class="space-y-2">
             <div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter opacity-40">
               <span>2. Indeterminate (Viscous Flow)</span>
             </div>
-            <lg-progress-bar mode="indeterminate" color="accent" thickness="0.5rem"></lg-progress-bar>
+            <gng-progress-bar mode="indeterminate" color="accent" thickness="0.5rem"></gng-progress-bar>
           </div>
 
           <div class="space-y-2">
@@ -45,13 +45,13 @@ import { ProgressBarComponent } from 'glassng';
               <span>3. Buffer (Cloud Sync)</span>
               <span>{{ demoProgress() | number: '1.0-0' }}% / {{ demoBuffer() | number: '1.0-0' }}%</span>
             </div>
-            <lg-progress-bar
+            <gng-progress-bar
               mode="buffer"
               [value]="demoProgress()"
               [buffer]="demoBuffer()"
               color="primary"
               thickness="6px"
-            ></lg-progress-bar>
+            ></gng-progress-bar>
           </div>
 
           <div class="space-y-2">
@@ -59,7 +59,7 @@ import { ProgressBarComponent } from 'glassng';
               <span>4. Query (Pre-loading Inverted)</span>
               <span class="text-primary animate-pulse">{{ demoQueryMode() === 'query' ? 'SCANNING...' : 'READY' }}</span>
             </div>
-            <lg-progress-bar [mode]="demoQueryMode()" [value]="demoProgress()" color="warn" thickness="8px"></lg-progress-bar>
+            <gng-progress-bar [mode]="demoQueryMode()" [value]="demoProgress()" color="warn" thickness="8px"></gng-progress-bar>
             <p class="text-[9px] opacity-30">Transitioning to determinate automatically...</p>
           </div>
         </div>

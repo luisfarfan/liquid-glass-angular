@@ -1,0 +1,42 @@
+/**
+ * LG Global Tokens (--gng-g-*)
+ * Basado en SDD-01: Arquitectura de Tokens
+ */
+:root {
+  /* Escala de radios (rem) */
+  --gng-g-radius-card: 1.5rem;   /* 24px base */
+  --gng-g-radius-btn: 0.75rem;   /* 12px base */
+  --gng-g-radius-input: 0.625rem; /* 10px base */
+
+  /* Spacing base (Sistema de 4pt/8pt) */
+  --gng-g-unit: 0.25rem;         /* 4px base */
+  
+  /* Motion Physics (SDD-04) */
+  --gng-ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --gng-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --gng-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --gng-ease-drawer: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Duraciones */
+  --gng-duration-instant: 0.1s;
+  --gng-duration-fast: 0.2s;
+  --gng-duration-base: 0.3s;
+  --gng-duration-slow: 0.5s;
+
+  /* Layout Layers (SDD-05) */
+  --gng-z-base: 0;
+  --gng-z-sticky: 10;
+  --gng-z-nav: 20;
+  --gng-z-popover: 30;
+  --gng-z-overlay: 40;
+  --gng-z-modal: 50;
+  --gng-z-toast: 60;
+
+  /* Layout Dimensions */
+  --gng-layout-sidebar-width: 16rem; /* 256px */
+  --gng-layout-topbar-height: 4rem;   /* 64px */
+
+  /* Otros valores globales */
+  --gng-g-transition-fast: var(--gng-duration-fast) var(--gng-ease-enter);
+  --gng-g-transition-base: var(--gng-duration-base) var(--gng-ease-standard);
+}
