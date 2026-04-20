@@ -38,11 +38,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Version
-        run: npm run release:version
-
-      - name: Generate changelog
-        run: npm run release:changelog
+      - name: Run release (version & changelog)
+        run: npm run release
 
       - name: Push release commit and tags
         run: git push --follow-tags origin HEAD:main
