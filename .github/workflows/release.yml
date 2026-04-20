@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      force_promote:
+        description: 'Promote existing version to latest without version bump (e.g. 0.1.6)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -34,12 +39,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Force-promote existing version to latest
+        if: github.event.inputs.force_promote != ''
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          VERSION=${{ github.event.inputs.force_promote }}
+          echo "Promoting glassng@$VERSION to latest"
+          npm dist-tag add glassng@$VERSION latest
+          echo "Done — exiting without full release"
+
       - name: Configure git user
+        if: github.event.inputs.force_promote == ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run release (version & changelog)
+        if: github.event.inputs.force_promote == ''
         id: release
         run: |
           BEFORE=$(node -p "require('./libs/glassng/package.json').version")
@@ -54,28 +71,29 @@ jobs:
           fi
 
       - name: Push release commit and tags
-        if: steps.release.outputs.bumped == 'true'
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true'
         run: git push --follow-tags origin HEAD:main
 
       - name: Verify build artifacts
-        if: steps.release.outputs.bumped == 'true'
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true'
         run: ls -R dist/libs/glassng
 
       - name: Inject root README into dist
-        if: steps.release.outputs.bumped == 'true'
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true'
         run: cp README.md dist/libs/glassng/README.md
 
       - name: Publish to npm (alpha dist-tag)
-        if: steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
         run: npm run release:publish -- --tag=alpha
 
       - name: Promote alpha to latest
-        if: steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true' && env.NODE_AUTH_TOKEN != ''
         run: |
           VERSION=$(node -p "require('./libs/glassng/package.json').version")
           npm dist-tag add glassng@$VERSION latest
 
       - name: Create GitHub release from latest tag
+        if: github.event.inputs.force_promote == '' && steps.release.outputs.bumped == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
