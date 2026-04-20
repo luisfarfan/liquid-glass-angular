@@ -3,6 +3,9 @@
 **The Premium Glassmorphism Component Suite for Angular**
 
 [![NPM Version](https://img.shields.io/npm/v/glassng?color=blue&style=flat-square)](https://www.npmjs.com/package/glassng)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=luisfarfan_liquid-glass-angular&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=luisfarfan_liquid-glass-angular)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=luisfarfan_liquid-glass-angular&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=luisfarfan_liquid-glass-angular)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=luisfarfan_liquid-glass-angular&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=luisfarfan_liquid-glass-angular)
 [![Angular Version](https://img.shields.io/badge/Angular-21.x-red?style=flat-square&logo=angular)](https://angular.dev)
 [![License](https://img.shields.io/npm/l/glassng?style=flat-square)](./LICENSE)
 [![Coverage Statements](https://img.shields.io/badge/coverage%20stmts-89%25-brightgreen?style=flat-square)](#testing)

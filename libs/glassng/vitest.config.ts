@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
     coverage: {
       reportsDirectory: '../../coverage/libs/glassng',
       provider: 'v8',
-      reporter: ['text', 'html', 'json'],
+      reporter: ['text', 'html', 'json', 'lcov'],
       include: ['src/lib/components/**/*'],
       thresholds: {
         statements: 80,
