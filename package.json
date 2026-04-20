@@ -63,5 +63,8 @@
   },
   "nx": {
     "includedScripts": []
+  },
+  "overrides": {
+    "@noble/hashes": "1.8.0"
   }
 }
