@@ -120,6 +120,9 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           <lg-sidebar-item link="/demos/date-picker" label="DatePicker">
             <i icon class="ri-calendar-line"></i> DatePicker
           </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/charts" label="Charts & Metrics">
+            <i icon class="ri-line-chart-line"></i> Charts & Metrics
+          </lg-sidebar-item>
         </lg-sidebar-item>
 
         <div footer class="space-y-4">

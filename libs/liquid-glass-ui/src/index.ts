@@ -63,6 +63,7 @@ export { LG_DROPDOWN_MENU } from './lib/components/dropdown/dropdown-menu.import
 export { CdkMenuModule } from '@angular/cdk/menu';
 export * from './lib/core/component-options';
 export * from './lib/components/charts/sparkline.component';
+export * from './lib/components/kpi-card/kpi-card.component';
 export * from './lib/components/data-table/filter/filter-panel.component';
 export * from './lib/components/data-table/filter/filter-badge.component';
 export * from './lib/components/data-table/column-selector/column-selector.component';

@@ -107,6 +107,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/date-picker.page').then((m) => m.DatePickerPage),
     data: { title: 'DatePicker' },
   },
+  {
+    path: 'demos/charts',
+    loadComponent: () => import('./demos/charts-demo.component').then((m) => m.ChartsDemoComponent),
+    data: { title: 'Charts & Metrics' },
+  },
   { path: '**', redirectTo: 'dashboard' },
 
 ];
