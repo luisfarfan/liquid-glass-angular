@@ -57,71 +57,94 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           <i icon class="ri-dashboard-line"></i> Dashboard
         </lg-sidebar-item>
 
-        <lg-sidebar-item label="Components" [subItems]="true" [badge]="18">
-          <i icon class="ri-stack-line"></i> Components
-
+        <!-- 1. Form Elements -->
+        <lg-sidebar-item label="Form Elements" [subItems]="true">
+          <i icon class="ri-edit-box-line"></i> Form Elements
           <lg-sidebar-item link="/demos/buttons" label="Buttons">
             <i icon class="ri-mouse-line"></i> Buttons
           </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/progress" label="Progress">
-            <i icon class="ri-loader-4-line"></i> Progress
+          <lg-sidebar-item link="/demos/forms" label="Input Fields">
+            <i icon class="ri-text-input"></i> Input Fields
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/selection" label="Toggle &amp; Checkbox">
             <i icon class="ri-toggle-line"></i> Toggle &amp; Checkbox
           </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/forms" label="Forms">
-            <i icon class="ri-edit-box-line"></i> Forms
+          <lg-sidebar-item link="/demos/radio" label="Radio Buttons">
+            <i icon class="ri-radio-button-line"></i> Radio Buttons
           </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/a11y" label="A11y &amp; states">
-            <i icon class="ri-shield-user-line"></i> A11y &amp; states
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/badges" label="Badges">
-            <i icon class="ri-notification-badge-line"></i> Badges
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/modals" label="Modals">
-            <i icon class="ri-window-line"></i> Modals
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/toasts" label="Toasts">
-            <i icon class="ri-notification-3-line"></i> Toasts
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/skeleton" label="Skeleton">
-            <i icon class="ri-loader-2-line"></i> Skeleton
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/tabs" label="Tabs">
-            <i icon class="ri-menu-5-line"></i> Tabs
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/data-table" label="Data table">
-            <i icon class="ri-table-line"></i> Data table
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/pagination" label="Pagination">
-            <i icon class="ri-pages-line"></i> Pagination
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/scrollbar" label="Scrollbar">
-            <i icon class="ri-scroll-to-bottom-line"></i> Scrollbar
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/breadcrumbs" label="Breadcrumbs">
-            <i icon class="ri-git-branch-line"></i> Breadcrumbs
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/avatar" label="Avatar">
-            <i icon class="ri-user-smile-line"></i> Avatar
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/search-input" label="Search input">
-            <i icon class="ri-search-line"></i> Search input
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/dropdown-menu" label="Dropdown menu">
-            <i icon class="ri-menu-4-line"></i> Dropdown menu
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/radio" label="Radio">
-            <i icon class="ri-radio-button-line"></i> Radio
-          </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/select" label="Select &amp; Tag Input">
-            <i icon class="ri-list-check"></i> Select &amp; Tag Input
+          <lg-sidebar-item link="/demos/select" label="Select &amp; Tags">
+            <i icon class="ri-list-check-2"></i> Select &amp; Tags
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/date-picker" label="DatePicker">
             <i icon class="ri-calendar-line"></i> DatePicker
           </lg-sidebar-item>
-          <lg-sidebar-item link="/demos/charts" label="Charts & Metrics">
-            <i icon class="ri-line-chart-line"></i> Charts & Metrics
+          <lg-sidebar-item link="/demos/search-input" label="Search Input">
+            <i icon class="ri-search-line"></i> Search Input
+          </lg-sidebar-item>
+        </lg-sidebar-item>
+
+        <!-- 2. Data & Charts -->
+        <lg-sidebar-item label="Data &amp; Metrics" [subItems]="true" [badge]="4">
+          <i icon class="ri-bar-chart-box-line"></i> Data &amp; Metrics
+          <lg-sidebar-item link="/demos/charts" label="KPIs &amp; Timeline">
+            <i icon class="ri-line-chart-line"></i> KPIs &amp; Timeline
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/data-table" label="Data Table">
+            <i icon class="ri-table-line"></i> Data Table
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/pagination" label="Pagination">
+            <i icon class="ri-pages-line"></i> Pagination
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/badges" label="Tags &amp; Badges">
+            <i icon class="ri-notification-badge-line"></i> Tags &amp; Badges
+          </lg-sidebar-item>
+        </lg-sidebar-item>
+
+        <!-- 3. Navigation & Layout -->
+        <lg-sidebar-item label="Navigation" [subItems]="true">
+          <i icon class="ri-navigation-line"></i> Navigation
+          <lg-sidebar-item link="/demos/tabs" label="Tabs System">
+            <i icon class="ri-menu-5-line"></i> Tabs System
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/breadcrumbs" label="Breadcrumbs">
+            <i icon class="ri-git-branch-line"></i> Breadcrumbs
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/dropdown-menu" label="Dropdown Menu">
+            <i icon class="ri-menu-4-line"></i> Dropdown Menu
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/avatar" label="User Avatar">
+            <i icon class="ri-user-smile-line"></i> User Avatar
+          </lg-sidebar-item>
+        </lg-sidebar-item>
+
+        <!-- 4. Feedback & Overlays -->
+        <lg-sidebar-item label="Feedback &amp; Overlays" [subItems]="true">
+          <i icon class="ri-feedback-line"></i> Overlays
+          <lg-sidebar-item link="/demos/modals" label="Modals &amp; Dialogs">
+            <i icon class="ri-window-line"></i> Modals &amp; Dialogs
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/alerts" label="Alerts &amp; Banners">
+            <i icon class="ri-notification-3-line"></i> Alerts &amp; Banners
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/toasts" label="Notifications / Toasts">
+            <i icon class="ri-chat-1-line"></i> Notifications
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/skeleton" label="Skeleton Loaders">
+            <i icon class="ri-loader-2-line"></i> Skeleton Loaders
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/progress" label="Progress Indicators">
+            <i icon class="ri-loader-4-line"></i> Progress Indicators
+          </lg-sidebar-item>
+        </lg-sidebar-item>
+
+        <!-- 5. Core & A11y -->
+        <lg-sidebar-item label="Core &amp; A11y" [subItems]="true">
+          <i icon class="ri-settings-4-line"></i> Core &amp; A11y
+          <lg-sidebar-item link="/demos/a11y" label="A11y &amp; States">
+            <i icon class="ri-shield-user-line"></i> A11y &amp; States
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/scrollbar" label="Glass Scrollbar">
+            <i icon class="ri-scroll-to-bottom-line"></i> Glass Scrollbar
           </lg-sidebar-item>
         </lg-sidebar-item>
 

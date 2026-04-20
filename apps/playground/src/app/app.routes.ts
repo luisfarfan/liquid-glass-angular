@@ -43,6 +43,11 @@ export const appRoutes: Route[] = [
     data: { title: 'Modals' },
   },
   {
+    path: 'demos/alerts',
+    loadComponent: () => import('./pages/alert.page').then((m) => m.AlertPage),
+    data: { title: 'Alerts' },
+  },
+  {
     path: 'demos/toasts',
     loadComponent: () => import('./pages/toasts.page').then((m) => m.ToastsPage),
     data: { title: 'Toasts' },

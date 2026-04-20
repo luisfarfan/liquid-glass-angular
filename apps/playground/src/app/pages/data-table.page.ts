@@ -7,7 +7,8 @@ import {
   ButtonComponent,
   InputComponent,
   CheckboxComponent,
-  BadgeComponent,
+  TagComponent,
+  LgBadgeComponent,
   GlassDataTableContainerComponent,
   LgTableDirective,
   LgHeaderCellDirective,
@@ -92,7 +93,8 @@ function buildMassiveUsers(count: number): UserData[] {
     ButtonComponent,
     InputComponent,
     CheckboxComponent,
-    BadgeComponent,
+    TagComponent,
+    LgBadgeComponent,
     GlassDataTableContainerComponent,
     LgTableDirective,
     LgHeaderCellDirective,
@@ -133,8 +135,8 @@ function buildMassiveUsers(count: number): UserData[] {
               </lg-input>
             </div>
             <div class="flex gap-2">
-              <lg-badge variant="info" size="sm">Results: {{ filteredCount() }}</lg-badge>
-              <lg-badge variant="neutral" size="sm">Selected: {{ selection.selected.length }}</lg-badge>
+              <lg-tag variant="info" size="sm">Results: {{ filteredCount() }}</lg-tag>
+              <lg-tag variant="neutral" size="sm">Selected: {{ selection.selected.length }}</lg-tag>
             </div>
           </div>
         </div>
@@ -192,12 +194,12 @@ function buildMassiveUsers(count: number): UserData[] {
               <ng-container cdkColumnDef="status">
                 <th lg-header-cell cdk-header-cell *cdkHeaderCellDef>Status</th>
                 <td lg-cell cdk-cell *cdkCellDef="let row">
-                  <lg-badge
+                  <lg-tag
                     [variant]="row.status === 'online' ? 'success' : row.status === 'away' ? 'warning' : 'error'"
                     size="sm"
                   >
                     {{ row.status }}
-                  </lg-badge>
+                  </lg-tag>
                 </td>
               </ng-container>
 
@@ -336,7 +338,7 @@ function buildMassiveUsers(count: number): UserData[] {
             <p class="text-[10px] font-bold opacity-30 uppercase tracking-widest">
               Example 5: Virtual Scroll &amp; Infinite Load (10,000+ Records)
             </p>
-            <lg-badge variant="info" [isPulsating]="true">{{ massiveData.data.length }} Records</lg-badge>
+            <lg-tag variant="info" [isPulsating]="true">{{ massiveData.data.length }} Records</lg-tag>
           </div>
           
           <lg-virtual-data-table 
@@ -367,9 +369,9 @@ function buildMassiveUsers(count: number): UserData[] {
               </ng-container>
               <ng-container cdkColumnDef="status">
                 <td cdk-cell *cdkCellDef="let row" class="lg-cell">
-                   <lg-badge [variant]="row.status === 'online' ? 'success' : (row.status === 'away' ? 'warning' : 'neutral')">
+                   <lg-tag [variant]="row.status === 'online' ? 'success' : (row.status === 'away' ? 'warning' : 'neutral')">
                     {{ row.status }}
-                   </lg-badge>
+                   </lg-tag>
                 </td>
               </ng-container>
 
@@ -385,8 +387,8 @@ function buildMassiveUsers(count: number): UserData[] {
               Example 6: Remote API Mock (Server-side Pagination)
             </p>
             <div class="flex items-center gap-2">
-               <lg-badge *ngIf="isRemoteLoading" variant="info" [isPulsating]="true">Fetching API...</lg-badge>
-               <lg-badge variant="neutral">{{ remoteTotal }} Total</lg-badge>
+               <lg-tag *ngIf="isRemoteLoading" variant="info" [isPulsating]="true">Fetching API...</lg-tag>
+               <lg-tag variant="neutral">{{ remoteTotal }} Total</lg-tag>
             </div>
           </div>
 
@@ -476,7 +478,7 @@ function buildMassiveUsers(count: number): UserData[] {
               <ng-container cdkColumnDef="status">
                 <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell">Status</th>
                 <td cdk-cell *cdkCellDef="let row" class="lg-cell">
-                   <lg-badge [variant]="row.status === 'online' ? 'success' : 'warning'">{{ row.status }}</lg-badge>
+                   <lg-tag [variant]="row.status === 'online' ? 'success' : 'warning'">{{ row.status }}</lg-tag>
                 </td>
               </ng-container>
 
@@ -516,9 +518,9 @@ function buildMassiveUsers(count: number): UserData[] {
               <ng-container cdkColumnDef="price">
                 <th cdk-header-cell *cdkHeaderCellDef class="lg-header-cell text-right">Price</th>
                 <td cdk-cell *cdkCellDef="let coin" class="lg-cell text-right">
-                  <lg-badge [variant]="coin.change24h >= 0 ? 'success' : 'error'" class="font-mono px-3 py-1">
+                  <lg-tag [variant]="coin.change24h >= 0 ? 'success' : 'error'" class="font-mono px-3 py-1">
                     $ {{ coin.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
-                  </lg-badge>
+                  </lg-tag>
                 </td>
               </ng-container>
 

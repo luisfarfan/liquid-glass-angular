@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KpiCardComponent } from '@liquid-glass-ui/angular';
+import { KpiCardComponent, LgTimelineComponent, LgTimelineItemComponent } from '@liquid-glass-ui/angular';
 
 @Component({
   selector: 'app-charts-demo',
   standalone: true,
-  imports: [CommonModule, KpiCardComponent],
+  imports: [CommonModule, KpiCardComponent, LgTimelineComponent, LgTimelineItemComponent],
   template: `
     <div class="space-y-12">
       <div>
@@ -139,6 +139,37 @@ import { KpiCardComponent } from '@liquid-glass-ui/angular';
             icon="ri-notification-3-line"
           ></lg-kpi-card>
         </div>
+      </section>
+
+      <!-- Activity Timeline -->
+      <section class="max-w-2xl">
+        <h2 class="text-xl font-bold mb-6">Activity Timeline</h2>
+        <lg-timeline>
+          <lg-timeline-item
+            title="Nueva orden procesada"
+            timestamp="Hace 2 minutos"
+            type="success"
+            description="La orden #5421 se ha procesado correctamente y está lista para envío."
+          ></lg-timeline-item>
+          <lg-timeline-item
+            title="Alerta de seguridad"
+            timestamp="Hace 15 minutos"
+            type="error"
+            description="Se detectó un intento de inicio de sesión no autorizado desde una IP desconocida."
+          ></lg-timeline-item>
+          <lg-timeline-item
+            title="Actualización del sistema"
+            timestamp="Hace 1 hora"
+            type="info"
+            description="El servidor de producción se ha actualizado a la versión v0.1.2 Alpha."
+          ></lg-timeline-item>
+          <lg-timeline-item
+            title="Mantenimiento programado"
+            timestamp="Ayer, 23:00"
+            type="warning"
+            description="Recuerda que hoy a medianoche habrá un corte de servicio de 5 minutos."
+          ></lg-timeline-item>
+        </lg-timeline>
       </section>
     </div>
   `,

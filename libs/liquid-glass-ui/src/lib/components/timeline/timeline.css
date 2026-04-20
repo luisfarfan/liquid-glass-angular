@@ -1,0 +1,130 @@
+.lg-timeline-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.lg-timeline-item {
+  position: relative;
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+}
+
+.lg-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* The Glass Thread */
+.lg-timeline-marker {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 2.5rem;
+}
+
+.lg-timeline-line {
+  position: absolute;
+  top: 2.5rem;
+  bottom: -0.5rem;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0)
+  );
+  border-radius: 1px;
+  z-index: 0;
+}
+
+.lg-timeline-item:last-child .lg-timeline-line {
+  display: none;
+}
+
+/* The Bubble Node */
+.lg-timeline-node {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s var(--lg-ease-standard);
+}
+
+.lg-timeline-item:hover .lg-timeline-node {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--lg-t-primary);
+  box-shadow: 0 0 15px rgba(var(--lg-t-primary-rgb), 0.3);
+}
+
+/* Semantic Node Coloring */
+.lg-timeline-item.type-info .lg-timeline-node { color: var(--lg-t-info); }
+.lg-timeline-item.type-success .lg-timeline-node { color: var(--lg-t-success); }
+.lg-timeline-item.type-warning .lg-timeline-node { color: var(--lg-t-warning); }
+.lg-timeline-item.type-error .lg-timeline-node { color: var(--lg-t-destructive); }
+
+/* Content Styling */
+.lg-timeline-content {
+  flex: 1;
+  padding-top: 0.4rem;
+}
+
+.lg-timeline-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.lg-timeline-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--lg-t-text-main);
+  letter-spacing: -0.01em;
+}
+
+.lg-timeline-time {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--lg-t-text-muted);
+  white-space: nowrap;
+}
+
+.lg-timeline-description {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--lg-t-text-muted);
+  margin: 0;
+}
+
+.lg-timeline-extra {
+  margin-top: 0.5rem;
+}
+
+/* Interaction */
+.lg-timeline-item:hover .lg-timeline-title {
+  color: var(--lg-t-primary);
+}
+
+.lg-timeline-item:hover .lg-timeline-line {
+  background: linear-gradient(
+    to bottom,
+    var(--lg-t-primary),
+    rgba(255, 255, 255, 0.05)
+  );
+  opacity: 0.3;
+}

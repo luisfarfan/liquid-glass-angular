@@ -1,55 +1,67 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, computed } from '@angular/core';
+import { 
+  Component, 
+  ChangeDetectionStrategy, 
+  ViewEncapsulation, 
+  input, 
+  computed 
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-export type BadgeVariant = 'success' | 'warning' | 'error' | 'info' | 'neutral';
-export type BadgeStyle = 'glass' | 'solid';
+export type BadgeVariant = 'error' | 'success' | 'warning' | 'info' | 'primary';
+export type BadgeOverlap = 'circle' | 'rectangle';
 
 /**
- * Glass Badge Component
- * Micro-component for status indicators and labels with premium glass aesthetics.
+ * LgBadgeComponent 
+ * A wrapper component that overlays a numeric or dot indicator on its content.
+ * Perfect for notification counts on icons or avatars.
  */
 @Component({
   selector: 'lg-badge',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <span 
-      class="lg-badge" 
-      [ngClass]="[
-        'is-' + variant(), 
-        'lg-badge-' + style()
-      ]"
-      [attr.aria-label]="a11yLabel() || null"
-    >
-      @if (showDot()) {
-        <span 
-          class="lg-badge-dot" 
-          [class.is-pulsating]="isPulsating()"
-          aria-hidden="true"
-        ></span>
-      }
-
+    <div class="lg-badge-wrapper" [class.is-dot]="dot()">
       <ng-content></ng-content>
-
-      @if (!a11yLabel()) {
-        <span class="sr-only">Estado: {{ variant() }}</span>
+      
+      @if (showBadge()) {
+        <span 
+          class="lg-badge-indicator" 
+          [class]="'is-' + variant() + ' overlap-' + overlap()"
+          [class.has-value]="!dot()"
+          role="status"
+        >
+          @if (!dot()) {
+            {{ value() }}
+          }
+          <span class="lg-sr-only">{{ label() }}: {{ dot() ? 'New notification' : value() }}</span>
+        </span>
       }
-    </span>
+    </div>
   `,
   styleUrl: './badge.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.lg-badge-host]': 'true',
-    'role': 'status',
-    '[attr.aria-atomic]': 'true'
-  }
 })
-export class BadgeComponent {
-  /** Inputs */
-  variant = input<BadgeVariant>('info');
-  style = input<BadgeStyle>('glass');
-  isPulsating = input<boolean>(false);
-  showDot = input<boolean>(true);
-  a11yLabel = input<string | null>(null);
+export class LgBadgeComponent {
+  /** Value to display inside the badge (e.g. 3, 99+, 'New') */
+  value = input<string | number | null>(null);
+
+  /** If true, shows a small dot without text */
+  dot = input<boolean>(false);
+
+  /** Color variant */
+  variant = input<BadgeVariant>('error');
+
+  /** adjust position based on host shape */
+  overlap = input<BadgeOverlap>('rectangle');
+
+  /** screen reader descriptive label (e.g. "Notifications") */
+  label = input<string>('Notifications');
+
+  /** Whether to show the badge indicator */
+  showBadge = computed(() => {
+    if (this.dot()) return true;
+    const v = this.value();
+    return v !== null && v !== undefined && v !== '';
+  });
 }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   TabsComponent,
   TabComponent,
-  BadgeComponent,
+  TagComponent,
+  LgBadgeComponent,
   FormFieldComponent,
   ToggleComponent,
   ButtonComponent,
@@ -16,7 +17,8 @@ import {
     CommonModule,
     TabsComponent,
     TabComponent,
-    BadgeComponent,
+    TagComponent,
+    LgBadgeComponent,
     FormFieldComponent,
     ToggleComponent,
     ButtonComponent,
@@ -83,7 +85,7 @@ import {
               <lg-tab label="Yearly">
                 <div class="text-center py-6">
                   <p class="text-3xl font-display font-bold">$119.99<span class="text-sm opacity-50">/yr</span></p>
-                  <lg-badge variant="success" size="sm" class="mt-2">Save 25%</lg-badge>
+                  <lg-tag variant="success" size="sm" class="mt-2">Save 25%</lg-tag>
                 </div>
               </lg-tab>
               <lg-tab label="Lifetime">
@@ -102,10 +104,9 @@ import {
           <lg-tabs variant="underline" align="center">
             <lg-tab>
               <ng-template #headerTemplate>
-                <div class="flex items-center gap-2">
+                <lg-badge variant="error" [value]="3">
                   <span>Messages</span>
-                  <lg-badge variant="error" size="sm">3</lg-badge>
-                </div>
+                </lg-badge>
               </ng-template>
               <div class="py-12 text-center opacity-40">Inbox is empty</div>
             </lg-tab>
