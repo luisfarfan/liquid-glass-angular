@@ -6,7 +6,10 @@
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["{workspaceRoot}/dist/libs/liquid-glass-ui"],
+      "manifestRootsToUpdate": [
+        "libs/liquid-glass-ui",
+        "{workspaceRoot}/dist/libs/liquid-glass-ui"
+      ],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }

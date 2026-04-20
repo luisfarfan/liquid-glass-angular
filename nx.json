@@ -70,7 +70,7 @@
   },
   "release": {
     "projects": ["glassng"],
-    "releaseTagPattern": "{projectName}@{version}",
+    "releaseTagPattern": "v{version}",
     "version": {
       "conventionalCommits": true,
       "preVersionCommand": "npm run ci:release:verify"
