@@ -1,3 +1,13 @@
+## 0.1.2 (2026-04-20)
+
+### 🩹 Fixes
+
+- **release:** remove animations from peerDeps and finalize publish config with first-release ([f6205fb](https://github.com/luisfarfan/liquid-glass-angular/commit/f6205fb))
+
+### ❤️ Thank You
+
+- Luis Eduardo Farfan Melgar @luisfarfan
+
 ## 0.1.1 (2026-04-20)
 
 ### 🩹 Fixes
