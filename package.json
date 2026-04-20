@@ -5,7 +5,7 @@
   "scripts": {
     "ci:release:verify": "npx nx run-many -t build --projects=glassng --skip-nx-cache",
     "release": "npx nx release --projects=glassng --first-release --skip-publish",
-    "release:publish": "npx nx release publish --projects=glassng"
+    "release:publish": "npx nx release publish --projects=glassng --first-release --verbose"
   },
   "private": true,
   "dependencies": {

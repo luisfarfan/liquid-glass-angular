@@ -33,7 +33,7 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/libs/liquid-glass-ui"
+        "packageRoot": "{workspaceRoot}/dist/libs/liquid-glass-ui"
       }
     },
     "test": {
