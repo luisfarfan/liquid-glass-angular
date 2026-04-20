@@ -51,9 +51,15 @@ jobs:
       - name: Verify build artifacts
         run: ls -R dist/libs/glassng
 
-      - name: Publish to npm (next dist-tag)
+      - name: Publish to npm (alpha dist-tag)
         if: env.NODE_AUTH_TOKEN != ''
         run: npm run release:publish -- --tag=alpha
+
+      - name: Promote alpha to latest
+        if: env.NODE_AUTH_TOKEN != ''
+        run: |
+          VERSION=$(node -p "require('./libs/glassng/package.json').version")
+          npm dist-tag add glassng@$VERSION latest
 
       - name: Create GitHub release from latest tag
         env:
