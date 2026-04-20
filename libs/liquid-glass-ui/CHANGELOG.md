@@ -1,3 +1,13 @@
+## 0.1.5 (2026-04-20)
+
+### 🩹 Fixes
+
+- **release:** add repository metadata for npm provenance validation ([201074d](https://github.com/luisfarfan/liquid-glass-angular/commit/201074d))
+
+### ❤️ Thank You
+
+- Luis Eduardo Farfan Melgar @luisfarfan
+
 ## 0.1.4 (2026-04-20)
 
 ### 🩹 Fixes
