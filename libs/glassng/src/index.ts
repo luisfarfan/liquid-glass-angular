@@ -76,4 +76,4 @@ export * from './lib/components/date-picker/calendar.component';
 
 // Temporalmente mantenemos los antiguos exports si existen, pero limpiaremos luego
 // export * from './lib/gng-glass-ui/gng-glass-ui';
-// export * from './lib/button/button';
+// export * from './lib/components/button/button.component';

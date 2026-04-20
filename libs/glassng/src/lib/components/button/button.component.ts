@@ -110,6 +110,7 @@ export class GngButton {
   onPointerDown(event: Event) {
     if (this.disabled() || this.isLoading()) {
       event.preventDefault();
+      event.stopImmediatePropagation();
       event.stopPropagation();
       return;
     }

@@ -40,7 +40,9 @@
     },
     "test": {
       "executor": "@nx/angular:unit-test",
-      "options": {}
+      "options": {
+        "reportsDirectory": "../../coverage/libs/glassng"
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
