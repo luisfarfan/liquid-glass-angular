@@ -69,7 +69,7 @@
     }
   },
   "release": {
-    "projects": ["liquid-glass-ui"],
+    "projects": ["glassng"],
     "releaseTagPattern": "{projectName}@{version}",
     "version": {
       "conventionalCommits": true,

@@ -1,12 +1,12 @@
 {
-  "name": "liquid-glass-ui",
+  "name": "glassng",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/liquid-glass-ui/src",
   "prefix": "lib",
   "projectType": "library",
   "release": {
     "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "manifestRootsToUpdate": ["{workspaceRoot}/dist/libs/liquid-glass-ui"],
       "currentVersionResolver": "git-tag",
       "fallbackCurrentVersionResolver": "disk"
     }
@@ -30,7 +30,7 @@
     },
     "nx-release-publish": {
       "options": {
-        "packageRoot": "dist/{projectRoot}"
+        "packageRoot": "dist/libs/liquid-glass-ui"
       }
     },
     "test": {

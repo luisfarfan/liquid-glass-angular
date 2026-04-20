@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ci:release:verify": "npx nx run-many -t build --projects=liquid-glass-ui --skip-nx-cache",
-    "release": "npx nx release --projects=liquid-glass-ui --first-release --skip-publish",
-    "release:publish": "npx nx release publish --projects=liquid-glass-ui"
+    "ci:release:verify": "npx nx run-many -t build --projects=glassng --skip-nx-cache",
+    "release": "npx nx release --projects=glassng --first-release --skip-publish",
+    "release:publish": "npx nx release publish --projects=glassng"
   },
   "private": true,
   "dependencies": {
