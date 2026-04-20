@@ -11,5 +11,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisfarfan/liquid-glass-angular.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luisfarfan/liquid-glass-angular/issues"
+  },
+  "homepage": "https://github.com/luisfarfan/liquid-glass-angular#readme",
   "sideEffects": false
 }
