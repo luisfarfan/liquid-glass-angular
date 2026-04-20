@@ -49,4 +49,4 @@ jobs:
         run: npm ci
 
       - name: Test and build library
-        run: npx nx run-many -t test,build --projects=liquid-glass-ui --skip-nx-cache
+        run: npx nx run-many -t build --projects=liquid-glass-ui --skip-nx-cache

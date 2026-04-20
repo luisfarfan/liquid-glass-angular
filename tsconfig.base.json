@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@liquid-glass-ui/angular": ["libs/liquid-glass-ui/src/index.ts"],
-      "ngx-glass": ["libs/liquid-glass-ui/src/index.ts"]
+      "glassng": ["libs/liquid-glass-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
