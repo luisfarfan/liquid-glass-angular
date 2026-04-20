@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LgAlertComponent, ButtonComponent } from '@liquid-glass-ui/angular';
+import { LgAlertComponent, ButtonComponent } from 'glassng';
 
 @Component({
   selector: 'pg-alert-demo',

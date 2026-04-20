@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LiquidToastService } from '@liquid-glass-ui/angular';
+import { ButtonComponent, LiquidToastService } from 'glassng';
 
 @Component({
   selector: 'pg-toasts-page',

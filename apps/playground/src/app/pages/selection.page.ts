@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToggleComponent, CheckboxComponent } from '@liquid-glass-ui/angular';
+import { ToggleComponent, CheckboxComponent } from 'glassng';
 
 @Component({
   selector: 'pg-selection-page',

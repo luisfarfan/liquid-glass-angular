@@ -5,7 +5,7 @@ import {
   ButtonComponent,
   PaginationComponent,
   type LgPageEvent,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-pagination-page',

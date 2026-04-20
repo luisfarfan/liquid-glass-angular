@@ -26,7 +26,7 @@ import {
   CdkMenuModule,
   type LgPageEvent,
   type LgGroupRow,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 interface UserData {
   id: string;

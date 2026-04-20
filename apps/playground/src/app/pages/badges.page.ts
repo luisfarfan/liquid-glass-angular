@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TagComponent, LgBadgeComponent, ButtonComponent, AvatarComponent } from '@liquid-glass-ui/angular';
+import { TagComponent, LgBadgeComponent, ButtonComponent, AvatarComponent } from 'glassng';
 
 @Component({
   selector: 'pg-badges-page',

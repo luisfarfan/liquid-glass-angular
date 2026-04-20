@@ -33,6 +33,16 @@ export const appRoutes: Route[] = [
     data: { title: 'A11y & states' },
   },
   {
+    path: 'demos/timeline',
+    loadComponent: () => import('./pages/timeline.page').then((m) => m.TimelinePage),
+    data: { title: 'Timeline' },
+  },
+  {
+    path: 'demos/file-upload',
+    loadComponent: () => import('./pages/file-upload.page').then((m) => m.FileUploadPage),
+    data: { title: 'File Upload' },
+  },
+  {
     path: 'demos/badges',
     loadComponent: () => import('./pages/badges.page').then((m) => m.BadgesPage),
     data: { title: 'Badges' },

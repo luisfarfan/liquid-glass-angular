@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassSkeletonComponent } from '@liquid-glass-ui/angular';
+import { GlassSkeletonComponent } from 'glassng';
 
 @Component({
   selector: 'pg-skeleton-page',

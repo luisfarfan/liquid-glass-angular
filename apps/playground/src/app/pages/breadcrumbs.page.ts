@@ -4,7 +4,7 @@ import {
   GlassCardComponent,
   BreadcrumbsComponent,
   type LgBreadcrumbItem,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-breadcrumbs-page',

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LiquidDrawerRef } from '@liquid-glass-ui/angular';
+import { ButtonComponent, LiquidDrawerRef } from 'glassng';
 
 @Component({
   selector: 'app-playground-drawer-demo',

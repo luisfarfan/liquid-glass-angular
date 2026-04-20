@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, InputComponent, ToggleComponent, CheckboxComponent } from '@liquid-glass-ui/angular';
+import { ButtonComponent, InputComponent, ToggleComponent, CheckboxComponent } from 'glassng';
 
 @Component({
   selector: 'pg-a11y-page',

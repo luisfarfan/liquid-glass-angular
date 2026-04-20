@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RadioGroupComponent, RadioButtonComponent } from '@liquid-glass-ui/angular';
+import { RadioGroupComponent, RadioButtonComponent } from 'glassng';
 
 @Component({
   selector: 'pg-radio-page',

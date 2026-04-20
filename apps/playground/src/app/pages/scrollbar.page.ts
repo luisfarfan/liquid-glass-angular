@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, LgGlassScrollDirective } from '@liquid-glass-ui/angular';
+import { GlassCardComponent, LgGlassScrollDirective } from 'glassng';
 
 @Component({
   selector: 'pg-scrollbar-page',

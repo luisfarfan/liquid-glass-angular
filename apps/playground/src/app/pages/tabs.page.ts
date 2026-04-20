@@ -8,7 +8,7 @@ import {
   FormFieldComponent,
   ToggleComponent,
   ButtonComponent,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-tabs-page',

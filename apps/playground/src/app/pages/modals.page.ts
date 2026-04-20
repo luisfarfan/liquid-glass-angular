@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, LiquidModalService } from '@liquid-glass-ui/angular';
+import { ButtonComponent, LiquidModalService } from 'glassng';
 import { DemoModalComponent } from '../components/demo-modal.component';
 
 @Component({

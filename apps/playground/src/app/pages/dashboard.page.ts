@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, ThemeService } from '@liquid-glass-ui/angular';
+import { GlassCardComponent, ThemeService } from 'glassng';
 
 @Component({
   selector: 'pg-dashboard-page',

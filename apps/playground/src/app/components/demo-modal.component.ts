@@ -10,7 +10,7 @@ import {
   LgModalHeader,
   LgModalContent,
   LgModalFooter
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'app-demo-modal',

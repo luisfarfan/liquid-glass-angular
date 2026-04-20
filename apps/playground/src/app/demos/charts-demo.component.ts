@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KpiCardComponent, LgTimelineComponent, LgTimelineItemComponent } from '@liquid-glass-ui/angular';
+import { KpiCardComponent, LgTimelineComponent, LgTimelineItemComponent } from 'glassng';
 
 @Component({
   selector: 'app-charts-demo',

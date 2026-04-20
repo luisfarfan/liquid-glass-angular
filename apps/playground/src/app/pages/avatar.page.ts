@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, AvatarComponent, ButtonComponent } from '@liquid-glass-ui/angular';
+import { GlassCardComponent, AvatarComponent, ButtonComponent } from 'glassng';
 
 @Component({
   selector: 'pg-avatar-page',

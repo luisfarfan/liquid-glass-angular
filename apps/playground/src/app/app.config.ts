@@ -11,7 +11,7 @@ import {
   provideLGThemes, 
   DEFAULT_LG_THEMES, 
   LGThemeDefinition 
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 const customThemes: LGThemeDefinition[] = [
   ...DEFAULT_LG_THEMES,

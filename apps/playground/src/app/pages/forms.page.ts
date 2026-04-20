@@ -8,7 +8,7 @@ import {
   TextareaComponent,
   CheckboxComponent,
   ButtonComponent
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-forms-page',

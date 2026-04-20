@@ -11,7 +11,7 @@ import {
   GlassCardComponent, 
   FormFieldComponent,
   ButtonComponent
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-select-page',

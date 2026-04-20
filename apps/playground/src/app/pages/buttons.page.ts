@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '@liquid-glass-ui/angular';
+import { ButtonComponent } from 'glassng';
 
 @Component({
   selector: 'pg-buttons-page',

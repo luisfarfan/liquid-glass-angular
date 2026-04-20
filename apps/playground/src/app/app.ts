@@ -17,7 +17,7 @@ import {
   LiquidToastService,
   BreadcrumbsComponent,
   type LgTopbarUser,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 import { PlaygroundDrawerDemoComponent } from './components/playground-drawer-demo.component';
 import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-route-utils';
 
@@ -81,13 +81,19 @@ import { buildPlaygroundBreadcrumbs, readDeepestRouteData } from './playground-r
           <lg-sidebar-item link="/demos/search-input" label="Search Input">
             <i icon class="ri-search-line"></i> Search Input
           </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/file-upload" label="File Upload">
+            <i icon class="ri-upload-2-line"></i> File Upload
+          </lg-sidebar-item>
         </lg-sidebar-item>
 
         <!-- 2. Data & Charts -->
         <lg-sidebar-item label="Data &amp; Metrics" [subItems]="true" [badge]="4">
           <i icon class="ri-bar-chart-box-line"></i> Data &amp; Metrics
-          <lg-sidebar-item link="/demos/charts" label="KPIs &amp; Timeline">
-            <i icon class="ri-line-chart-line"></i> KPIs &amp; Timeline
+          <lg-sidebar-item link="/demos/charts" label="KPIs &amp; Analytics">
+            <i icon class="ri-line-chart-line"></i> KPIs &amp; Analytics
+          </lg-sidebar-item>
+          <lg-sidebar-item link="/demos/timeline" label="Audit Timeline">
+            <i icon class="ri-history-line"></i> Audit Timeline
           </lg-sidebar-item>
           <lg-sidebar-item link="/demos/data-table" label="Data Table">
             <i icon class="ri-table-line"></i> Data Table

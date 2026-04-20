@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, inject, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProgressBarComponent } from '@liquid-glass-ui/angular';
+import { ProgressBarComponent } from 'glassng';
 
 @Component({
   selector: 'pg-progress-page',

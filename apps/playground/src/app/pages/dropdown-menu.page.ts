@@ -7,7 +7,7 @@ import {
   LgDropdownMenuItemComponent,
   LgDropdownMenuDividerComponent,
   CdkMenuModule,
-} from '@liquid-glass-ui/angular';
+} from 'glassng';
 
 @Component({
   selector: 'pg-dropdown-menu-page',

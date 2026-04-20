@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot } from '@angular/router';
-import type { LgBreadcrumbItem } from '@liquid-glass-ui/angular';
+import type { LgBreadcrumbItem } from 'glassng';
 
 export function readDeepestRouteData(snapshot: ActivatedRouteSnapshot): Record<string, unknown> {
   let r = snapshot;

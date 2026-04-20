@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GlassCardComponent, SearchInputComponent } from '@liquid-glass-ui/angular';
+import { GlassCardComponent, SearchInputComponent } from 'glassng';
 
 @Component({
   selector: 'pg-search-input-page',
