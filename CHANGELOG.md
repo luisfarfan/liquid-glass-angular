@@ -1,3 +1,13 @@
+## 0.1.1 (2026-04-20)
+
+### 🩹 Fixes
+
+- **release:** refine manifest paths and tag pattern ([63d6df5](https://github.com/luisfarfan/liquid-glass-angular/commit/63d6df5))
+
+### ❤️ Thank You
+
+- Luis Eduardo Farfan Melgar @luisfarfan
+
 ## 0.1.0 (2026-04-20)
 
 ### 🚀 Features
