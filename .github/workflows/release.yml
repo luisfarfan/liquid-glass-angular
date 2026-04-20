@@ -44,6 +44,9 @@ jobs:
       - name: Push release commit and tags
         run: git push --follow-tags origin HEAD:main
 
+      - name: Verify build artifacts
+        run: ls -R dist/libs/liquid-glass-ui
+
       - name: Publish to npm (next dist-tag)
         if: env.NODE_AUTH_TOKEN != ''
         run: npm run release:publish -- --tag=next

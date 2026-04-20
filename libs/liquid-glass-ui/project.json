@@ -32,6 +32,7 @@
       "defaultConfiguration": "production"
     },
     "nx-release-publish": {
+      "dependsOn": ["build"],
       "options": {
         "packageRoot": "{workspaceRoot}/dist/libs/liquid-glass-ui"
       }

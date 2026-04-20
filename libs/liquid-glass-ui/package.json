@@ -8,5 +8,8 @@
     "@angular/router": "^21.2.0",
     "rxjs": "^7.8.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false
 }
