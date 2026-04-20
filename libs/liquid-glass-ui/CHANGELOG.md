@@ -1,3 +1,13 @@
+## 0.1.4 (2026-04-20)
+
+### 🩹 Fixes
+
+- **release:** force npm package manager for publishing and use explicit npm target ([27ed6cd](https://github.com/luisfarfan/liquid-glass-angular/commit/27ed6cd))
+
+### ❤️ Thank You
+
+- Luis Eduardo Farfan Melgar @luisfarfan
+
 ## 0.1.3 (2026-04-20)
 
 ### 🩹 Fixes
