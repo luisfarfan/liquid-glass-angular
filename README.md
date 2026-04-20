@@ -1,101 +1,113 @@
-# LiquidGlassWorkspace
+# 🧊 glassng
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+### The Premium Glassmorphism Component Suite for Angular
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+**glassng** (formerly Liquid Glass UI) is a state-of-the-art component library designed for Angular 21, built with a focus on high-fidelity aesthetics, cinematic animations, and extreme performance. It brings a futuristic "Glassmorphism" design system to the Angular ecosystem, optimized for enterprise-grade dashboards and high-impact user interfaces.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+[![NPM Version](https://img.shields.io/npm/v/glassng?color=blue&style=flat-square)](https://www.npmjs.com/package/glassng)
+[![Angular Version](https://img.shields.io/badge/Angular-21.x-red?style=flat-square&logo=angular)](https://angular.dev)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/glassng?color=success&style=flat-square)](https://bundlephobia.com/package/glassng)
 
-## Run tasks
+---
 
-To run the dev server for your app, use:
+## ✨ Philosophy & Architecture
 
-```sh
-npx nx serve playground
+While most UI libraries focus on utility, **glassng** focuses on **Identity**. It is designed for projects that need to "Wow" the user at first glance without sacrificing the technical hygiene of a professional application.
+
+- **Signals-First**: Built entirely with Angular Signals for ultra-granular reactivity and optimal performance.
+- **Tree-Shaking Native**: Every component is standalone and the library is marked with `sideEffects: false`.
+- **Zero-Gravity Physics**: Integrated animations using GSAP and CSS variables for a "natural" glass feel.
+- **Tailwind CSS v4 Engine**: Leverages the latest CSS-first engine for styling, ensuring a tiny CSS footprint.
+
+---
+
+## 🚀 Getting Started
+
+Install the library via NPM:
+
+```bash
+npm install glassng
 ```
 
-To create a production bundle:
+### 1. Global Setup
+Add the glassng styles to your `angular.json` or `styles.css`:
 
-```sh
-npx nx build playground
+```css
+@import "glassng/styles.css";
 ```
 
-To see all available targets to run for a project, run:
+### 2. Usage
+Import the standalone components directly into your Angular components:
 
-```sh
-npx nx show project playground
+```typescript
+import { Component } from '@angular/core';
+import { ButtonComponent, GlassCardComponent } from 'glassng';
+
+@Component({
+  standalone: true,
+  imports: [ButtonComponent, GlassCardComponent],
+  template: `
+    <lg-card>
+      <h2 glass-title>Welcome to the Future</h2>
+      <button lg-button variant="primary">Initialize Console</button>
+    </lg-card>
+  `
+})
+export class AppComponent {}
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+---
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 🍱 Component Showcase
 
-## Add new projects
+### 💎 Atoms & Primitives
+- **Glass Button**: 7 variants (Primary, Secondary, Success, Warning, Info, Destructive, Ghost) with neon glow effects and haptic feedback support.
+- **Glass Badge**: Translucent indicators for status and counters.
+- **Skeleton**: Shimmering glass placeholders for loading states.
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### 📝 Form Intelligence
+- **Input / Textarea**: Etched borders with floating labels and neon focus rings.
+- **Select (Single & Multi)**: Overlays with internal search, "crystal" selection chips, and liquid animations.
+- **Toggle (Switch)**: Physics-based sliding toggle.
+- **Radio & Checkbox**: SVG-driven animations with full keyboard accessibility.
 
-Use the plugin's generator to create new projects.
+### 🌌 Interaction Overlays
+- **Modal**: Backdrop-blur with elevation logic and elastic entry animations.
+- **Toast**: Notification system with neon auras and mobile-optimized haptics.
+- **Tooltip**: Levitating glass bubbles with smart positioning.
 
-To generate a new application, use:
+### 📐 Structural & Layout
+- **Sidebar**: The industry-standard "Liquid Sidebar" with cinematic expansion and active state indicators.
+- **Data Table**: High-performance grid with sticky headers, custom column templates, and translucency.
+- **Tabs**: Sliding focus indicators with smooth transitions.
 
-```sh
-npx nx g @nx/angular:app demo
-```
+---
 
-To generate a new library, use:
+## 💼 Real-World Use Cases
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
+### 1. E-Commerce Multi-Tenant Admin
+Managing large catalogs requires a balance of density and clarity. **glassng**'s `Data Table` and `Select` components allow for "dense yet breathable" layouts. Use glassmorphism to separate the management console from the content without losing visual context.
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### 2. High-Fidelity Performance Dashboards
+For apps that monitor real-time data, the **glassng** aesthetic provides a "Mission Control" feel. The `Progress Bar` and `Skeleton` loaders ensure that users stay informed during data fetching while maintaining a premium feel.
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 3. Creative Portfolios & Landing Pages
+If your objective is to "WOW" the visitor, **glassng**'s unique light-refraction effects on buttons and cards provide a level of visual polish that standard Material or Bootstrap components cannot reach.
 
-## Set up CI!
+---
 
-### Step 1
+## 🗺️ Roadmap (Upcoming Features)
 
-To connect to Nx Cloud, run the following command:
+We are constantly evolving. The following components are currently under development:
 
-```sh
-npx nx connect
-```
+- [ ] **Topbar**: Application header with integrated profile, search, and action zones.
+- [ ] **Drawer**: Side-sliding modal for settings and quick-actions.
+- [ ] **Empty State**: Animated illustrations for empty dashboards.
+- [ ] **Charts (Integration)**: Pre-styled wrapper for Chart.js or D3 with glass themes.
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+---
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 📄 License
+MIT © [Your Name/Organization]
 
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+*Built with ❤️ for the Angular Community.*
