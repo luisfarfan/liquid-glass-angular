@@ -1,8 +1,16 @@
 {
   "name": "glassng",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Premium glassmorphism component library for Angular 21. Built with Angular Signals, Angular CDK, and full ARIA compliance.",
-  "keywords": ["angular", "glassmorphism", "ui", "components", "cdk", "signals", "accessibility"],
+  "keywords": [
+    "angular",
+    "glassmorphism",
+    "ui",
+    "components",
+    "cdk",
+    "signals",
+    "accessibility"
+  ],
   "author": "Luis Eduardo Farfan Melgar <lucho.farfan9@gmail.com>",
   "peerDependencies": {
     "@angular/common": "^21.2.0",

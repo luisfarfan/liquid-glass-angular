@@ -1,3 +1,14 @@
+## 0.1.7 (2026-04-20)
+
+### 🩹 Fixes
+
+- **glassng:** add description, keywords, and author to package.json ([62c1dd1](https://github.com/luisfarfan/liquid-glass-angular/commit/62c1dd1))
+
+### ❤️ Thank You
+
+- Claude Sonnet 4.6
+- Lucho @luisfarfan
+
 ## 0.1.6 (2026-04-20)
 
 ### 🩹 Fixes

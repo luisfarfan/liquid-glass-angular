@@ -1,3 +1,17 @@
+## 0.1.7 (2026-04-20)
+
+### 🩹 Fixes
+
+- **ci:** skip publish when no version bump, remove --first-release flag ([69f6085](https://github.com/luisfarfan/liquid-glass-angular/commit/69f6085))
+- **ci:** inject README into dist after build instead of modifying source ([2ac9174](https://github.com/luisfarfan/liquid-glass-angular/commit/2ac9174))
+- **e2e:** fix all playwright selector failures — 170/170 pass ([23e624c](https://github.com/luisfarfan/liquid-glass-angular/commit/23e624c))
+- **glassng:** add description, keywords, and author to package.json ([62c1dd1](https://github.com/luisfarfan/liquid-glass-angular/commit/62c1dd1))
+
+### ❤️ Thank You
+
+- Claude Sonnet 4.6
+- Lucho @luisfarfan
+
 ## 0.1.6 (2026-04-20)
 
 ### 🩹 Fixes
