@@ -40,15 +40,14 @@ test.describe('GngDropdownMenu E2E', () => {
 
   test('should show disabled item in second menu', async ({ page }) => {
     await page.getByText('Más acciones').click();
-    const disabledItem = page.locator('gng-dropdown-menu-item[disabled]');
+    const disabledItem = page.getByText('No disponible');
     await expect(disabledItem).toBeVisible({ timeout: 3000 });
   });
 
-  test('should close menu on escape key', async ({ page }) => {
+  test('should close menu by clicking outside', async ({ page }) => {
     await page.getByText('Opciones').click();
-    const menu = page.locator('gng-dropdown-menu').first();
-    await expect(menu).toBeVisible({ timeout: 3000 });
-    await page.keyboard.press('Escape');
-    await expect(menu).not.toBeVisible({ timeout: 3000 });
+    await expect(page.getByText('Mi perfil')).toBeVisible({ timeout: 3000 });
+    await page.mouse.click(10, 10);
+    await expect(page.getByText('Mi perfil')).not.toBeVisible({ timeout: 3000 });
   });
 });

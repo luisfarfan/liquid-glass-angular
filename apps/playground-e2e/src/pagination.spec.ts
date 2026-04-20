@@ -39,7 +39,7 @@ test.describe('GngPagination E2E', () => {
 
   test('should render page size selector in first pagination', async ({ page }) => {
     const firstPagination = page.locator('gng-pagination').first();
-    const sizeSelector = firstPagination.locator('select');
+    const sizeSelector = firstPagination.locator('.gng-pagination-select');
     await expect(sizeSelector).toBeVisible();
   });
 });

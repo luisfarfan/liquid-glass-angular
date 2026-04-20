@@ -23,11 +23,11 @@ test.describe('GngDataTable E2E', () => {
   });
 
   test('should show user data in table', async ({ page }) => {
-    await expect(page.getByText('Alexander Wright')).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText('Alexander Wright').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('should render pagination controls', async ({ page }) => {
-    const pagination = page.locator('gng-pagination');
+    const pagination = page.locator('gng-pagination').first();
     await expect(pagination).toBeVisible({ timeout: 5000 });
   });
 
@@ -42,8 +42,8 @@ test.describe('GngDataTable E2E', () => {
     const searchInput = page.locator('gng-search-input input, gng-input input').first();
     if (await searchInput.count() > 0) {
       await searchInput.fill('Elena');
-      await page.waitForTimeout(500);
-      await expect(page.getByText('Elena Rodriguez')).toBeVisible();
+      await page.waitForTimeout(600);
+      await expect(page.getByText('Elena Rodriguez').first()).toBeVisible();
     }
   });
 });

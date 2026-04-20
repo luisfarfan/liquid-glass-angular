@@ -12,9 +12,9 @@ test.describe('GngA11y E2E', () => {
   });
 
   test('should render disabled input', async ({ page }) => {
-    const disabledInput = page.locator('gng-input[disabled]');
+    const disabledInput = page.locator('gng-input input[disabled]').first();
     await expect(disabledInput).toBeVisible();
-    await expect(disabledInput).toHaveAttribute('disabled');
+    await expect(disabledInput).toBeDisabled();
   });
 
   test('should show checked toggle with label position before', async ({ page }) => {

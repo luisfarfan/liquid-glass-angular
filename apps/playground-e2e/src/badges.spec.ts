@@ -46,7 +46,7 @@ test.describe('GngBadge & GngTag E2E', () => {
   });
 
   test('should render solid style tags', async ({ page }) => {
-    const solidTags = page.locator('gng-tag[style="solid"]');
-    await expect(solidTags.first()).toBeVisible();
+    const solidTag = page.locator('gng-tag').filter({ hasText: 'Active' });
+    await expect(solidTag).toBeVisible();
   });
 });

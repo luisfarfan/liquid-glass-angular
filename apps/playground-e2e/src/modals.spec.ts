@@ -13,13 +13,13 @@ test.describe('GngModal E2E', () => {
 
   test('should open modal on cinema button click', async ({ page }) => {
     await page.getByText('Cinema (Default)').click();
-    const modal = page.locator('gng-modal, [role="dialog"]').first();
+    const modal = page.locator('.gng-modal-container').first();
     await expect(modal).toBeVisible({ timeout: 3000 });
   });
 
   test('should close modal on backdrop click', async ({ page }) => {
     await page.getByText('Cinema (Default)').click();
-    const modal = page.locator('gng-modal, [role="dialog"]').first();
+    const modal = page.locator('.gng-modal-container').first();
     await expect(modal).toBeVisible({ timeout: 3000 });
     await page.keyboard.press('Escape');
     await expect(modal).not.toBeVisible({ timeout: 3000 });
@@ -27,13 +27,13 @@ test.describe('GngModal E2E', () => {
 
   test('should open modal with glass animation', async ({ page }) => {
     await page.getByText('Glass Crystallize').click();
-    const modal = page.locator('gng-modal, [role="dialog"]').first();
+    const modal = page.locator('.gng-modal-container').first();
     await expect(modal).toBeVisible({ timeout: 3000 });
   });
 
   test('should open stacked workstation config modal', async ({ page }) => {
     await page.getByText('Abrir Workstation Config').click();
-    const modal = page.locator('gng-modal, [role="dialog"]').first();
+    const modal = page.locator('.gng-modal-container').first();
     await expect(modal).toBeVisible({ timeout: 3000 });
   });
 });

@@ -9,7 +9,7 @@ test.describe('GngAvatar E2E', () => {
     const smAvatar = page.locator('gng-avatar[size="sm"]');
     const mdAvatar = page.locator('gng-avatar[size="md"]');
     const lgAvatar = page.locator('gng-avatar[size="lg"]').first();
-    const xlAvatar = page.locator('gng-avatar[size="xl"]');
+    const xlAvatar = page.locator('gng-avatar[size="xl"]').first();
 
     await expect(smAvatar).toBeVisible();
     await expect(mdAvatar).toBeVisible();
@@ -23,22 +23,19 @@ test.describe('GngAvatar E2E', () => {
   });
 
   test('should render avatar with status indicator', async ({ page }) => {
-    const onlineAvatar = page.locator('gng-avatar[status="online"]');
+    const onlineAvatar = page.locator('gng-avatar:has(.gng-avatar__status--online)');
     await expect(onlineAvatar).toBeVisible();
 
-    const busyAvatar = page.locator('gng-avatar[status="busy"]');
+    const busyAvatar = page.locator('gng-avatar:has(.gng-avatar__status--busy)');
     await expect(busyAvatar).toBeVisible();
 
-    const offlineAvatar = page.locator('gng-avatar[status="offline"]');
+    const offlineAvatar = page.locator('gng-avatar:has(.gng-avatar__status--offline)');
     await expect(offlineAvatar).toBeVisible();
   });
 
   test('should show loading skeleton initially', async ({ page }) => {
-    const loadingAvatar = page.locator('gng-avatar[size="xl"]');
+    const loadingAvatar = page.locator('gng-avatar[name="Cargando demo"]');
     await expect(loadingAvatar).toBeVisible();
-    const skeleton = loadingAvatar.locator('.gng-avatar-skeleton, [class*="skeleton"]');
-    const count = await skeleton.count();
-    expect(count).toBeGreaterThanOrEqual(0);
   });
 
   test('should toggle loading state via button', async ({ page }) => {

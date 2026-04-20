@@ -11,9 +11,10 @@ test.describe('GngBreadcrumbs E2E', () => {
   });
 
   test('should show breadcrumb items', async ({ page }) => {
-    await expect(page.getByText('Inicio')).toBeVisible();
-    await expect(page.getByText('Componentes')).toBeVisible();
-    await expect(page.getByText('Breadcrumbs').first()).toBeVisible();
+    const nav = page.locator('nav[aria-label="Migas de demostración"]');
+    await expect(nav.getByText('Inicio')).toBeVisible();
+    await expect(nav.getByText('Componentes')).toBeVisible();
+    await expect(nav.getByText('Breadcrumbs')).toBeVisible();
   });
 
   test('should render nav with aria-label', async ({ page }) => {

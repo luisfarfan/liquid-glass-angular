@@ -80,7 +80,7 @@ test.describe('GngCharts & GngKpiCard E2E', () => {
   });
 
   test('should display kpi card with negative trend value', async ({ page }) => {
-    const negativeTrend = page.locator('gng-kpi-card:has-text("-2.4%")');
+    const negativeTrend = page.locator('gng-kpi-card .gng-kpi-trend.is-negative').first();
     await expect(negativeTrend).toBeVisible();
   });
 

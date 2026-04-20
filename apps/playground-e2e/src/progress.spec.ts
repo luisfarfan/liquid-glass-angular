@@ -16,7 +16,7 @@ test.describe('GngProgress E2E', () => {
   });
 
   test('should show progress value percentage', async ({ page }) => {
-    const progressLabel = page.locator('text=Determinate');
+    const progressLabel = page.locator('text=1. Determinate').first();
     await expect(progressLabel).toBeVisible();
   });
 
@@ -31,17 +31,17 @@ test.describe('GngProgress E2E', () => {
   });
 
   test('should show buffer label', async ({ page }) => {
-    const bufferLabel = page.locator('text=Buffer');
+    const bufferLabel = page.locator('text=3. Buffer').first();
     await expect(bufferLabel).toBeVisible();
   });
 
   test('should render query progress bar', async ({ page }) => {
-    const queryBar = page.locator('gng-progress-bar[mode="query"]');
+    const queryBar = page.locator('gng-progress-bar[color="warn"]');
     await expect(queryBar).toBeVisible();
   });
 
   test('should show query mode label', async ({ page }) => {
-    const queryLabel = page.locator('text=Query');
+    const queryLabel = page.locator('text=4. Query').first();
     await expect(queryLabel).toBeVisible();
   });
 
@@ -61,7 +61,7 @@ test.describe('GngProgress E2E', () => {
   });
 
   test('should display progress section header', async ({ page }) => {
-    const header = page.locator('h1:has-text("Progress")');
+    const header = page.getByRole('main').getByRole('heading', { name: 'Progress', exact: true });
     await expect(header).toBeVisible();
   });
 

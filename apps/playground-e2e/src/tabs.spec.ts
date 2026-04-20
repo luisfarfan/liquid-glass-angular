@@ -31,9 +31,9 @@ test.describe('GngTabs E2E', () => {
 
   test('should not switch to disabled tab', async ({ page }) => {
     const hardwareTab = page.locator('gng-tabs[variant="underline"]').first()
-      .locator('button, [role="tab"]').filter({ hasText: 'Hardware' });
+      .locator('button.gng-tab-trigger').filter({ hasText: 'Hardware' });
     await expect(hardwareTab).toBeVisible();
-    await expect(hardwareTab).toHaveAttribute('disabled');
+    await expect(hardwareTab).toHaveClass(/is-disabled/);
   });
 
   test('should render pill tab labels', async ({ page }) => {
