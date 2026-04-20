@@ -1,3 +1,13 @@
+## 0.1.3 (2026-04-20)
+
+### 🩹 Fixes
+
+- **release:** add build dependency to publish target and CI diagnostic steps ([3e10785](https://github.com/luisfarfan/liquid-glass-angular/commit/3e10785))
+
+### ❤️ Thank You
+
+- Luis Eduardo Farfan Melgar @luisfarfan
+
 ## 0.1.2 (2026-04-20)
 
 ### 🩹 Fixes
