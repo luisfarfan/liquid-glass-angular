@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^21.2.7",
     "@angular/cdk": "21.2.7",
     "@angular/common": "21.2.7",
     "@angular/compiler": "21.2.7",
@@ -19,6 +20,7 @@
     "rxjs": "~7.8.0"
   },
   "devDependencies": {
+    "@analogjs/vitest-angular": "~1.13.0",
     "@angular-devkit/core": "21.2.7",
     "@angular-devkit/schematics": "21.2.7",
     "@angular/build": "21.2.7",
