@@ -18,21 +18,25 @@ export type TimelineItemType = 'info' | 'success' | 'warning' | 'error';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="lg-timeline-item" [class]="'type-' + type()">
+    <div 
+      class="lg-timeline-item" 
+      [class]="'type-' + type()"
+      role="listitem"
+    >
       <div class="lg-timeline-marker">
-         <div class="lg-timeline-node">
-            <i [class]="resolvedIcon()" aria-hidden="true"></i>
+         <div class="lg-timeline-node" aria-hidden="true">
+            <i [class]="resolvedIcon()"></i>
          </div>
          <div class="lg-timeline-line"></div>
       </div>
       
       <div class="lg-timeline-content">
          <div class="lg-timeline-header">
-            <span class="lg-timeline-title">{{ title() }}</span>
+            <span class="lg-timeline-title" [id]="titleId">{{ title() }}</span>
             <span class="lg-timeline-time">{{ timestamp() }}</span>
          </div>
          @if (description()) {
-           <p class="lg-timeline-description">{{ description() }}</p>
+           <p class="lg-timeline-description" [id]="descriptionId">{{ description() }}</p>
          }
          <div class="lg-timeline-extra">
             <ng-content></ng-content>
@@ -59,6 +63,9 @@ export class LgTimelineItemComponent {
   /** Optional icon override */
   icon = input<string | null>(null);
 
+  protected readonly titleId = `lg-tl-t-${Math.random().toString(36).substring(2, 9)}`;
+  protected readonly descriptionId = `lg-tl-d-${Math.random().toString(36).substring(2, 9)}`;
+
   resolvedIcon = computed(() => {
     if (this.icon()) return this.icon()!;
     switch (this.type()) {
@@ -79,7 +86,7 @@ export class LgTimelineItemComponent {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="lg-timeline-container">
+    <div class="lg-timeline-container" role="list">
        <ng-content></ng-content>
     </div>
   `,

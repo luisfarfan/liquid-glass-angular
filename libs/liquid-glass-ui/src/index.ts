@@ -59,6 +59,7 @@ export * from './lib/components/avatar/avatar.component';
 export * from './lib/components/search-input/search-input.component';
 export * from './lib/components/timeline/timeline.component';
 export * from './lib/components/alert/alert.component';
+export * from './lib/components/file-upload/file-upload.component';
 export * from './lib/components/dropdown/dropdown-menu.component';
 export * from './lib/components/dropdown/dropdown-menu-item.component';
 export * from './lib/components/dropdown/dropdown-menu-divider.component';
