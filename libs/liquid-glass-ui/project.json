@@ -33,8 +33,9 @@
     },
     "nx-release-publish": {
       "dependsOn": ["build"],
+      "executor": "nx:run-commands",
       "options": {
-        "packageRoot": "{workspaceRoot}/dist/libs/liquid-glass-ui"
+        "command": "npm publish dist/libs/liquid-glass-ui --access public --tag {args.tag} --verbose"
       }
     },
     "test": {

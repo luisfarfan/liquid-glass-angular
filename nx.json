@@ -70,6 +70,7 @@
   },
   "release": {
     "projects": ["glassng"],
+    "packageManager": "npm",
     "releaseTagPattern": "v{version}",
     "version": {
       "conventionalCommits": true,
